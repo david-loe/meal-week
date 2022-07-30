@@ -1,0 +1,51 @@
+{
+  "headlines": {
+    "weekOfMeals": "a Week of Meals",
+    "emoji": "🥘",
+    "settings": "Einstellungen",
+    "login": "Login",
+    "logout": "Logout",
+    "user": "Benutzer",
+    "account": "Konto"
+  },
+  "labels": {
+    "email": "Email Addresse",
+    "name": "Name",
+    "password": "Passwort",
+    "newPassword": "Neues Passwort",
+    "oldPassword": "Altes Passwort",
+    "repeateNewPassword": "Neues Passwort wiederholen",
+    "done": "Erledigt",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "signIn": "Anmelden",
+    "register": "Registrieren"
+  },
+  "alerts": {
+    "loginFailed": "Anmeldung fehlgeschlagen!",
+    "wrongPassword": "Falsches Passwort",
+    "request": {
+      "unauthorized": "Nicht autorisiert!"
+    },
+    "db": {
+      "success": "Erfolgreich mit der Datenbank verbunden."
+    }
+  },
+  "login": {
+    "signIn": "Bitte Anmelden",
+    "register": "Oder registriere einen neues Konto",
+    "forgotPassword": "Passwort vergessen?"
+  },
+  "register": {
+    "welcomeTo": "Willkommen bei ",
+    "createAccount": "Konto erstellen",
+    "login": "Du hast schon ein Konto?"
+  },
+  "settings": {
+    "account": {
+      "changePassword": "Passwort ändern"
+    }
+  }
+}

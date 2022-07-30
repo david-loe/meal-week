@@ -1,0 +1,50 @@
+{
+  "headlines": {
+    "weekOfMeals": "a Week of Meals",
+    "emoji": "🥘",
+    "settings": "Settings",
+    "login": "Login",
+    "logout": "Logout",
+    "user": "User",
+    "account": "Account"
+  },
+  "labels": {
+    "email": "Email address",
+    "name": "Name",
+    "password": "Password",
+    "newPassword": "New Password",
+    "oldPassword": "Old Password",
+    "repeateNewPassword": "Repeate new Password",
+    "done": "Done",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete",
+    "signIn": "Sign in"
+  },
+  "alerts": {
+    "loginFailed": "Failed to Login!",
+    "wrongPassword": "Wrong Password",
+    "request": {
+      "unauthorized": "Not authorized!"
+    },
+    "db": {
+      "success": "Successfully connected to the Database."
+    }
+  },
+  "login": {
+    "signIn": "Please sign in",
+    "register": "Or register a new account",
+    "forgotPassword": "Forgot Password?"
+  },
+  "register": {
+    "welcomeTo": "Welcome to ",
+    "createAccount": "Create Account",
+    "login": "Already have an account?"
+  },
+  "settings": {
+    "account": {
+      "changePassword": "Change Password"
+    }
+  }
+}
