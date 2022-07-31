@@ -6,7 +6,8 @@
     "login": "Login",
     "logout": "Logout",
     "user": "User",
-    "account": "Account"
+    "account": "Account",
+    "recipes": "Recipes"
   },
   "labels": {
     "email": "Email address",
@@ -20,7 +21,8 @@
     "edit": "Edit",
     "save": "Save",
     "delete": "Delete",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "search": "Search"
   },
   "alerts": {
     "loginFailed": "Failed to Login!",
@@ -41,6 +43,9 @@
     "welcomeTo": "Welcome to ",
     "createAccount": "Create Account",
     "login": "Already have an account?"
+  },
+  "recipes": {
+    "add": "Add new recipe"
   },
   "settings": {
     "account": {

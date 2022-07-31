@@ -3,6 +3,7 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Settings from '../components/Settings.vue'
 import Home from '../components/Home.vue'
+import Recipes from '../components/Recipes.vue'
 import axios from 'axios'
 
 const routes = [
@@ -22,6 +23,12 @@ const routes = [
     path: '/settings',
     name: 'Settings',
     component: Settings,
+    meta: { requiresAuth: true}
+  },
+  {
+    path: '/recipes',
+    name: 'Recipes',
+    component: Recipes,
     meta: { requiresAuth: true}
   },
   {

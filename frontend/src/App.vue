@@ -10,6 +10,12 @@
             </a>
           </div>
           <div>
+            <router-link v-if="auth" to="/recipes" class="nav-link link-dark d-flex align-items-center">
+              <i class="fs-4 bi bi-card-list"></i>
+              <span class="ms-1 d-none d-md-block">{{ $t('headlines.recipes') }}</span>
+            </router-link>
+          </div>
+          <div>
             <router-link v-if="auth" to="/settings" class="nav-link link-dark d-flex align-items-center">
               <i class="fs-4 bi bi-gear"></i>
               <span class="ms-1 d-none d-md-block">{{ $t('headlines.settings') }}</span>

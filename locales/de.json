@@ -6,7 +6,8 @@
     "login": "Login",
     "logout": "Logout",
     "user": "Benutzer",
-    "account": "Konto"
+    "account": "Konto",
+    "recipes": "Rezepte"
   },
   "labels": {
     "email": "Email Addresse",
@@ -21,7 +22,8 @@
     "save": "Speichern",
     "delete": "Löschen",
     "signIn": "Anmelden",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "search": "Suchen"
   },
   "alerts": {
     "loginFailed": "Anmeldung fehlgeschlagen!",
@@ -42,6 +44,9 @@
     "welcomeTo": "Willkommen bei ",
     "createAccount": "Konto erstellen",
     "login": "Du hast schon ein Konto?"
+  },
+  "recipes": {
+    "add": "Rezept hinzufügen"
   },
   "settings": {
     "account": {
