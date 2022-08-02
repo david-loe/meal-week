@@ -1,0 +1,42 @@
+{
+    "itemCategories":[
+        {
+            "name": "itemCategory.cerealProducts",
+            "emoji": "🍞"
+        },
+        {
+            "name": "itemCategory.fruitsAndVegetables",
+            "emoji": "🍅"
+        },
+        {
+            "name": "itemCategory.spicesAndSauces",
+            "emoji": "🧂"
+        },
+        {
+            "name": "itemCategory.refrigerated",
+            "emoji": "🧀"
+        },
+        {
+            "name": "itemCategory.frozen",
+            "emoji": "❄"
+        },
+        {
+            "name": "itemCategory.meatAndFish",
+            "emoji": "🥩"
+        },
+        {
+            "name": "itemCategory.cannedProducts",
+            "emoji": "🥫"
+        },
+        {
+            "name": "itemCategory.stapleFood",
+            "emoji": "🍚"
+        },
+        {
+            "name": "itemCategory.other",
+            "emoji": "🍿"
+        }
+    ],
+    "items":[],
+    "tags":[]
+}

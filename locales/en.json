@@ -51,5 +51,16 @@
     "account": {
       "changePassword": "Change Password"
     }
+  },
+  "itemCategory": {
+    "cerealProducts": "Cereal products",
+    "fruitsAndVegetables": "Fruits/Vegetables",
+    "spicesAndSauces": "Spices/Sauces",
+    "refrigerated": "Refrigerated",
+    "frozen": "Frozen",
+    "meatAndFish": "Meat/Fish",
+    "cannedProducts": "Canned products",
+    "stapleFood": "Staple food",
+    "other": "Other"
   }
 }

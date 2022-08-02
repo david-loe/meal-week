@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Ingredient = require('Ingredient')
 
 const recipeSchema = new mongoose.Schema({
     name: {type: String, require: true},
@@ -13,5 +14,17 @@ const recipeSchema = new mongoose.Schema({
     image: {type: Buffer}
 })
 
+recipeSchema.methods.calcIngredients = function(numberOfPortions){
+    const factor = numberOfPortions / this.numberOfPortions
+    const newIngredients = []
+    this.populate('ingredients')
+    for (const ingredient of this.ingredients){
+        newIngredients.push(new Ingredient({
+            quantity: ingredient.quantity * factor,
+            item: ingredient.item._id
+        }))
+    }
+    return newIngredients
+}
 
 module.exports = mongoose.model('Recipe', recipeSchema)

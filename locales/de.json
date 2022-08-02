@@ -52,5 +52,16 @@
     "account": {
       "changePassword": "Passwort ändern"
     }
+  },
+  "itemCategory": {
+    "cerealProducts": "Getreideprodukte",
+    "fruitsAndVegetables": "Obst/Gemüse",
+    "spicesAndSauces": "Gewürze/Soßen",
+    "refrigerated": "Gekühltes",
+    "frozen": "Gefrorenes",
+    "meatAndFish": "Fleisch/Fisch",
+    "cannedProducts": "Dosenprodukte",
+    "stapleFood": "Grundnahrungsmittel",
+    "other": "Anderes"
   }
 }

@@ -27,7 +27,7 @@ passport.use(new LocalStrategy(
   }
 ));
 
-User.find({}, async function (err, docs) {
+User.find({}, async (err, docs) => {
   if (docs.length === 0) {
     const admin = new User({ email: process.env.ADMIN_EMAIL, name: 'Admin' })
     await admin.setPassword(process.env.ADMIN_PASSWORD)
@@ -103,6 +103,7 @@ app.use('/api', async (req, res, next) => {
 const routes = require('./routes/routes')
 app.use('/api', routes)
 
+require('./initdb')
 
 app.listen(port, () => {
   console.log(`Backend listening at ${url}`)
