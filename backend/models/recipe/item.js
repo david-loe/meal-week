@@ -2,8 +2,10 @@ const mongoose = require('mongoose')
 
 const itemSchema = new mongoose.Schema({
     name: {type: String, required: true},
-    unit: {type: String, enum: ['mass', 'volume', 'piece']},
-    emoji: {type: String}
+    emoji: {type: String},
+    alias: [{type: String}],
+    unit: {type: String, enum: ['mass', 'volume', 'count'], require: true},
+    itemCategory: {type: Schema.Types.ObjectId, ref: 'ItemCategory'}
 })
 
 

@@ -9,7 +9,8 @@ const recipeSchema = new mongoose.Schema({
     tags: [{type: Schema.Types.ObjectId, ref: 'Tag'}],
     prepTimeMin: {type: number},
     cookTimeMin: {type: number},
-    numberOfPortions: {type: number}
+    numberOfPortions: {type: number},
+    image: {type: Buffer}
 })
 
 
