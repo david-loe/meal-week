@@ -1,5 +1,5 @@
 {
-    "itemCategories":[
+    "itemCategories": [
         {
             "name": "itemCategory.cerealProducts",
             "emoji": "🍞"
@@ -37,14 +37,724 @@
             "emoji": "🍿"
         }
     ],
-    "items":[
+    "items": [
         {
             "name": "Champignons",
             "emoji": "🍄",
             "unit": "mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Pilze", "Egerlinge", "Angerlinge"]
+            "alias": [
+                "Pilze",
+                "Egerlinge",
+                "Angerlinge"
+            ]
+        },
+        {
+            "name": "Wraps",
+            "unit": "count",
+            "itemCategory": "itemCategory.cerealProducts",
+            "alias": [
+                "Weizen-Tortilla"
+            ]
+        },
+        {
+            "name": "Nektarinen",
+            "emoji": "🍑",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Avocados",
+            "emoji": "🥑",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Limetten",
+            "emoji": "🍋",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Eier",
+            "emoji": "🥚",
+            "unit": "count",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Hackfleisch",
+            "emoji": "🥩",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": [
+                "Hack",
+                "Rinderhack",
+                "Schweinehack",
+                "Rinderhackfleisch",
+                "Schweinehackfleisch"
+            ]
+        },
+        {
+            "name": "Karotten",
+            "emoji": "🥕",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Mörren"
+            ]
+        },
+        {
+            "name": "Brokkoli",
+            "emoji": "🥦",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Gurken",
+            "emoji": "🥒",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Spinat",
+            "emoji": "🌱",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Tomaten",
+            "emoji": "🍅",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Minze",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Basilikum",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Parmesan",
+            "emoji": "🧀",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Hartkäse"
+            ]
+        },
+        {
+            "name": "Skyr",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Milch",
+            "emoji": "🥛",
+            "unit": "volume",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Butter",
+            "emoji": "🧈",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Kokosmilch",
+            "unit": "volume",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Erdnüsse",
+            "emoji": "🥜",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Heidelbeeren",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Blaubeeren"
+            ]
+        },
+        {
+            "name": "Vanilleeis",
+            "emoji": "🍨",
+            "unit": "mass",
+            "itemCategory": "itemCategory.frozen"
+        },
+        {
+            "name": "Feta",
+            "emoji": "🧀",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Fetakäse",
+                "Hirtenkäse",
+                "Schafskäse",
+                "Ziegenkäse"
+            ]
+        },
+        {
+            "name": "Joghurt",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Jogurt"
+            ]
+        },
+        {
+            "name": "Sahne",
+            "emoji": "🥛",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Schlagsahne"
+            ]
+        },
+        {
+            "name": "Baguettes",
+            "emoji": "🥖",
+            "unit": "count",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Ketchup",
+            "emoji": "🍅",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Mayonaise",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": [
+                "Mayo"
+            ]
+        },
+        {
+            "name": "Cookies",
+            "emoji": "🍪",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other",
+            "alias": [
+                "American Cookies"
+            ]
+        },
+        {
+            "name": "Erdbeeren",
+            "emoji": "🍓",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Trauben",
+            "emoji": "🍇",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Weintrauben"
+            ]
+        },
+        {
+            "name": "Erdnussbutter",
+            "emoji": "🥜",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Maultaschen",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Schinkenwürfel",
+            "emoji": "🥓",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": [
+                "Speckwürfel"
+            ]
+        },
+        {
+            "name": "Käse gerieben",
+            "emoji": "🧀",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Gouda gerieben"
+            ]
+        },
+        {
+            "name": "Pizzateig",
+            "emoji": "🍕",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Gnocchi",
+            "emoji": "🥔",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Bacon",
+            "emoji": "🥓",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": [
+                "Speck"
+            ]
+        },
+        {
+            "name": "Birnen",
+            "emoji": "🍐",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Apfel",
+            "emoji": "🍎",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Gemüsebrühe",
+            "emoji": "🍜",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Cherrytomaten",
+            "emoji": "🍅",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Mini Tomaten"
+            ]
+        },
+        {
+            "name": "Pesto",
+            "emoji": "🍝",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cannedProducts"
+        },
+        {
+            "name": "Nudeln",
+            "emoji": "🍝",
+            "unit": "mass",
+            "itemCategory": "itemCategory.stapleFood",
+            "alias": [
+                "Fusilli",
+                "Penne"
+            ]
+        },
+        {
+            "name": "Hähnchenbrustfilet",
+            "emoji": "🐓",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": [
+                "Hähnchenbrust",
+                "Putenbrustfilet",
+                "Putenbrust"
+            ]
+        },
+        {
+            "name": "Datteln",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Mascarpone",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Müsli",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Zucchini",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Zitronensaft",
+            "emoji": "🍋",
+            "unit": "volume",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Kidneybohnen",
+            "emoji": "🥫",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cannedProducts"
+        },
+        {
+            "name": "Bohnen",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Crème fraîche",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Schmand",
+                "Creme fraiche"
+            ]
+        },
+        {
+            "name": "Mozzarella",
+            "emoji": "🧀",
+            "unit": "count",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Räucherlachs",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish"
+        },
+        {
+            "name": "Toastbrot",
+            "emoji": "🍞",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Kartoffeln",
+            "emoji": "🥔",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Zitronen",
+            "emoji": "🍋",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Wassermelone",
+            "emoji": "🍉",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Melone"
+            ]
+        },
+        {
+            "name": "Salz",
+            "emoji": "🧂",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Olivenöl",
+            "unit": "volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Bananensaft",
+            "emoji": "🍌",
+            "unit": "volume",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Tomaten gehackt",
+            "emoji": "🍅",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cannedProducts",
+            "alias": [
+                "gehackte Tomaten"
+            ]
+        },
+        {
+            "name": "Tomaten passiert",
+            "emoji": "🍅",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cannedProducts",
+            "alias": [
+                "passierte Tomaten"
+            ]
+        },
+        {
+            "name": "Spaghetti",
+            "emoji": "🍝",
+            "unit": "mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Salami",
+            "emoji": "🐖",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish"
+        },
+        {
+            "name": "Burgerbrötchen",
+            "emoji": "🍔",
+            "unit": "count",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Hähnchenstreifen",
+            "emoji": "🐓",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": [
+                "Putenstreifen"
+            ]
+        },
+        {
+            "name": "Süßkartoffeln",
+            "emoji": "🥔",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Zucker",
+            "unit": "mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Brötchen",
+            "emoji": "🍞",
+            "unit": "count",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Pfirsiche",
+            "emoji": "🍑",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Eisbergsalat",
+            "emoji": "🥗",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Salat"
+            ]
+        },
+        {
+            "name": "Romanasalat",
+            "emoji": "🥗",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Feldsalat",
+            "emoji": "🥗",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Kopfsalat",
+            "emoji": "🥗",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Pankomehl",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Paniermehl",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Mozzarella gerieben",
+            "emoji": "🧀",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Lachsfilet",
+            "emoji": "🐟",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish"
+        },
+        {
+            "name": "Salsa Soße",
+            "unit": "volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Bandnudeln",
+            "emoji": "🍝",
+            "unit": "mass",
+            "itemCategory": "itemCategory.stapleFood",
+            "alias": [
+                "Tagliatelle"
+            ]
+        },
+        {
+            "name": "Teriyaki Soße",
+            "unit": "volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Sweet Chili Soße",
+            "unit": "volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Paprika",
+            "emoji": "🫑",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Oregano",
+            "unit": "mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Hähnchen Nuggets",
+            "emoji": "🐥",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish"
+        },
+        {
+            "name": "Honig",
+            "emoji": "🍯",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Bananen",
+            "emoji": "🍌",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Himbeeren",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Mango",
+            "emoji": "🥭",
+            "unit": "count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Schokolade",
+            "emoji": "🍫",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Zartbitterschokolade",
+            "emoji": "🍫",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Chiasamen",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Haferflocken",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Weiße Schokolade",
+            "emoji": "🍫",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Trockenhefe",
+            "unit": "mass",
+            "itemCategory": "itemCategory.other",
+            "alias": [
+                "Backhefe"
+            ]
+        },
+        {
+            "name": "Hefe frisch",
+            "unit": "mass",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "Hefe"
+            ]
+        },
+        {
+            "name": "Mehl",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Vollkornmehl",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Dinkelvollkornmehl",
+            "unit": "mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Vanilleschoten",
+            "unit": "count",
+            "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Schinken",
+            "unit": "mass",
+            "itemCategory": "itemCategory.meatAndFish"
+        },
+        {
+            "name": "Rucola",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Essig",
+            "unit": "volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Reis",
+            "emoji": "🍚",
+            "unit": "mass",
+            "itemCategory": "itemCategory.stapleFood"
         }
     ],
-    "tags":[]
+    "tags": [
+        {
+            "name": "vegetarisch"
+        },
+        {
+            "name": "vegan"
+        },
+        {
+            "name": "ohne Weizen"
+        },
+        {
+            "name": "ohne Milchprodukte"
+        },
+        {
+            "name": "viel Protein"
+        },
+        {
+            "name": "wenig Kohlenhydrate"
+        },
+
+        {
+            "name": "One-Pot Gericht"
+        }
+    ]
 }
