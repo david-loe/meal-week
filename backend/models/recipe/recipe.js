@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Ingredient = require('Ingredient')
+const Ingredient = require('./ingredient')
 
 const recipeSchema = new mongoose.Schema({
     name: {type: String, require: true},
@@ -8,9 +8,9 @@ const recipeSchema = new mongoose.Schema({
     instructions: {type: String, require: true},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}],
     tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-    prepTimeMin: {type: number},
-    cookTimeMin: {type: number},
-    numberOfPortions: {type: number},
+    prepTimeMin: {type: Number},
+    cookTimeMin: {type: Number},
+    numberOfPortions: {type: Number},
     image: {type: Buffer}
 })
 
@@ -26,5 +26,12 @@ recipeSchema.methods.calcIngredients = function(numberOfPortions){
     }
     return newIngredients
 }
+
+recipeSchema.pre('find', function() {
+    this.populate({path: 'author', select: 'name'});
+    this.populate({path: 'reviews'})
+    this.populate({path: 'ingredients', populate: {path: 'item', model:'Item'}})
+    this.populate({path: 'tags'})
+  });
 
 module.exports = mongoose.model('Recipe', recipeSchema)
