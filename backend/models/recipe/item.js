@@ -5,7 +5,7 @@ const itemSchema = new mongoose.Schema({
     emoji: {type: String},
     alias: [{type: String}],
     unit: {type: String, enum: ['mass', 'volume', 'count'], require: true},
-    itemCategory: {type: Schema.Types.ObjectId, ref: 'ItemCategory'}
+    itemCategory: {type: mongoose.Schema.Types.ObjectId, ref: 'ItemCategory'}
 })
 
 

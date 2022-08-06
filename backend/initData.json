@@ -37,6 +37,14 @@
             "emoji": "🍿"
         }
     ],
-    "items":[],
+    "items":[
+        {
+            "name": "Champignons",
+            "emoji": "🍄",
+            "unit": "mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Pilze", "Egerlinge", "Angerlinge"]
+        }
+    ],
     "tags":[]
 }
