@@ -4,7 +4,7 @@ const uid = require('uid')
 const i18n = require('../i18n')
 const helper = require('../helper')
 const Recipe = require('../models/recipe/recipe')
-const Ingredient = require('../models/recipe/ingredient')
+const Item = require('../models/recipe/item')
 
 router.delete('/logout', function(req, res){
     req.logout(function(err) {
@@ -40,16 +40,18 @@ router.post('/user/password', async (req, res) => {
 })
 
 router.get('/recipes', async (req, res) =>{
-    /* Pagination
-    const limit = 10
-    if(req.query.limit && number(req.query.limit) <= limit && number(req.query.limit) > 0){
-        limit = req.query.limit
+    const meta = {
+        limit: 10,
+        page: 1,
+        count: null,
+        countPages: null
     }
-    const page = 1
+    if(req.query.limit && number(req.query.limit) <= meta.limit && number(req.query.limit) > 0){
+        meta.limit = req.query.limit
+    }
     if(req.query.page && number(req.query.page) > 0){
-        page = req.query.page
+        meta.page = req.query.page
     }
-    */
     if(req.query.id && req.query.id != ""){
         const result = await Recipe.findOne({_id: req.query.id})
         if(result != null){
@@ -60,13 +62,53 @@ router.get('/recipes', async (req, res) =>{
     }else {
         var conditions = {}
         var message = "No recipe"
-        if(req.query.search && req.query.search.length < 2){
-            conditions.name = { "$regex": req.query.search, "$options": i }
+        if(req.query.search && req.query.search.length > 2){
+            conditions.name = { "$regex": req.query.search, "$options": "i" }
             message = message +  "with name containing: '" + req.query.search + "'"
         }
         const result = await Recipe.find(conditions)
+        meta.count = result.length
+        meta.countPages = Math.ceil(meta.count / meta.limit)
+        if(result != null){
+            res.send({data: result.slice(meta.limit*(meta.page-1), meta.limit*meta.page+1), meta: meta})
+        }else{
+            res.status(204).send({message: message})
+        }
+    }
+})
+
+router.get('/items', async (req, res) =>{
+    const meta = {
+        limit: 10,
+        page: 1,
+        count: null,
+        countPages: null
+    }
+    if(req.query.limit && number(req.query.limit) <= meta.limit && number(req.query.limit) > 0){
+        meta.limit = req.query.limit
+    }
+    if(req.query.page && number(req.query.page) > 0){
+        meta.page = req.query.page
+    }
+    if(req.query.id && req.query.id != ""){
+        const result = await Item.findOne({_id: req.query.id})
         if(result != null){
             res.send({data: result})
+        }else{
+            res.status(204).send({message: "No item with id " + req.query.id})
+        }
+    }else {
+        var conditions = {}
+        var message = "No item"
+        if(req.query.search && req.query.search.length > 2){
+            conditions.name = { "$regex": req.query.search, "$options": "i" }
+            message = message +  "with name containing: '" + req.query.search + "'"
+        }
+        const result = await Item.find(conditions)
+        meta.count = result.length
+        meta.countPages = Math.ceil(meta.count / meta.limit)
+        if(result != null){
+            res.send({data: result}) //.slice(meta.limit*(meta.page-1), meta.limit*meta.page+1), meta: meta})
         }else{
             res.status(204).send({message: message})
         }
