@@ -14,19 +14,16 @@
     </div>
     <div class="mb-2">
       <div class="row">
-      <div class="col-7">
-        <label for="addIngredient" class="form-label">Ingredients</label>
-        <input @input="ingredientChange" class="form-control" list="ingredientsList" id="addIngredient" v-model="ingredientSearch"/>
-        <datalist id="ingredientsList">
-        <option v-for="ingredient in ingredients" :value="ingredient.name" :key="ingredient._id"/>
-        </datalist>
-      </div>
-      <div class="col-3">
-      
-      </div>
-      <div class="col-2">
-      
-      </div>
+        <div class="col-7">
+          <label for="addIngredient" class="form-label">{{ $t('labels.ingredients') }}</label>
+          <input @input="ingredientChange" class="form-control" list="ingredientsList" id="addIngredient" v-model="itemSearch" />
+          <datalist id="ingredientsList">
+            <option v-for="ingredient in itemSuggestions" :value="ingredient.name" :key="ingredient._id" />
+            <option v-if="itemSuggestions.length == 0 && itemSearch.length >= 2" :value="$t('recipe.createIngredient')" />
+          </datalist>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-2"></div>
       </div>
     </div>
     <div class="mb-2">
@@ -54,8 +51,8 @@ export default {
   data() {
     return {
       formRecipe: this.recipe,
-      ingredients: [],
-      ingredientSearch: "",
+      itemSuggestions: [],
+      itemSearch: '',
     }
   },
   props: {
@@ -70,7 +67,7 @@ export default {
           prepTimeMin: null,
           cookTimeMin: null,
           numberOfPortions: null,
-          img: undefined
+          img: undefined,
         }
       },
     },
@@ -84,21 +81,24 @@ export default {
   },
   methods: {
     ingredientChange() {
-      if(this.ingredientSearch.length > 2){
-        this.getIngredients(this.ingredientSearch)
+      if (this.itemSearch.length >= 2) {
+        this.getIngredients(this.itemSearch)
+      } else {
+        this.itemSuggestions = []
       }
     },
     async getIngredients(search) {
       try {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/items', {
           params: {
-            search: search
+            search: search,
+            limit: 5,
           },
           withCredentials: true,
         })
-        if(res.status === 200){
+        if (res.status === 200) {
           console.log(res)
-          this.ingredients = res.data
+          this.itemSuggestions = res.data.data
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -115,7 +115,6 @@ export default {
         this.formResource.img = undefined
       }
     },
-    
   },
   watch: {
     recipe: function () {

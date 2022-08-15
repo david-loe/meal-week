@@ -1,23 +1,31 @@
 const ItemCategory = require('./models/recipe/itemCategory')
 const Item = require('./models/recipe/item')
-const Tag = require("./models/recipe/tag")
+const Tag = require('./models/recipe/tag')
 const initData = require('./initData.json')
 
-async function initDB(){
-    if(await ItemCategory.find({}).length === 0){
-        await ItemCategory.insertMany(initData.itemCategories)
+async function initDB() {
+  await ItemCategory.find({}, (err, docs) => {
+    if (docs.length === 0) {
+      ItemCategory.insertMany(initData.itemCategories, (err, docs) => {
+        console.log('Added ' + docs.length + ' ItemCategories')
+      })
+    } else {
+      console.log(docs.length + ' ItemCategories exist')
     }
-    if(await Item.find({}).length === 0){
-        for (const item of initData.items){
-            console.log(item)
-            const ic = await ItemCategory.findOne({name: item.itemCategory})
-            item.itemCategory = ic._id
-        }
-        await Item.insertMany(initData.items)
+  }).then
+  Item.find({}, async (err, docs) => {
+    if (docs.length === 0) {
+      for (const item of initData.items) {
+        const ic = await ItemCategory.findOne({ name: item.itemCategory })
+        item.itemCategory = ic._id
+      }
+      Item.insertMany(initData.items, (err, docs) => {
+        console.log('Added ' + docs.length + ' Items')
+      })
+    } else {
+      console.log(docs.length + ' Items exist')
     }
-    if(await Tag.find({}).length === 0){
-        await ItemCategory.insertMany(initData.tags)
-    }
+  })
 }
 
 initDB()
