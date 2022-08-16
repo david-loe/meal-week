@@ -25,7 +25,11 @@
     "delete": "Delete",
     "signIn": "Sign in",
     "search": "Search",
-    "image": "Image"
+    "image": "Image",
+    "typeToSearch": "Type to search...",
+    "prepTimeMin": "Preparation Time [min]",
+    "cookTimeMin": "Cooking Time [min]",
+    "numberOfPortions": "Number of Portions"
   },
   "alerts": {
     "loginFailed": "Failed to Login!",
@@ -48,7 +52,13 @@
     "login": "Already have an account?"
   },
   "recipes": {
-    "add": "Add new recipe"
+    "add": "Add new recipe",
+    "new": "New Recipe"
+  },
+  "units": {
+    "mass": "g",
+    "volume": "ml",
+    "count": "pcs."
   },
   "settings": {
     "account": {

@@ -8,7 +8,7 @@
     "user": "Benutzer",
     "account": "Konto",
     "recipes": "Rezepte",
-    "ingredients": "Ingredients"
+    "ingredients": "Zutaten"
   },
   "labels": {
     "email": "Email Addresse",
@@ -26,7 +26,11 @@
     "register": "Registrieren",
     "search": "Suchen",
     "instructions": "Anleitung",
-    "image": "Bild"
+    "image": "Bild",
+    "typeToSearch": "Tippe um zu Suchen...",
+    "prepTimeMin": "Vorbereitungszeit [min]",
+    "cookTimeMin": "Kochzeit [min]",
+    "numberOfPortions": "Anzahl der Portionen"
   },
   "alerts": {
     "loginFailed": "Anmeldung fehlgeschlagen!",
@@ -49,7 +53,13 @@
     "login": "Du hast schon ein Konto?"
   },
   "recipes": {
-    "add": "Rezept hinzufügen"
+    "add": "Rezept hinzufügen",
+    "new": "Neues Rezept"
+  },
+  "units": {
+    "mass": "g",
+    "volume": "ml",
+    "count": "Stk."
   },
   "settings": {
     "account": {

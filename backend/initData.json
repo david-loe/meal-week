@@ -41,7 +41,7 @@
         {
             "name": "Champignons",
             "emoji": "🍄",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Pilze",
@@ -51,7 +51,7 @@
         },
         {
             "name": "Wraps",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.cerealProducts",
             "alias": [
                 "Weizen-Tortilla"
@@ -60,31 +60,31 @@
         {
             "name": "Nektarinen",
             "emoji": "🍑",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Avocados",
             "emoji": "🥑",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Limetten",
             "emoji": "🍋",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Eier",
             "emoji": "🥚",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.stapleFood"
         },
         {
             "name": "Hackfleisch",
             "emoji": "🥩",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
             "alias": [
                 "Hack",
@@ -97,7 +97,7 @@
         {
             "name": "Karotten",
             "emoji": "🥕",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Mörren"
@@ -106,41 +106,41 @@
         {
             "name": "Brokkoli",
             "emoji": "🥦",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Gurken",
             "emoji": "🥒",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Spinat",
             "emoji": "🌱",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Tomaten",
             "emoji": "🍅",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Minze",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Basilikum",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Parmesan",
             "emoji": "🧀",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Hartkäse"
@@ -148,35 +148,35 @@
         },
         {
             "name": "Skyr",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Milch",
             "emoji": "🥛",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Butter",
             "emoji": "🧈",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Kokosmilch",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Erdnüsse",
             "emoji": "🥜",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Heidelbeeren",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Blaubeeren"
@@ -185,13 +185,13 @@
         {
             "name": "Vanilleeis",
             "emoji": "🍨",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.frozen"
         },
         {
             "name": "Feta",
             "emoji": "🧀",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Fetakäse",
@@ -202,7 +202,7 @@
         },
         {
             "name": "Joghurt",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Jogurt"
@@ -211,7 +211,7 @@
         {
             "name": "Sahne",
             "emoji": "🥛",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Schlagsahne"
@@ -220,18 +220,18 @@
         {
             "name": "Baguettes",
             "emoji": "🥖",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Ketchup",
             "emoji": "🍅",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Mayonaise",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces",
             "alias": [
                 "Mayo"
@@ -240,7 +240,7 @@
         {
             "name": "Cookies",
             "emoji": "🍪",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other",
             "alias": [
                 "American Cookies"
@@ -249,13 +249,13 @@
         {
             "name": "Erdbeeren",
             "emoji": "🍓",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Trauben",
             "emoji": "🍇",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Weintrauben"
@@ -264,18 +264,18 @@
         {
             "name": "Erdnussbutter",
             "emoji": "🥜",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Maultaschen",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Schinkenwürfel",
             "emoji": "🥓",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
             "alias": [
                 "Speckwürfel"
@@ -284,7 +284,7 @@
         {
             "name": "Käse gerieben",
             "emoji": "🧀",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Gouda gerieben"
@@ -293,19 +293,19 @@
         {
             "name": "Pizzateig",
             "emoji": "🍕",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Gnocchi",
             "emoji": "🥔",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Bacon",
             "emoji": "🥓",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
             "alias": [
                 "Speck"
@@ -314,25 +314,25 @@
         {
             "name": "Birnen",
             "emoji": "🍐",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Apfel",
             "emoji": "🍎",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Gemüsebrühe",
             "emoji": "🍜",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Cherrytomaten",
             "emoji": "🍅",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Mini Tomaten"
@@ -341,13 +341,13 @@
         {
             "name": "Pesto",
             "emoji": "🍝",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cannedProducts"
         },
         {
             "name": "Nudeln",
             "emoji": "🍝",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood",
             "alias": [
                 "Fusilli",
@@ -357,7 +357,7 @@
         {
             "name": "Hähnchenbrustfilet",
             "emoji": "🐓",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
             "alias": [
                 "Hähnchenbrust",
@@ -367,44 +367,44 @@
         },
         {
             "name": "Datteln",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Mascarpone",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Müsli",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Zucchini",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Zitronensaft",
             "emoji": "🍋",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Kidneybohnen",
             "emoji": "🥫",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cannedProducts"
         },
         {
             "name": "Bohnen",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Crème fraîche",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Schmand",
@@ -414,36 +414,36 @@
         {
             "name": "Mozzarella",
             "emoji": "🧀",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Räucherlachs",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
             "name": "Toastbrot",
             "emoji": "🍞",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Kartoffeln",
             "emoji": "🥔",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Zitronen",
             "emoji": "🍋",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Wassermelone",
             "emoji": "🍉",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Melone"
@@ -452,24 +452,24 @@
         {
             "name": "Salz",
             "emoji": "🧂",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Olivenöl",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Bananensaft",
             "emoji": "🍌",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Tomaten gehackt",
             "emoji": "🍅",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cannedProducts",
             "alias": [
                 "gehackte Tomaten"
@@ -478,7 +478,7 @@
         {
             "name": "Tomaten passiert",
             "emoji": "🍅",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cannedProducts",
             "alias": [
                 "passierte Tomaten"
@@ -487,25 +487,25 @@
         {
             "name": "Spaghetti",
             "emoji": "🍝",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood"
         },
         {
             "name": "Salami",
             "emoji": "🐖",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
             "name": "Burgerbrötchen",
             "emoji": "🍔",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Hähnchenstreifen",
             "emoji": "🐓",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
             "alias": [
                 "Putenstreifen"
@@ -514,30 +514,30 @@
         {
             "name": "Süßkartoffeln",
             "emoji": "🥔",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Zucker",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood"
         },
         {
             "name": "Brötchen",
             "emoji": "🍞",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Pfirsiche",
             "emoji": "🍑",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Eisbergsalat",
             "emoji": "🥗",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Salat"
@@ -546,52 +546,52 @@
         {
             "name": "Romanasalat",
             "emoji": "🥗",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Feldsalat",
             "emoji": "🥗",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Kopfsalat",
             "emoji": "🥗",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Pankomehl",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Paniermehl",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Mozzarella gerieben",
             "emoji": "🧀",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
         {
             "name": "Lachsfilet",
             "emoji": "🐟",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
             "name": "Salsa Soße",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Bandnudeln",
             "emoji": "🍝",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood",
             "alias": [
                 "Tagliatelle"
@@ -599,85 +599,85 @@
         },
         {
             "name": "Teriyaki Soße",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Sweet Chili Soße",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Paprika",
             "emoji": "🫑",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Oregano",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Hähnchen Nuggets",
             "emoji": "🐥",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
             "name": "Honig",
             "emoji": "🍯",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Bananen",
             "emoji": "🍌",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Himbeeren",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Mango",
             "emoji": "🥭",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Schokolade",
             "emoji": "🍫",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Zartbitterschokolade",
             "emoji": "🍫",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Chiasamen",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Haferflocken",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Weiße Schokolade",
             "emoji": "🍫",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Trockenhefe",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.other",
             "alias": [
                 "Backhefe"
@@ -685,7 +685,7 @@
         },
         {
             "name": "Hefe frisch",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
                 "Hefe"
@@ -693,43 +693,43 @@
         },
         {
             "name": "Mehl",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Vollkornmehl",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Dinkelvollkornmehl",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
         },
         {
             "name": "Vanilleschoten",
-            "unit": "count",
+            "unit": "units.count",
             "itemCategory": "itemCategory.other"
         },
         {
             "name": "Schinken",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
             "name": "Rucola",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Essig",
-            "unit": "volume",
+            "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
             "name": "Reis",
             "emoji": "🍚",
-            "unit": "mass",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood"
         }
     ],
