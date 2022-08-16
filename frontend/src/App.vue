@@ -15,32 +15,33 @@
               <span class="ms-1 d-none d-md-block">{{ $t('headlines.recipes') }}</span>
             </router-link>
           </div>
-          <div>
-            <router-link v-if="auth" to="/settings" class="nav-link link-dark d-flex align-items-center">
-              <i class="fs-4 bi bi-gear"></i>
-              <span class="ms-1 d-none d-md-block">{{ $t('headlines.settings') }}</span>
-            </router-link>
+          <div v-if="auth" class="dropdown">
+            <a class="nav-link link-dark d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+              <i class="fs-4 bi bi-person-circle"></i>
+              <span class="ms-1 d-none d-md-block">{{ name }}</span>
+            </a>
+            <ul class="dropdown-menu" style="min-width:0px;">
+              <li>
+                <router-link to="/settings" class="nav-link link-dark d-flex align-items-center">
+                  <i class="fs-4 bi bi-gear"></i>
+                  <span class="ms-1">{{ $t('headlines.settings') }}</span>
+                </router-link>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="nav-link link-dark d-flex align-items-center" href="#" @click="logout">
+                  <i class="fs-4 bi bi-box-arrow-left"></i>
+                  <span class="ms-1">{{ $t('headlines.logout') }}</span>
+                </a>
+              </li>
+            </ul>
           </div>
-            <template v-if="auth">
-              <div>
-                <div class="nav-link link-dark d-flex align-items-center">
-                <i class="fs-4 bi bi-person-circle"></i>
-                <span class="ms-1 d-none d-md-block">{{ name }}</span>
-              </div>
-              </div>
-              <div>
-              <a class="nav-link link-dark d-flex align-items-center" href="#" @click="logout">
-                <i class="fs-4 bi bi-box-arrow-left"></i>
-                <span class="ms-1 d-none d-md-block">{{ $t('headlines.logout') }}</span>
-              </a>
-              </div>
-            </template>
-            <div v-else>
-              <router-link to="/login" class="nav-link link-dark d-flex align-items-center">
+          <div v-else>
+            <router-link to="/login" class="nav-link link-dark d-flex align-items-center">
               <i class="fs-4 bi bi-box-arrow-in-right"></i>
               <span class="ms-1 d-none d-md-block">{{ $t('headlines.login') }}</span>
             </router-link>
-            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -71,8 +72,6 @@
   </div>
 </template>
 
-
-
 <script>
 import axios from 'axios'
 export default {
@@ -97,23 +96,23 @@ export default {
         this.$router.push('/login')
       }
     },
-    async logout(){
+    async logout() {
       console.log('test')
       try {
         const res = await axios.delete(process.env.VUE_APP_BACKEND_URL + '/api/logout', {
           withCredentials: true,
         })
-        if(res.status === 200){
+        if (res.status === 200) {
           this.auth = false
           this.name = ''
           this.$router.push('/login')
-        }else{
+        } else {
           console.log(res)
         }
       } catch (error) {
         console.log(error.response.data)
       }
-    }
+    },
   },
   beforeMount() {
     document.title = this.$t('headlines.weekOfMeals') + ' ' + this.$t('headlines.emoji')
