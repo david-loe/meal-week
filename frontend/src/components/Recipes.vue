@@ -84,6 +84,9 @@ export default {
   },
   beforeMount() {
     this.getRecipes()
+    if (this.$root.isLoading) {
+      this.$root.getUser()
+    }
   },
 }
 </script>

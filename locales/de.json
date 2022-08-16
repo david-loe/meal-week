@@ -7,7 +7,8 @@
     "logout": "Logout",
     "user": "Benutzer",
     "account": "Konto",
-    "recipes": "Rezepte"
+    "recipes": "Rezepte",
+    "ingredients": "Ingredients"
   },
   "labels": {
     "email": "Email Addresse",
@@ -23,7 +24,9 @@
     "delete": "Löschen",
     "signIn": "Anmelden",
     "register": "Registrieren",
-    "search": "Suchen"
+    "search": "Suchen",
+    "instructions": "Anleitung",
+    "image": "Bild"
   },
   "alerts": {
     "loginFailed": "Anmeldung fehlgeschlagen!",

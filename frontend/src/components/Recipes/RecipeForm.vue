@@ -8,18 +8,18 @@
     </div>
     <div class="mb-2">
       <label for="recipeFormDes" class="form-label">
-        {{ $t('labels.instructions') }}
+        {{ $t('headlines.instructions') }}
       </label>
       <textarea class="form-control" id="recipeFormDes" rows="10" v-model="formRecipe.instructions"></textarea>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-7">
-          <label for="addIngredient" class="form-label">{{ $t('labels.ingredients') }}</label>
+          <label for="addIngredient" class="form-label">{{ $t('headlines.ingredients') }}</label>
           <input @input="ingredientChange" class="form-control" list="ingredientsList" id="addIngredient" v-model="itemSearch" />
           <datalist id="ingredientsList">
-            <option v-for="ingredient in itemSuggestions" :value="ingredient.name" :key="ingredient._id" />
-            <option v-if="itemSuggestions.length == 0 && itemSearch.length >= 2" :value="$t('recipe.createIngredient')" />
+            <option v-for="ingredient in itemSuggestions" :value="ingredient.name + (ingredient.emoji ? ' ' + ingredient.emoji : '')" :key="ingredient._id" />
+            <option v-if="itemSuggestions.length == 0 && itemSearch.length >= 2" :value="'🆕 ' + itemSearch" />
           </datalist>
         </div>
         <div class="col-3"></div>
@@ -32,7 +32,7 @@
     </div>
     <div class="mb-2">
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'add'">
-        {{ $t('labels.addRecipe') }}
+        {{ $t('recipes.add') }}
       </button>
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'edit'">
         {{ $t('labels.save') }}
@@ -97,8 +97,19 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          console.log(res)
           this.itemSuggestions = res.data.data
+          if(this.itemSuggestions.length <= 2){
+            for(const item of this.itemSuggestions){
+              if(item.name.match(new RegExp(search, "i")) != null){
+                continue;
+              }
+              if(item.alias && item.alias.length > 0){
+                for (const alias of item.alias){
+                  this.itemSuggestions.push({name: alias, _id: item._id, emoji: item.emoji})
+                }
+              }
+            }
+          }
         }
       } catch (error) {
         if (error.response.status === 401) {
