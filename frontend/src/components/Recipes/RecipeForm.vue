@@ -1,6 +1,5 @@
 <template>
   <form
-    class="container"
     autocomplete="off"
     @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe)"
   >
@@ -21,7 +20,7 @@
       <table class="table align-middle">
         <tbody>
           <tr class="mb-1">
-            <td>
+            <td colspan="3">
               <input
                 @input="itemSearchChange"
                 class="form-control"
@@ -38,14 +37,50 @@
                 />
               </datalist>
             </td>
-            <td></td>
-            <td></td>
           </tr>
-
+          <tr v-if="newItem.name">
+            <td colspan="3">
+              <table class="table mb-0">
+                <tr>
+                  <td>
+                    <input class="form-control" id="newItem_name" v-model="newItem.name" />
+                  </td>
+                  <td>
+                    <input
+                      style="width: 2.5em"
+                      class="form-control"
+                      id="newItem_name"
+                      v-model="newItem.emoji"
+                      max-length="2"
+                      placeholder="😃"
+                    />
+                  </td>
+                  <td>
+                  <select class="form-select" v-model="newItem.unit">
+                      <option disabled value="">{{ $t('labels.chooseUnit') }}</option>
+                      <option v-for="unit in units" :value="unit" :key="unit">
+                        {{$t(unit)}}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-select" v-model="newItem.itemCategory">
+                      <option disabled value="">{{ $t('labels.chooseCategory') }}</option>
+                      <option v-for="category in itemCategories" :value="category._id" :key="category._id">
+                        {{ $t(category.name) + ' ' + category.emoji }}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+              <button type="button" class="btn btn-secondary btn-sm mx-auto">{{$t('labels.addItem')}}</button>
+              <button type="button" class="btn btn-light btn-sm">{{$t('labels.cancel')}}</button>
+            </td>
+          </tr>
           <tr v-for="ingredient in formRecipe.ingredients" :key="ingredient.item._id">
-            <td style="padding-left: 20px">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
+            <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
             <td>
-              <div class="input-group" style="width: 10em">
+              <div class="input-group" style="max-width: 10em">
                 <input class="form-control" type="number" min="1" v-model="ingredient.quantity" />
                 <span class="input-group-text" id="basic-addon1">
                   {{ $t(ingredient.item.unit) }}
@@ -62,20 +97,20 @@
       </table>
     </div>
     <div class="mb-2">
-    <div class="row">
-    <div class="col">
-    <label for="numberOfPortions" class="form-label">{{ $t('labels.numberOfPortions') }}</label>
-    <input class="form-control" id="numberOfPortions" type="number" min=1 v-model="formRecipe.numberOfPortions" />
-    </div>
-    <div class="col">
-    <label for="prepTime" class="form-label">{{ $t('labels.prepTimeMin') }}</label>
-    <input class="form-control" id="prepTime" type="number" min=1 v-model="formRecipe.prepTimeMin" />
-    </div>
-    <div class="col">
-    <label for="cookTime" class="form-label">{{ $t('labels.cookTimeMin') }}</label>
-    <input class="form-control" id="cookTime" type="number" min=1 v-model="formRecipe.cookTimeMin" />
-    </div>
-    </div>
+      <div class="row">
+        <div class="col">
+          <label for="numberOfPortions" class="form-label">{{ $t('labels.numberOfPortions') }}</label>
+          <input class="form-control" id="numberOfPortions" type="number" min="1" v-model="formRecipe.numberOfPortions" />
+        </div>
+        <div class="col">
+          <label for="prepTime" class="form-label">{{ $t('labels.prepTimeMin') }}</label>
+          <input class="form-control" id="prepTime" type="number" min="1" v-model="formRecipe.prepTimeMin" />
+        </div>
+        <div class="col">
+          <label for="cookTime" class="form-label">{{ $t('labels.cookTimeMin') }}</label>
+          <input class="form-control" id="cookTime" type="number" min="1" v-model="formRecipe.cookTimeMin" />
+        </div>
+      </div>
     </div>
     <div class="mb-2">
       <label for="recipeFormImg" class="form-label"> {{ $t('labels.image') }} (max 1MB)</label>
@@ -105,6 +140,8 @@ export default {
       formRecipe: this.recipe,
       itemSuggestions: [],
       itemSearch: '',
+      newItem: {},
+      itemCategories: [],
     }
   },
   props: {
@@ -135,28 +172,35 @@ export default {
     async itemSearchChange() {
       var selected = false
       if (this.itemSearch.length >= 2) {
-        for (const sug of this.itemSuggestions) {
-          if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
-            selected = true
-            this.formRecipe.ingredients.push({ item: await this.getItems({ id: sug._id }), quantity: 0 })
-            this.itemSearch = ''
-            break
+        if (this.itemSearch.indexOf('🆕') !== 0) {
+          for (const sug of this.itemSuggestions) {
+            if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
+              selected = true
+              this.formRecipe.ingredients.push({ item: await this.getItems({ id: sug._id }), quantity: 0 })
+              this.itemSearch = ''
+              break
+            }
           }
-        }
-        if (!selected) {
-          this.itemSuggestions = await this.getItems({ search: this.itemSearch, limit: 5 })
-          if (this.itemSuggestions.length <= 2) {
-            for (const item of this.itemSuggestions) {
-              if (item.name.match(new RegExp(this.itemSearch, 'i')) != null) {
-                continue
-              }
-              if (item.alias && item.alias.length > 0) {
-                for (const alias of item.alias) {
-                  this.itemSuggestions.push({ name: alias, _id: item._id, emoji: item.emoji })
+          if (!selected) {
+            this.itemSuggestions = await this.getItems({ search: this.itemSearch, limit: 5 })
+            if (this.itemSuggestions.length <= 2) {
+              for (const item of this.itemSuggestions) {
+                if (item.name.match(new RegExp(this.itemSearch, 'i')) != null) {
+                  continue
+                }
+                if (item.alias && item.alias.length > 0) {
+                  for (const alias of item.alias) {
+                    this.itemSuggestions.push({ name: alias, _id: item._id, emoji: item.emoji })
+                  }
                 }
               }
             }
           }
+        } else {
+          this.itemCategories = await this.getItemCategories()
+          this.newItem = { name: this.itemSearch.substring(2), itemCategory: '', unit: '' }
+          this.itemSearch = ''
+          this.itemSuggestions = []
         }
       } else {
         this.itemSuggestions = []
@@ -165,6 +209,23 @@ export default {
     async getItems(params) {
       try {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/items', {
+          params: params,
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          return res.data.data
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    async getItemCategories(params) {
+      try {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
           params: params,
           withCredentials: true,
         })

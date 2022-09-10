@@ -30,7 +30,10 @@
     "typeToSearch": "Tippe um zu Suchen...",
     "prepTimeMin": "Vorbereitungszeit [min]",
     "cookTimeMin": "Kochzeit [min]",
-    "numberOfPortions": "Anzahl der Portionen"
+    "numberOfPortions": "Anzahl der Portionen",
+    "chooseCategory": "Kategorie auswählen",
+    "chooseUnit": "Einheit auswählen",
+    "addItem": "Zutat hinzufügen"
   },
   "alerts": {
     "loginFailed": "Anmeldung fehlgeschlagen!",

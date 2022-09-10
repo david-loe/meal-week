@@ -17,7 +17,7 @@
     "password": "Password",
     "newPassword": "New Password",
     "oldPassword": "Old Password",
-    "repeateNewPassword": "Repeate new Password",
+    "repeateNewPassword": "Repeate new password",
     "done": "Done",
     "cancel": "Cancel",
     "edit": "Edit",
@@ -29,7 +29,10 @@
     "typeToSearch": "Type to search...",
     "prepTimeMin": "Preparation Time [min]",
     "cookTimeMin": "Cooking Time [min]",
-    "numberOfPortions": "Number of Portions"
+    "numberOfPortions": "Number of Portions",
+    "chooseCategory": "Choose category",
+    "chooseUnit": "Choose unit",
+    "addItem": "Add Item"
   },
   "alerts": {
     "loginFailed": "Failed to Login!",
