@@ -32,7 +32,8 @@
     "numberOfPortions": "Number of Portions",
     "chooseCategory": "Choose category",
     "chooseUnit": "Choose unit",
-    "addItem": "Add Item"
+    "addItem": "Add Item",
+    "createdBy": "Created by"
   },
   "alerts": {
     "loginFailed": "Failed to Login!",
@@ -78,5 +79,14 @@
     "cannedProducts": "Canned products",
     "stapleFood": "Staple food",
     "other": "Other"
+  },
+  "tags": {
+    "vegetarian": "vegetarian",
+    "vegan": "vegan",
+    "glutenFree": "gluten free",
+    "lactoseFree": "lactose free",
+    "highProtein": "high protein",
+    "lowCarb": "low carb",
+    "onePot": "one pot"
   }
 }

@@ -5,7 +5,9 @@ const i18n = require('../i18n')
 const helper = require('../helper')
 const Recipe = require('../models/recipe/recipe')
 const Item = require('../models/recipe/item')
+const Ingredient = require('../models/recipe/ingredient')
 const ItemCategory = require('../models/recipe/itemCategory')
+const Review = require('../models/recipe/review')
 
 function getter(model, name, defaultLimit= 10, searchAlias = false){
   return async (req, res) => {
@@ -97,13 +99,15 @@ router.post('/items', async (req,res) => {
     const item = new Item({
       name: req.body.name,
       unit: req.body.unit,
-      itemCategory: req.body.itemCategory
+      itemCategory: req.body.itemCategory,
+      emoji: req.body.emoji,
+      alias: req.body.alias
     })
     try {
       const result = await item.save()
       res.send({ message: 'Success', result: result })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving' })
+      res.status(400).send({ message: 'Error while saving', error: error})
     }
   }
 })
@@ -140,7 +144,7 @@ router.post('/recipes', async (req, res) => {
       const result = await recipe.save()
       res.send({ message: 'Success' , result: result})
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving' })
+      res.status(400).send({ message: 'Error while saving', error: error })
     }
   }
 })

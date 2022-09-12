@@ -33,7 +33,8 @@
     "numberOfPortions": "Anzahl der Portionen",
     "chooseCategory": "Kategorie auswählen",
     "chooseUnit": "Einheit auswählen",
-    "addItem": "Zutat hinzufügen"
+    "addItem": "Zutat hinzufügen",
+    "createdBy": "Erstellt von"
   },
   "alerts": {
     "loginFailed": "Anmeldung fehlgeschlagen!",
@@ -79,5 +80,14 @@
     "cannedProducts": "Dosenprodukte",
     "stapleFood": "Grundnahrungsmittel",
     "other": "Anderes"
+  },
+  "tags": {
+    "vegetarian": "vegetarisch",
+    "vegan": "vegan",
+    "glutenFree": "glutenfrei",
+    "lactoseFree": "laktosefrei",
+    "highProtein": "viele Proteine",
+    "lowCarb": "wenig Kohlenhydrate",
+    "onePot": "one Pot"
   }
 }

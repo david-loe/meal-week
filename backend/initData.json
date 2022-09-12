@@ -735,26 +735,38 @@
     ],
     "tags": [
         {
-            "name": "vegetarisch"
+            "name": "tags.vegetarian",
+            "emoji": "🚫🥩" 
+
         },
         {
-            "name": "vegan"
+            "name": "tags.vegan",
+            "emoji": "🌱" 
+
         },
         {
-            "name": "ohne Weizen"
+            "name": "tags.glutenFree",
+            "emoji": "🚫🌾" 
+
         },
         {
-            "name": "ohne Milchprodukte"
+            "name": "tags.lactoseFree",
+            "emoji": "🚫🥛" 
+
         },
         {
-            "name": "viel Protein"
+            "name": "tags.highProtein",
+            "emoji": "💪" 
+
         },
         {
-            "name": "wenig Kohlenhydrate"
+            "name": "tags.lowCarb",
+            "emoji": "⤵️" 
         },
 
         {
-            "name": "One-Pot Gericht"
+            "name": "tags.onePot",
+            "emoji": "🍲" 
         }
     ]
 }

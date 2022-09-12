@@ -11,10 +11,10 @@ function initItems() {
         item.itemCategory = ic._id
       }
       Item.insertMany(initData.items, (err, result) => {
-        if(err){
+        if (err) {
           console.log(err)
         }
-        console.log('Added ' + result.length + ' Items')
+        console.log('Added ' + result.length + ' items')
       })
     } else {
       console.log(docs.length + ' Items exist')
@@ -23,13 +23,14 @@ function initItems() {
 }
 
 function initDB() {
+  // ItemCategory and Item
   ItemCategory.find({}, (err, docs) => {
     if (docs.length === 0) {
       ItemCategory.insertMany(initData.itemCategories, (err, docs) => {
-        if(err){
+        if (err) {
           console.log(err)
         }
-        console.log('Added ' + docs.length + ' ItemCategories')
+        console.log('Added ' + docs.length + ' item categories')
         initItems()
       })
     } else {
@@ -37,7 +38,17 @@ function initDB() {
       initItems()
     }
   })
-  
+  // Tag
+  Tag.find({}, (err, docs) => {
+    if (docs.length === 0) {
+      Tag.insertMany(initData.tags, (err, docs) => {
+        if (err) {
+          console.log(err)
+        }
+        console.log('Added ' + docs.length + ' tags')
+      })
+    }
+  })
 }
 
 initDB()

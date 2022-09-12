@@ -8,10 +8,10 @@ const recipeSchema = new mongoose.Schema({
     instructions: {type: String, require: true},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}],
     tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-    prepTimeMin: {type: Number},
-    cookTimeMin: {type: Number},
-    numberOfPortions: {type: Number},
-    image: {type: Buffer}
+    prepTimeMin: {type: Number,  require: true},
+    cookTimeMin: {type: Number,  require: true},
+    numberOfPortions: {type: Number,  require: true},
+    image: {type: String}
 })
 
 recipeSchema.methods.calcIngredients = function(numberOfPortions){
