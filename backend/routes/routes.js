@@ -7,9 +7,10 @@ const Recipe = require('../models/recipe/recipe')
 const Item = require('../models/recipe/item')
 const Ingredient = require('../models/recipe/ingredient')
 const ItemCategory = require('../models/recipe/itemCategory')
+const Tag = require('../models/recipe/tag')
 const Review = require('../models/recipe/review')
 
-function getter(model, name, defaultLimit= 10, searchAlias = false){
+function getter(model, name, defaultLimit = 10, searchAlias = false) {
   return async (req, res) => {
     const meta = {
       limit: defaultLimit,
@@ -35,7 +36,7 @@ function getter(model, name, defaultLimit= 10, searchAlias = false){
       var message = 'No ' + name
       if (req.query.search && req.query.search.length >= 2) {
         conditions['$or'] = [{ name: { $regex: req.query.search, $options: 'i' } }]
-        if(searchAlias) conditions['$or'].push({ alias: { $regex: req.query.search, $options: 'i' } })
+        if (searchAlias) conditions['$or'].push({ alias: { $regex: req.query.search, $options: 'i' } })
         message = message + " with name containing: '" + req.query.search + "'"
       }
       const result = await model.find(conditions)
@@ -46,6 +47,35 @@ function getter(model, name, defaultLimit= 10, searchAlias = false){
       } else {
         res.status(204).send({ message: message })
       }
+    }
+  }
+}
+
+function setter(model) {
+  return async (req, res) => {
+    for (const field of Object.keys(model.schema.tree)) {
+      if (model.schema.tree[field].required) {
+        if (
+          !req.body[field] ||
+          (model.schema.tree[field].type === String && req.body[field].length === 0) ||
+          (model.schema.tree[field].type === Number && req.body[field] === null) ||
+          (Array.isArray(model.schema.tree[field]) && req.body[field].length === 0)
+        ) {
+          return res.status(400).send({ message: 'Missing ' + field })
+        }
+      }
+    }
+    var newObject = {}
+    if (req.body._id && req.body._id !== '') {
+      newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body)
+    } else {
+      newObject = new model(req.body)
+    }
+    try {
+      const result = await newObject.save()
+      res.send({ message: 'Success', result: result })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
     }
   }
 }
@@ -86,42 +116,16 @@ router.post('/user/password', async (req, res) => {
 router.get('/recipes', getter(Recipe, 'recipe'))
 router.get('/items', getter(Item, 'item', 10, true))
 router.get('/itemCategories', getter(ItemCategory, 'item category', 20))
+router.get('/tags', getter(Tag, 'tag', 20))
 
-router.post('/items', async (req,res) => {
-  if (
-    req.body.name &&
-    req.body.name !== '' &&
-    req.body.unit && 
-    req.body.unit !== '' &&
-    req.body.itemCategory &&
-    req.body.itemCategory !== ''
-  ) {
-    const item = new Item({
-      name: req.body.name,
-      unit: req.body.unit,
-      itemCategory: req.body.itemCategory,
-      emoji: req.body.emoji,
-      alias: req.body.alias
-    })
-    try {
-      const result = await item.save()
-      res.send({ message: 'Success', result: result })
-    } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error})
-    }
-  }
-})
+router.post('/items', setter(Item))
+
 router.post('/recipes', async (req, res) => {
-  if (
-    req.body.name &&
-    req.body.name != '' &&
-    req.body.instructions &&
-    req.body.instructions != '' &&
-    req.body.ingredients &&
-    req.body.ingredients.length > 0
-  ) {
-    const ingredients = []
-    for (const ingredient of req.body.ingredients) {
+  const ingredients = []
+  for (const ingredient of req.body.ingredients) {
+    if (ingredient._id && ingredient._id !== '') {
+      ingredients.push(await model.findOneAndUpdate({ _id: ingredient._id }, ingredient))
+    } else {
       ingredients.push(
         new Ingredient({
           quantity: ingredient.quantity,
@@ -129,24 +133,10 @@ router.post('/recipes', async (req, res) => {
         }),
       )
     }
-    const recipe = new Recipe({
-      name: req.body.name,
-      instructions: req.body.instructions,
-      ingredients: ingredients,
-      tags: req.body.tags,
-      author: req.user._id,
-      prepTimeMin: req.body.prepTimeMin,
-      cookTimeMin: req.body.cookTimeMin,
-      numberOfPortions: req.body.numberOfPortions,
-      image: req.body.image,
-    })
-    try {
-      const result = await recipe.save()
-      res.send({ message: 'Success' , result: result})
-    } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
-    }
   }
+  req.body.ingredients = ingredients
+  req.body.author = req.user._id
+  return setter(Recipe)(req,res)
 })
 
 module.exports = router

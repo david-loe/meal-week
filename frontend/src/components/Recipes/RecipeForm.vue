@@ -35,7 +35,7 @@
               </datalist>
             </td>
           </tr>
-          <tr v-if="newItem.name">
+          <tr v-if="showNewItemDialog">
             <td colspan="3">
               <table class="table mb-0">
                 <tr>
@@ -63,7 +63,7 @@
                   <td>
                     <select class="form-select" v-model="newItem.itemCategory">
                       <option disabled value="">{{ $t('labels.chooseCategory') }}</option>
-                      <option v-for="category in itemCategories" :value="category._id" :key="category._id">
+                      <option v-for="category in $root.itemCategories" :value="category._id" :key="category._id">
                         {{ $t(category.name) + ' ' + category.emoji }}
                       </option>
                     </select>
@@ -78,7 +78,7 @@
               >
                 {{ $t('labels.addItem') }}
               </button>
-              <button type="button" class="btn btn-light btn-sm" v-on:click="newItem = {}">{{ $t('labels.cancel') }}</button>
+              <button type="button" class="btn btn-light btn-sm" v-on:click="newItem = {}; showNewItemDialog = false">{{ $t('labels.cancel') }}</button>
             </td>
           </tr>
           <tr v-for="ingredient in formRecipe.ingredients" :key="ingredient.item._id">
@@ -127,7 +127,7 @@
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'edit'">
         {{ $t('labels.save') }}
       </button>
-      <button type="button" class="btn btn-light" v-on:click="this.$emit('cancel')">
+      <button type="button" class="btn btn-light" v-on:click="this.$emit('cancel'); this.clear()">
         {{ $t('labels.cancel') }}
       </button>
     </div>
@@ -145,7 +145,7 @@ export default {
       itemSuggestions: [],
       itemSearch: '',
       newItem: {},
-      itemCategories: [],
+      showNewItemDialog: false,
     }
   },
   props: {
@@ -173,6 +173,22 @@ export default {
     },
   },
   methods: {
+    clear() {
+      this.formRecipe = {
+          name: '',
+          ingredients: [],
+          instructions: '',
+          tags: [],
+          prepTimeMin: null,
+          cookTimeMin: null,
+          numberOfPortions: null,
+          image: undefined,
+        }
+      this.newItem = {}
+      this.itemSearch = ''
+      this.itemSuggestions = []
+      this.showNewItemDialog = false
+    },
     async itemSearchChange() {
       var selected = false
       if (this.itemSearch.length >= 2) {
@@ -201,8 +217,8 @@ export default {
             }
           }
         } else {
-          this.itemCategories = await this.getItemCategories()
           this.newItem = { name: this.itemSearch.substring(2), itemCategory: '', unit: '' }
+          this.showNewItemDialog = true
           this.itemSearch = ''
           this.itemSuggestions = []
         }
@@ -227,23 +243,7 @@ export default {
         }
       }
     },
-    async getItemCategories(params) {
-      try {
-        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
-          params: params,
-          withCredentials: true,
-        })
-        if (res.status === 200) {
-          return res.data.data
-        }
-      } catch (error) {
-        if (error.response.status === 401) {
-          this.$router.push('login')
-        } else {
-          console.log(error.response.data)
-        }
-      }
-    },
+
     deleteIngredient(ingredient) {
       const index = this.formRecipe.ingredients.indexOf(ingredient)
       if (index !== -1) {

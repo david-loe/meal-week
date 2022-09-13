@@ -58,7 +58,7 @@ export default {
           { withCredentials: true },
         )
         if (res.status === 200) {
-          this.$root.isLoading = true
+          this.$root.loaded = false
           this.$router.push('/')
         }
       } catch (error) {
@@ -68,7 +68,7 @@ export default {
     },
   },
   beforeMount() {
-    this.$root.isLoading = false
+    this.$root.loaded = true
   },
 }
 </script>

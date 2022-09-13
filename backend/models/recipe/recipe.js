@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 const Ingredient = require('./ingredient')
 
 const recipeSchema = new mongoose.Schema({
-    name: {type: String, require: true},
-    author: {type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true},
-    ingredients: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient', require: true}],
-    instructions: {type: String, require: true},
+    name: {type: String, required: true},
+    author: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    ingredients: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient', required: true}],
+    instructions: {type: String, required: true},
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}],
     tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-    prepTimeMin: {type: Number,  require: true},
-    cookTimeMin: {type: Number,  require: true},
-    numberOfPortions: {type: Number,  require: true},
+    prepTimeMin: {type: Number,  required: true},
+    cookTimeMin: {type: Number,  required: true},
+    numberOfPortions: {type: Number,  required: true},
     image: {type: String}
 })
 

@@ -13,8 +13,8 @@ export default {
   methods: {
   },
   beforeMount() {
-    if (this.$root.isLoading) {
-      this.$root.getUser()
+    if (!this.$root.loaded) {
+      this.$root.load()
     }
   },
 }

@@ -74,7 +74,6 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          console.log(res)
           return res.data.data
         }
       } catch (error) {
@@ -86,14 +85,12 @@ export default {
       }
     },
     async addRecipe(recipe) {
-      console.log(recipe)
       try {
         const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/recipes', recipe, {
           withCredentials: true,
         })
         if (res.status === 200) {
           this.addRecipeModal.hide()
-          console.log(res.data.result)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -109,8 +106,8 @@ export default {
   },
   async beforeMount() {
     this.recipes = await this.getRecipes({})
-    if (this.$root.isLoading) {
-      this.$root.getUser()
+    if (!this.$root.loaded) {
+      this.$root.load()
     }
   },
 }

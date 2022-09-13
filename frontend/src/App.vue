@@ -20,7 +20,7 @@
               <i class="fs-4 bi bi-person-circle"></i>
               <span class="ms-1 d-none d-md-block">{{ name }}</span>
             </a>
-            <ul class="dropdown-menu" style="min-width:0px;">
+            <ul class="dropdown-menu" style="min-width: 0px">
               <li>
                 <router-link to="/settings" class="nav-link link-dark d-flex align-items-center">
                   <i class="fs-4 bi bi-gear"></i>
@@ -46,7 +46,7 @@
       </div>
     </header>
 
-    <div v-if="isLoading" class="position-absolute top-50 start-50 translate-middle">
+    <div v-if="!loaded" class="position-absolute top-50 start-50 translate-middle">
       <div class="spinner-grow me-3" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
@@ -57,7 +57,7 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <router-view :class="isLoading ? 'd-none' : 'd-block'" />
+    <router-view :class="loaded ? 'd-block' : 'd-none'" />
 
     <footer class="py-3 border-top">
       <div class="container">
@@ -80,10 +80,18 @@ export default {
       auth: false,
       name: '',
       reload: null,
-      isLoading: true,
+      loaded: false,
+      tags: [],
+      itemCategories: [],
     }
   },
   methods: {
+    async load() {
+      await this.getUser()
+      this.itemCategories = await this.getItemCategories()
+      this.tags = await this.getTags()
+      this.loaded = true
+    },
     async getUser() {
       try {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/user', {
@@ -91,7 +99,6 @@ export default {
         })
         this.name = res.data.user.name
         this.auth = res.status === 200
-        this.isLoading = false
       } catch (error) {
         this.$router.push('/login')
       }
@@ -111,6 +118,40 @@ export default {
         }
       } catch (error) {
         console.log(error.response.data)
+      }
+    },
+    async getItemCategories(params = {}) {
+      try {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
+          params: params,
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          return res.data.data
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    async getTags(params = {}) {
+      try {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
+          params: params,
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          return res.data.data
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
       }
     },
   },
