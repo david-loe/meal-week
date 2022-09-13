@@ -18,7 +18,7 @@
           <div v-if="auth" class="dropdown">
             <a class="nav-link link-dark d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
               <i class="fs-4 bi bi-person-circle"></i>
-              <span class="ms-1 d-none d-md-block">{{ name }}</span>
+              <span class="ms-1 d-none d-md-block">{{ user.name }}</span>
             </a>
             <ul class="dropdown-menu" style="min-width: 0px">
               <li>
@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       auth: false,
-      name: '',
+      user: {},
       reload: null,
       loaded: false,
       tags: [],
@@ -97,7 +97,7 @@ export default {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/user', {
           withCredentials: true,
         })
-        this.name = res.data.user.name
+        this.user = res.data.user
         this.auth = res.status === 200
       } catch (error) {
         this.$router.push('/login')
@@ -111,7 +111,7 @@ export default {
         })
         if (res.status === 200) {
           this.auth = false
-          this.name = ''
+          this.user = {}
           this.$router.push('/login')
         } else {
           console.log(res)

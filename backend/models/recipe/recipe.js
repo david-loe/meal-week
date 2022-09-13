@@ -27,9 +27,9 @@ recipeSchema.methods.calcIngredients = function(numberOfPortions){
     return newIngredients
 }
 
-recipeSchema.pre('find', function() {
-    this.populate({path: 'author', select: 'name'});
+recipeSchema.pre(/^find/, function() {
     this.populate({path: 'reviews'})
+    this.populate({path: 'author', select: 'name'})
     this.populate({path: 'ingredients', populate: {path: 'item', model:'Item'}})
     this.populate({path: 'tags'})
   });

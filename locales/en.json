@@ -29,6 +29,8 @@
     "typeToSearch": "Type to search...",
     "prepTimeMin": "Preparation Time [min]",
     "cookTimeMin": "Cooking Time [min]",
+    "prepTime": "Preparation Time",
+    "cookTime": "Cooking Time",
     "numberOfPortions": "Number of Portions",
     "chooseCategory": "Choose category",
     "chooseUnit": "Choose unit",

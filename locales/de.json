@@ -30,6 +30,8 @@
     "typeToSearch": "Tippe um zu Suchen...",
     "prepTimeMin": "Vorbereitungszeit [min]",
     "cookTimeMin": "Kochzeit [min]",
+    "prepTime": "Vorbereitungszeit",
+    "cookTime": "Kochzeit",
     "numberOfPortions": "Anzahl der Portionen",
     "chooseCategory": "Kategorie auswählen",
     "chooseUnit": "Einheit auswählen",

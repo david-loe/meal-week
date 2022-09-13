@@ -90,7 +90,7 @@ router.delete('/logout', function (req, res) {
 })
 
 router.get('/user', async (req, res) => {
-  const { hash, _id, __v, ...user } = req.user
+  const { hash, __v, ...user } = req.user
   res.send({
     user: user,
   })
@@ -139,4 +139,31 @@ router.post('/recipes', async (req, res) => {
   return setter(Recipe)(req,res)
 })
 
+router.post('/reviews', async (req,res) => {
+  if(req.body.assessment && req.body.assessment >= 0 && req.body.assessment <= 5 && req.body.recipeId && req.body.recipeId.length > 0){
+    var newReview = true
+    const recipe = await Recipe.findOne({_id: req.body.recipeId})
+    for(var recipeReview of recipe.reviews){
+      if(recipeReview.author === req.user._id){
+        recipeReview = await Review.findOneAndUpdate({_id: recipeReview._id}, {assessment: req.body.assessment})
+        newReview = false
+        break
+      }
+    }
+    if(newReview){
+      recipe.reviews.push(new Review({author: req.user._id, assessment: req.body.assessment}))
+    }
+    
+    recipe.markModified('reviews')
+    try {
+      const result = await recipe.save()
+      res.send({ message: 'Success', result: result.reviews })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
+    }
+  }else {
+    res.status(400).send({ message: 'Missing assessment or recipeId'})
+  }
+  
+})
 module.exports = router

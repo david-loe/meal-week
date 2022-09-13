@@ -8,9 +8,7 @@
     </div>
     <div class="card-body position-relative">
       <div class="position-absolute top-0 end-0 pe-1">
-        <i v-for="star in getRating()" class="bi bi-star-fill" :key="star"></i>
-        <i v-for="star in 5 - getRating()" class="bi bi-star" :key="star"></i>
-        <small> ({{ recipe.reviews.length }})</small>
+        <RecipeRating :reviews="recipe.reviews" :recipeId="recipe._id"></RecipeRating>
       </div>
       <h5 class="card-title" v-if="!recipe.image">{{ recipe.name }}</h5>
       <span v-for="tag in recipe.tags" class="badge bg-light text-dark" :key="tag._id">{{$t(tag.name) + ' ' + tag.emoji}}</span>
@@ -22,20 +20,17 @@
 </template>
 
 <script>
+import RecipeRating from './RecipeRating.vue'
 export default {
   name: 'RecipeTile',
   data() {
     return {}
   },
+  components: {
+    RecipeRating
+  },
   props: { recipe: { type: Object } },
   methods: {
-    getRating() {
-      var sum = 0
-      for (const review of this.recipe.reviews) {
-        sum += review.assessment
-      }
-      return this.recipe.reviews.length > 0 ? Math.round(sum / this.recipe.reviews.length) : 0
-    },
   },
 }
 </script>
