@@ -34,7 +34,7 @@
       <div class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in this.recipes" :key="recipe._id">
-            <RecipeTile :recipe="recipe"></RecipeTile>
+            <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a"></RecipeTile>
           </div>
         </div>
       </div>
@@ -74,7 +74,6 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          console.log(res.data.data)
           return res.data.data
         }
       } catch (error) {
@@ -92,6 +91,7 @@ export default {
         })
         if (res.status === 200) {
           this.addRecipeModal.hide()
+          this.recipes = await this.getRecipes({})
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -108,7 +108,7 @@ export default {
   async beforeMount() {
     this.recipes = await this.getRecipes({})
     if (!this.$root.loaded) {
-      this.$root.load()
+      await this.$root.load()
     }
   },
 }

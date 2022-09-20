@@ -38,6 +38,7 @@
     "createdBy": "Created by"
   },
   "alerts": {
+    "imageToBig": "The provided image is to big!",
     "loginFailed": "Failed to Login!",
     "wrongPassword": "Wrong Password",
     "request": {

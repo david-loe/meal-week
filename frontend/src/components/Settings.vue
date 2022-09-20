@@ -17,9 +17,9 @@ export default {
     return {}
   },
   methods: {},
-  beforeMount() {
+  async beforeMount() {
     if (!this.$root.loaded) {
-      this.$root.load()
+      await this.$root.load()
     }
   },
 }

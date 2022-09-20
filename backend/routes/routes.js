@@ -5,7 +5,6 @@ const i18n = require('../i18n')
 const helper = require('../helper')
 const Recipe = require('../models/recipe/recipe')
 const Item = require('../models/recipe/item')
-const Ingredient = require('../models/recipe/ingredient')
 const ItemCategory = require('../models/recipe/itemCategory')
 const Tag = require('../models/recipe/tag')
 const Review = require('../models/recipe/review')
@@ -121,43 +120,34 @@ router.get('/tags', getter(Tag, 'tag', 20))
 router.post('/items', setter(Item))
 
 router.post('/recipes', async (req, res) => {
-  const ingredients = []
-  for (const ingredient of req.body.ingredients) {
-    if (ingredient._id && ingredient._id !== '') {
-      ingredients.push(await model.findOneAndUpdate({ _id: ingredient._id }, ingredient))
-    } else {
-      ingredients.push(
-        new Ingredient({
-          quantity: ingredient.quantity,
-          item: ingredient.item,
-        }),
-      )
-    }
-  }
-  req.body.ingredients = ingredients
   req.body.author = req.user._id
   return setter(Recipe)(req,res)
 })
 
 router.post('/reviews', async (req,res) => {
   if(req.body.assessment && req.body.assessment >= 0 && req.body.assessment <= 5 && req.body.recipeId && req.body.recipeId.length > 0){
-    var newReview = true
+    var isNewReview = true
+    var review = {}
     const recipe = await Recipe.findOne({_id: req.body.recipeId})
     for(var recipeReview of recipe.reviews){
-      if(recipeReview.author === req.user._id){
-        recipeReview = await Review.findOneAndUpdate({_id: recipeReview._id}, {assessment: req.body.assessment})
-        newReview = false
+      if(recipeReview.author == req.user._id){
+        review = await Review.findOne({_id: recipeReview._id})
+        review.assessment = req.body.assessment
+        recipeReview = review
+        isNewReview = false
         break
       }
     }
-    if(newReview){
-      recipe.reviews.push(new Review({author: req.user._id, assessment: req.body.assessment}))
+    if(isNewReview){
+      review = new Review({author: req.user._id, assessment: req.body.assessment})
+      recipe.reviews.push(review)
     }
     
     recipe.markModified('reviews')
     try {
+      await review.save()
       const result = await recipe.save()
-      res.send({ message: 'Success', result: result.reviews })
+      res.send({ message: 'Success', result: (await result.populate('reviews')).reviews })
     } catch (error) {
       res.status(400).send({ message: 'Error while saving', error: error })
     }

@@ -39,6 +39,7 @@
     "createdBy": "Erstellt von"
   },
   "alerts": {
+    "imageToBig": "Das Bild ist zu groß!",
     "loginFailed": "Anmeldung fehlgeschlagen!",
     "wrongPassword": "Falsches Passwort",
     "request": {

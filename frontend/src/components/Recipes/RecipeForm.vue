@@ -1,5 +1,5 @@
 <template>
-  <form autocomplete="off" @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe)">
+  <form autocomplete="off" @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe); this.clear()">
     <div class="mb-2">
       <label for="recipeFormName" class="form-label">
         {{ $t('labels.name') }}
@@ -117,8 +117,9 @@
       </div>
     </div>
     <div class="mb-2">
-      <label for="recipeFormImg" class="form-label"> {{ $t('labels.image') }} (max 1MB)</label>
+      <label for="recipeFormImg" class="form-label"> {{ $t('labels.image') }} (max 10MB)</label>
       <input class="form-control" type="file" id="recipeFormImg" @change="changeFile" accept="image/*" />
+      <img class="mt-1" v-if="formRecipe.image" :src="formRecipe.image" height="100" width="192" style="object-fit: cover;"/>
     </div>
     <div class="mb-2">
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
@@ -269,22 +270,23 @@ export default {
     },
     changeFile(form) {
       const reader = new FileReader()
-      if (form.target.files.length === 1 && form.target.files[0].size < 1000000) {
+      if (form.target.files.length === 1 && form.target.files[0].size < 10000000) {
         reader.readAsDataURL(form.target.files[0])
         reader.onload = async () => {
-          this.formRecipe.image = await this.resizedataURL(reader.result, 250, 150)
+          this.formRecipe.image = await this.resizedataURL(reader.result, 450)
         }
       } else {
+        alert(this.$t('alerts.imageToBig'))
         this.formRecipe.image = undefined
       }
     },
     // From https://stackoverflow.com/a/52983833/13582326
-    resizedataURL(datas, wantedWidth, wantedHeight) {
+    resizedataURL(datas, wantedWidth) {
       return new Promise((resolve) => {
         // We create an image to receive the Data URI
         var img = document.createElement('img')
 
-        // When the booking "onload" is triggered we can resize the image.
+        // When the img "onload" is triggered we can resize the image.
         img.onload = function () {
           // We create a canvas and get its context.
           var canvas = document.createElement('canvas')
@@ -292,12 +294,13 @@ export default {
 
           // We set the dimensions at the wanted size.
           canvas.width = wantedWidth
-          canvas.height = wantedHeight
+          canvas.height = img.height * (wantedWidth / img.width)
+          
 
           // We resize the image with the canvas method drawImage();
-          ctx.drawImage(this, 0, 0, wantedWidth, wantedHeight)
+          ctx.drawImage(this, 0, 0, canvas.width, canvas.height)
 
-          var dataURI = canvas.toDataURL()
+          var dataURI = canvas.toDataURL('image/jpeg', 0.85)
 
           // This is the return of the Promise
           resolve(dataURI)

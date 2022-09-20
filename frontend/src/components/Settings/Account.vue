@@ -52,7 +52,6 @@ export default {
             withCredentials: true,
           },
         )
-        console.log(res)
         if (res.status === 200) {
           this.newPassword = ''
           this.newPassword2 = ''

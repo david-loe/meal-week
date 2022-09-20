@@ -42,12 +42,12 @@ export default {
     recipeId: { type: String },
   },
   methods: {
-    calcRating() {
+    calcRating(reviews) {
       var sum = 0
-      for (const review of this.reviews) {
+      for (const review of reviews) {
         sum += review.assessment
       }
-      var rating = this.reviews.length > 0 ? sum / this.reviews.length : 0
+      var rating = reviews.length > 0 ? sum / reviews.length : 0
       this.stars.full = Math.floor(rating)
       if (rating - this.stars.full >= 0.75) {
         this.stars.full++
@@ -57,9 +57,8 @@ export default {
       this.stars.empty = 5 - (this.stars.full + this.stars.half)
     },
     getUserRating() {
-      console.log(this.reviews)
       for (const review of this.reviews) {
-        if (review.author === this.$root.user._id) {
+        if (review.author == this.$root.user._id) {
           this.stars.selected = review.assessment
           break
         }
@@ -75,8 +74,9 @@ export default {
           },
         )
         if (res.status === 200) {
-          console.log(res.data.result)
+          this.$emit('new-reviews', res.data.result)
           this.stars.selected = rating
+          this.calcRating(res.data.result)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -88,7 +88,7 @@ export default {
     },
   },
   beforeMount() {
-    this.calcRating()
+    this.calcRating(this.reviews)
     this.getUserRating()
   },
 }

@@ -104,7 +104,6 @@ export default {
       }
     },
     async logout() {
-      console.log('test')
       try {
         const res = await axios.delete(process.env.VUE_APP_BACKEND_URL + '/api/logout', {
           withCredentials: true,
@@ -113,9 +112,7 @@ export default {
           this.auth = false
           this.user = {}
           this.$router.push('/login')
-        } else {
-          console.log(res)
-        }
+        } 
       } catch (error) {
         console.log(error.response.data)
       }
