@@ -347,7 +347,6 @@ export default {
           instruction.ingredients.push({quantity: this.formRecipe.ingredients[event.target.value].quantity, item: item})
         }
       }
-      console.log(this.formRecipe.instructions)
       event.target.value = 'NaN'
     },
     getIngredientQuantityByItemId(itemId){

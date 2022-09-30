@@ -55,10 +55,10 @@ function setter(model) {
     for (const field of Object.keys(model.schema.tree)) {
       if (model.schema.tree[field].required) {
         if (
-          !req.body[field] ||
+          req.body[field] === undefined ||
           (model.schema.tree[field].type === String && req.body[field].length === 0) ||
           (model.schema.tree[field].type === Number && req.body[field] === null) ||
-          (Array.isArray(model.schema.tree[field]) && req.body[field].length === 0)
+          (Array.isArray(model.schema.tree[field]) && req.body[field].length === 0) 
         ) {
           return res.status(400).send({ message: 'Missing ' + field })
         }
