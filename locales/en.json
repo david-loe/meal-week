@@ -35,7 +35,9 @@
     "chooseCategory": "Choose category",
     "chooseUnit": "Choose unit",
     "addItem": "Add Item",
-    "createdBy": "Created by"
+    "createdBy": "Created by",
+    "addInstruction": "Add one step",
+    "addIngredientToInstruction": "Add ingredient to step"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",

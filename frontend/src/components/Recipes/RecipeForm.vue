@@ -1,16 +1,12 @@
 <template>
-  <form autocomplete="off" @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe); this.clear()">
+  <form
+    autocomplete="off"
+    @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe);this.clear()">
     <div class="mb-2">
       <label for="recipeFormName" class="form-label">
         {{ $t('labels.name') }}
       </label>
       <input type="text" class="form-control" id="recipeFormName" v-model="formRecipe.name" required :disabled="this.mode === 'edit'" />
-    </div>
-    <div class="mb-2">
-      <label for="recipeFormDes" class="form-label">
-        {{ $t('headlines.instructions') }}
-      </label>
-      <textarea class="form-control" id="recipeFormDes" rows="10" v-model="formRecipe.instructions" required></textarea>
     </div>
     <div class="mb-2">
       <label for="addIngredient" class="form-label">{{ $t('headlines.ingredients') }}</label>
@@ -78,7 +74,12 @@
               >
                 {{ $t('labels.addItem') }}
               </button>
-              <button type="button" class="btn btn-light btn-sm" v-on:click="newItem = {}; showNewItemDialog = false">{{ $t('labels.cancel') }}</button>
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                v-on:click="newItem = {}; showNewItemDialog = false">
+                {{ $t('labels.cancel') }}
+              </button>
             </td>
           </tr>
           <tr v-for="ingredient in formRecipe.ingredients" :key="ingredient.item._id">
@@ -86,7 +87,7 @@
             <td>
               <div class="input-group" style="max-width: 10em">
                 <input class="form-control" type="number" min="1" v-model="ingredient.quantity" />
-                <span class="input-group-text" id="basic-addon1">
+                <span class="input-group-text">
                   {{ $t(ingredient.item.unit) }}
                 </span>
               </div>
@@ -101,6 +102,54 @@
       </table>
     </div>
     <div class="mb-2">
+      <label for="recipeFormDes" class="form-label">
+        {{ $t('headlines.instructions') }}
+      </label>
+      <div class="row" v-for="(instruction, index) in formRecipe.instructions" :key="index">
+        <div class="col-auto">
+          <div><h3>{{ index + 1 }}.</h3></div>
+          <div><button type="button" class="btn btn-danger btn-sm" v-on:click="this.deleteInstruction(instruction)">
+                <i class="bi bi-trash"></i>
+              </button></div>
+        </div>
+        <div class="col">
+        <div class="mb-1">
+        <textarea class="form-control" rows="3" v-model="instruction.text" required></textarea>
+        </div>
+        <div>
+        <select class="form-select form-select-sm" @change="selectInstructionIngredients(instruction, $event)">
+          <option selected disabled value="NaN">{{$t('labels.addIngredientToInstruction')}}</option>
+          <option v-for="(ingredient, index) in formRecipe.ingredients" :key="ingredient.item._id" :value="index">
+            {{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}
+          </option>
+        </select>
+        <div class="row" v-for="ingredient in instruction.ingredients" :key="ingredient.item._id">
+        <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
+        <div class="col-auto">
+        <div class="input-group input-group-sm" style="max-width: 10em">
+                <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.quantity" />
+                <span class="input-group-text">
+                  {{ $t(ingredient.item.unit) }}
+                </span>
+              </div>
+        </div>
+        <div class="col-auto">
+        <button type="button" class="btn btn-danger btn-sm" v-on:click="this.deleteInstructionIngredient(instruction, ingredient)">
+                <i class="bi bi-trash"></i>
+              </button>
+        </div>
+
+        </div>
+        </div>
+        </div>
+        
+      </div>
+      <div class="mt-1">
+      <button type="button" class="btn btn-light btn-sm" v-on:click="formRecipe.instructions.push({text: '', ingredients: []})">{{$t('labels.addInstruction')}}</button>
+      </div>
+    </div>
+
+    <div class="mb-2">
       <div class="row">
         <div class="col">
           <label for="numberOfPortions" class="form-label">{{ $t('labels.numberOfPortions') }}</label>
@@ -108,18 +157,18 @@
         </div>
         <div class="col">
           <label for="prepTime" class="form-label">{{ $t('labels.prepTimeMin') }}</label>
-          <input class="form-control" id="prepTime" type="number" min="1" v-model="formRecipe.prepTimeMin" required />
+          <input class="form-control" id="prepTime" type="number" min="0" v-model="formRecipe.prepTimeMin" required />
         </div>
         <div class="col">
           <label for="cookTime" class="form-label">{{ $t('labels.cookTimeMin') }}</label>
-          <input class="form-control" id="cookTime" type="number" min="1" v-model="formRecipe.cookTimeMin" required />
+          <input class="form-control" id="cookTime" type="number" min="0" v-model="formRecipe.cookTimeMin" required />
         </div>
       </div>
     </div>
     <div class="mb-2">
       <label for="recipeFormImg" class="form-label"> {{ $t('labels.image') }} (max 10MB)</label>
       <input class="form-control" type="file" id="recipeFormImg" @change="changeFile" accept="image/*" />
-      <img class="mt-1" v-if="formRecipe.image" :src="formRecipe.image" height="100" width="192" style="object-fit: cover;"/>
+      <img class="mt-1" v-if="formRecipe.image" :src="formRecipe.image" height="100" width="192" style="object-fit: cover" />
     </div>
     <div class="mb-2">
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
@@ -128,7 +177,10 @@
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'edit'">
         {{ $t('labels.save') }}
       </button>
-      <button type="button" class="btn btn-light" v-on:click="this.$emit('cancel'); this.clear()">
+      <button
+        type="button"
+        class="btn btn-light"
+        v-on:click="this.$emit('cancel');this.clear()">
         {{ $t('labels.cancel') }}
       </button>
     </div>
@@ -156,7 +208,7 @@ export default {
         return {
           name: '',
           ingredients: [],
-          instructions: '',
+          instructions: [],
           tags: [],
           prepTimeMin: null,
           cookTimeMin: null,
@@ -176,15 +228,15 @@ export default {
   methods: {
     clear() {
       this.formRecipe = {
-          name: '',
-          ingredients: [],
-          instructions: '',
-          tags: [],
-          prepTimeMin: null,
-          cookTimeMin: null,
-          numberOfPortions: null,
-          image: undefined,
-        }
+        name: '',
+        ingredients: [],
+        instructions: [],
+        tags: [],
+        prepTimeMin: null,
+        cookTimeMin: null,
+        numberOfPortions: null,
+        image: undefined,
+      }
       this.newItem = {}
       this.itemSearch = ''
       this.itemSuggestions = []
@@ -249,6 +301,13 @@ export default {
       const index = this.formRecipe.ingredients.indexOf(ingredient)
       if (index !== -1) {
         this.formRecipe.ingredients.splice(index, 1)
+        for(var instruction of this.formRecipe.instructions){
+          for(var i = 0; i <= instruction.ingredients.length; i++){
+            if(instruction.ingredients[i].item._id === ingredient.item._id){
+              instruction.ingredients.splice(i, 1)
+            }
+          }
+        }
       }
     },
     async createNewItemAndAddToRecipe(item) {
@@ -266,6 +325,43 @@ export default {
         } else {
           console.log(error.response.data)
         }
+      }
+    },
+    deleteInstruction(instruction) {
+      const index = this.formRecipe.instructions.indexOf(instruction)
+      if (index !== -1) {
+        this.formRecipe.instructions.splice(index, 1)
+      }
+    },
+    selectInstructionIngredients(instruction, event){
+      var allReadyIn = false
+      if(!isNaN(parseInt(event.target.value))){
+        const item = this.formRecipe.ingredients[event.target.value].item
+        for (const ingredient of instruction.ingredients){
+          if(ingredient.item._id === item._id){
+            allReadyIn = true
+            break
+          }
+        }
+        if(!allReadyIn){
+          instruction.ingredients.push({quantity: this.formRecipe.ingredients[event.target.value].quantity, item: item})
+        }
+      }
+      console.log(this.formRecipe.instructions)
+      event.target.value = 'NaN'
+    },
+    getIngredientQuantityByItemId(itemId){
+      for(const ingredient of this.formRecipe.ingredients){
+        if(ingredient.item._id === itemId){
+          return ingredient.quantity
+        }
+      }
+      return null
+    },
+    deleteInstructionIngredient(instruction, ingredient){
+      const index = instruction.ingredients.indexOf(ingredient)
+      if (index !== -1) {
+        instruction.ingredients.splice(index, 1)
       }
     },
     changeFile(form) {
@@ -295,7 +391,6 @@ export default {
           // We set the dimensions at the wanted size.
           canvas.width = wantedWidth
           canvas.height = img.height * (wantedWidth / img.width)
-          
 
           // We resize the image with the canvas method drawImage();
           ctx.drawImage(this, 0, 0, canvas.width, canvas.height)

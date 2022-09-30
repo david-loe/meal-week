@@ -36,7 +36,9 @@
     "chooseCategory": "Kategorie auswählen",
     "chooseUnit": "Einheit auswählen",
     "addItem": "Zutat hinzufügen",
-    "createdBy": "Erstellt von"
+    "createdBy": "Erstellt von",
+    "addInstruction": "Schritt hinzufügen",
+    "addIngredientToInstruction": "Zutat zum Schritt hinzufügen"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",
