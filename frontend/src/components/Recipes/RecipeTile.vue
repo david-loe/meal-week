@@ -1,18 +1,20 @@
 <template>
   <div class="card" style="width: 18rem">
-    <template v-if="recipe.image">
+    <a v-if="recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
       <img :src="recipe.image" class="card-img-top" alt="" height="150" style="object-fit: cover;" />
       <div class="card-img-overlay p-0">
         <div class="p-3" id="title-bg">
           <h5 class="card-title">{{ recipe.name }}</h5>
         </div>
       </div>
-    </template>
+    </a>
     <div class="card-body position-relative">
       <div class="position-absolute top-0 end-0 pe-1">
         <RecipeRating :reviews="recipe.reviews" :recipeId="recipe._id" @new-reviews="(a) => $emit('new-reviews', a)"></RecipeRating>
       </div>
-      <h5 class="card-title" v-if="!recipe.image">{{ recipe.name }}</h5>
+      <a v-if="!recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
+        <h5 class="card-title">{{ recipe.name }}</h5>
+      </a>
       <span v-for="tag in recipe.tags" class="badge bg-light text-dark" :key="tag._id">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
     </div>
     <div class="card-footer">
@@ -25,6 +27,7 @@
 import RecipeRating from './RecipeRating.vue'
 export default {
   name: 'RecipeTile',
+  emits: ['new-reviews', 'clicked'],
   data() {
     return {}
   },

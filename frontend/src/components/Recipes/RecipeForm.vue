@@ -1,7 +1,7 @@
 <template>
   <form
     autocomplete="off"
-    @submit.prevent="this.mode === 'add' ? this.$emit('add', this.formRecipe) : this.$emit('edit', this.formRecipe);this.clear()">
+    @submit.prevent="this.$emit(this.mode, this.formRecipe);this.clear()">
     <div class="mb-2">
       <label for="recipeFormName" class="form-label">
         {{ $t('labels.name') }}
@@ -191,6 +191,7 @@
 import axios from 'axios'
 export default {
   name: 'RecipeForm',
+  emits: ['add', 'edit', 'cancel'],
   data() {
     return {
       units: ['units.mass', 'units.volume', 'units.count'],

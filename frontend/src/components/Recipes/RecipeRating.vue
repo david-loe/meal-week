@@ -25,6 +25,7 @@
 import axios from 'axios'
 export default {
   name: 'RecipeRating',
+  emits: ['new-reviews'],
   data() {
     return {
       hover: false,

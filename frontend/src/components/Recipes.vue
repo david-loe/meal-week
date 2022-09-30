@@ -4,11 +4,13 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="recipeModalLabel">{{ $t('recipes.new') }}</h5>
+            <h5 v-if="modalMode === 'add'" class="modal-title" id="recipeModalLabel">{{ $t('recipes.new') }}</h5>
+            <h5 v-else class="modal-title" id="recipeModalLabel">{{ modalRecipe.name }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipeForm mode="add" v-on:cancel="this.addRecipeModal.hide()" v-on:add="this.addRecipe"></RecipeForm>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a"></RecipePage>
+            <RecipeForm v-else :mode="modalMode" v-on:cancel="this.recipeModal.hide()" v-on:add="this.addRecipe"></RecipeForm>
           </div>
         </div>
       </div>
@@ -19,7 +21,7 @@
           <h1>{{ $t('headlines.recipes') }}</h1>
         </div>
         <div class="col-auto">
-          <button class="btn btn-secondary" v-on:click="addRecipeModal.show()">
+          <button class="btn btn-secondary" v-on:click="showModal('add')">
             <i class="bi bi-plus-lg"></i>
             <span class="ms-1">{{ $t('recipes.add') }}</span>
           </button>
@@ -34,7 +36,7 @@
       <div class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in this.recipes" :key="recipe._id">
-            <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a"></RecipeTile>
+            <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a" @clicked="showModal('view', recipe)"></RecipeTile>
           </div>
         </div>
       </div>
@@ -45,6 +47,7 @@
 <script>
 import RecipeTile from './Recipes/RecipeTile.vue'
 import RecipeForm from './Recipes/RecipeForm.vue'
+import RecipePage from './Recipes/RecipePage.vue'
 import { Modal } from 'bootstrap'
 import axios from 'axios'
 export default {
@@ -52,12 +55,15 @@ export default {
   components: {
     RecipeTile,
     RecipeForm,
+    RecipePage
   },
   data() {
     return {
       searchString: '',
-      addRecipeModal: undefined,
+      recipeModal: undefined,
       recipes: [],
+      modalMode: '',
+      modalRecipe: {} 
     }
   },
   props: [],
@@ -90,7 +96,7 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          this.addRecipeModal.hide()
+          this.recipeModal.hide()
           this.recipes = await this.getRecipes({})
         }
       } catch (error) {
@@ -101,9 +107,17 @@ export default {
         }
       }
     },
+    showRecipe(recipe){
+      console.log(recipe._id)
+    },
+    showModal(mode, recipe = {}){
+      this.modalMode = mode
+      this.modalRecipe = recipe
+      this.recipeModal.show()
+    }
   },
   mounted() {
-    this.addRecipeModal = new Modal(document.getElementById('recipeModal'), {})
+    this.recipeModal = new Modal(document.getElementById('recipeModal'), {})
   },
   async beforeMount() {
     this.recipes = await this.getRecipes({})
