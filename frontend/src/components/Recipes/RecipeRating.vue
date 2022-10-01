@@ -92,6 +92,12 @@ export default {
     this.calcRating(this.reviews)
     this.getUserRating()
   },
+  watch: {
+    reviews: function () {
+      this.calcRating(this.reviews)
+      this.getUserRating()
+    },
+  },
 }
 </script>
 

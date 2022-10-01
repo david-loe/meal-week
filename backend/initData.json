@@ -1,4 +1,48 @@
 {
+    "recipeCategories": [
+        {
+            "name": "recipeCategory.mainDishes",
+            "emoji": "🍲"
+        },
+        {
+            "name": "recipeCategory.desserts",
+            "emoji": "🍨"
+        },
+        {
+            "name": "recipeCategory.soups",
+            "emoji": "🍜"
+        },
+        {
+            "name": "recipeCategory.cakesPastries",
+            "emoji": "🍰"
+        },
+        {
+            "name": "recipeCategory.casserolesGratins"
+        },
+        {
+            "name": "recipeCategory.breadBackedGoods",
+            "emoji": "🍞"
+        },
+        {
+            "name": "recipeCategory.dipsSauces"
+        },
+        {
+            "name": "recipeCategory.breakfast",
+            "emoji": "🥞"
+        },
+        {
+            "name": "recipeCategory.drinks",
+            "emoji": "🥤"
+        },
+        {
+            "name": "recipeCategory.salads",
+            "emoji": "🥗"
+        },
+        {
+            "name": "recipeCategory.snacks",
+            "emoji": "🍿"
+        }
+    ],
     "itemCategories": [
         {
             "name": "itemCategory.cerealProducts",

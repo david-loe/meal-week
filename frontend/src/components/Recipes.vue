@@ -5,12 +5,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 v-if="modalMode === 'add'" class="modal-title" id="recipeModalLabel">{{ $t('recipes.new') }}</h5>
-            <h5 v-else class="modal-title" id="recipeModalLabel">{{ modalRecipe.name }}</h5>
+            <h5 v-else-if="modalMode === 'view' || modalMode === 'edit'" class="modal-title" id="recipeModalLabel">{{ modalRecipe.name }}<small>{{' ' + $t('labels.by') + ' ' + modalRecipe.author.name}}</small></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a"></RecipePage>
-            <RecipeForm v-else :mode="modalMode" v-on:cancel="this.recipeModal.hide()" v-on:add="this.addRecipe"></RecipeForm>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @show-edit-form="showModal('edit', modalRecipe)"></RecipePage>
+            <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" v-on:cancel="this.recipeModal.hide()" :recipe="modalRecipe" @add="this.addRecipe" @edit="this.addRecipe"></RecipeForm>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default {
       modalRecipe: {} 
     }
   },
-  props: [],
+  props: {recipeId: {type: String}},
   methods: {
     async searchChange() {
       if (this.searchString.length >= 2) {
@@ -107,9 +107,6 @@ export default {
         }
       }
     },
-    showRecipe(recipe){
-      console.log(recipe._id)
-    },
     showModal(mode, recipe = {}){
       this.modalMode = mode
       this.modalRecipe = recipe
@@ -124,6 +121,16 @@ export default {
     if (!this.$root.loaded) {
       await this.$root.load()
     }
+    if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
+      this.showModal('view', await this.getRecipes({id: this.recipeId}))
+    }
+  },
+  watch: {
+    recipeId: async function () {
+      if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
+        this.showModal('view', await this.getRecipes({id: this.recipeId}))
+      }
+    },
   },
 }
 </script>

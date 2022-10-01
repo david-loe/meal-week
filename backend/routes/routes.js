@@ -6,6 +6,7 @@ const helper = require('../helper')
 const Recipe = require('../models/recipe/recipe')
 const Item = require('../models/recipe/item')
 const ItemCategory = require('../models/recipe/itemCategory')
+const RecipeCategory = require('../models/recipe/recipeCategory')
 const Tag = require('../models/recipe/tag')
 const Review = require('../models/recipe/review')
 
@@ -91,7 +92,7 @@ router.delete('/logout', function (req, res) {
 router.get('/user', async (req, res) => {
   const { hash, __v, ...user } = req.user
   res.send({
-    user: user,
+    data: user,
   })
 })
 
@@ -116,6 +117,7 @@ router.get('/recipes', getter(Recipe, 'recipe'))
 router.get('/items', getter(Item, 'item', 10, true))
 router.get('/itemCategories', getter(ItemCategory, 'item category', 20))
 router.get('/tags', getter(Tag, 'tag', 20))
+router.get('/recipeCategories', getter(RecipeCategory, 'recipe category', 20))
 
 router.post('/items', setter(Item))
 

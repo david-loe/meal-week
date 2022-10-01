@@ -22,6 +22,7 @@ const recipeSchema = new mongoose.Schema({
   ],
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
+  recipeCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RecipeCategory' }],
   prepTimeMin: { type: Number, required: true },
   cookTimeMin: { type: Number, required: true },
   numberOfPortions: { type: Number, required: true },
@@ -43,6 +44,7 @@ recipeSchema.methods.calcIngredients = function (numberOfPortions) {
 
 recipeSchema.pre(/^find/, function () {
   this.populate({ path: 'reviews' })
+  this.populate({ path: 'recipeCategories' })
   this.populate({ path: 'author', select: 'name' })
   this.populate({ path: 'ingredients.item', model: 'Item' })
   this.populate({ path: 'instructions.ingredients.item', model: 'Item' })

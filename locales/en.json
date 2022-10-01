@@ -9,7 +9,9 @@
     "account": "Account",
     "recipes": "Recipes",
     "instructions": "Instructions",
-    "ingredients": "Ingredients"
+    "ingredients": "Ingredients",
+    "tags": "Tags",
+    "categories": "Categories"
   },
   "labels": {
     "email": "Email address",
@@ -36,8 +38,13 @@
     "chooseUnit": "Choose unit",
     "addItem": "Add Item",
     "createdBy": "Created by",
+    "by": "by",
     "addInstruction": "Add one step",
-    "addIngredientToInstruction": "Add ingredient to step"
+    "addIngredientToInstruction": "Add ingredient to step",
+    "addToWeekPlan": "Add to week plan",
+    "addTag": "Add a tag",
+    "addCategory": "Add a Category",
+    "editRecipe": "Edit recipe"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
@@ -93,5 +100,18 @@
     "highProtein": "high protein",
     "lowCarb": "low carb",
     "onePot": "one pot"
+  },
+  "recipeCategory":{
+    "mainDishes": "Main dishes",
+    "desserts": "Desserts",
+    "soups": "Soups",
+    "cakesPastries": "Cakes & Pastries",
+    "casserolesGratins": "Casseroles & Gratins",
+    "breadBackedGoods": "Bread & Backed goods",
+    "dipsSauces": "Dips & Sauces",
+    "breakfast": "Breakfast",
+    "drinks": "Drinks",
+    "salads": "Salads",
+    "snacks": "Snacks"
   }
 }

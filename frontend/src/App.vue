@@ -83,13 +83,15 @@ export default {
       loaded: false,
       tags: [],
       itemCategories: [],
+      recipeCategories: []
     }
   },
   methods: {
     async load() {
       await this.getUser()
-      this.itemCategories = await this.getItemCategories()
-      this.tags = await this.getTags()
+      this.itemCategories = await this.getter('itemCategories')
+      this.tags = await this.getter('tags')
+      this.recipeCategories = await this.getter('recipeCategories')
       this.loaded = true
     },
     async getUser() {
@@ -97,7 +99,7 @@ export default {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/user', {
           withCredentials: true,
         })
-        this.user = res.data.user
+        this.user = res.data.data
         this.auth = res.status === 200
       } catch (error) {
         this.$router.push('/login')
@@ -117,26 +119,9 @@ export default {
         console.log(error.response.data)
       }
     },
-    async getItemCategories(params = {}) {
+    async getter(endpoint, params = {}) {
       try {
-        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
-          params: params,
-          withCredentials: true,
-        })
-        if (res.status === 200) {
-          return res.data.data
-        }
-      } catch (error) {
-        if (error.response.status === 401) {
-          this.$router.push('login')
-        } else {
-          console.log(error.response.data)
-        }
-      }
-    },
-    async getTags(params = {}) {
-      try {
-        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/itemCategories', {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/' + endpoint, {
           params: params,
           withCredentials: true,
         })

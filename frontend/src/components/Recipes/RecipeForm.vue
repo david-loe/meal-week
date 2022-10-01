@@ -9,6 +9,21 @@
       <input type="text" class="form-control" id="recipeFormName" v-model="formRecipe.name" required :disabled="this.mode === 'edit'" />
     </div>
     <div class="mb-2">
+      <label for="recipeFormCategories" class="form-label"> {{ $t('headlines.categories') }}</label>
+      <select class="form-select" id="recipeFormCategories" @change="selectCategory($event)">
+          <option selected disabled value="NaN">{{$t('labels.addCategory')}}</option>
+          <option v-for="(category, index) in $root.recipeCategories" :key="category._id" :value="index">
+            {{ $t(category.name) + (category.emoji ? ' ' + category.emoji : '') }}
+          </option>
+        </select>
+        <div>
+          <div v-for="(category, index) in formRecipe.recipeCategories" class="badge bg-light text-dark text-nowrap fs-6 ms-1 mt-1" :key="category._id">
+            {{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}
+            <a href="#" class="text-dark ms-1" @click="formRecipe.recipeCategories.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
+          </div>
+        </div>
+    </div>
+    <div class="mb-2">
       <label for="addIngredient" class="form-label">{{ $t('headlines.ingredients') }}</label>
       <table class="table align-middle">
         <tbody>
@@ -60,7 +75,7 @@
                     <select class="form-select" v-model="newItem.itemCategory">
                       <option disabled value="">{{ $t('labels.chooseCategory') }}</option>
                       <option v-for="category in $root.itemCategories" :value="category._id" :key="category._id">
-                        {{ $t(category.name) + ' ' + category.emoji }}
+                        {{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}
                       </option>
                     </select>
                   </td>
@@ -171,6 +186,21 @@
       <img class="mt-1" v-if="formRecipe.image" :src="formRecipe.image" height="100" width="192" style="object-fit: cover" />
     </div>
     <div class="mb-2">
+      <label for="recipeFormTags" class="form-label"> {{ $t('headlines.tags') }}</label>
+      <select class="form-select" id="recipeFormTags" @change="selectTag($event)">
+          <option selected disabled value="NaN">{{$t('labels.addTag')}}</option>
+          <option v-for="(tag, index) in $root.tags" :key="tag._id" :value="index">
+            {{ $t(tag.name) + (tag.emoji ? ' ' + tag.emoji : '') }}
+          </option>
+        </select>
+        <div>
+          <div v-for="(tag, index) in formRecipe.tags" class="badge text-dark text-nowrap fs-6 ms-1 mt-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">
+            {{ $t(tag.name) + ' ' + tag.emoji }}
+            <a href="#" class="text-dark ms-1" @click="formRecipe.tags.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
+          </div>
+        </div>
+    </div>
+    <div class="mb-2">
       <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
         {{ $t('recipes.add') }}
       </button>
@@ -215,6 +245,7 @@ export default {
           cookTimeMin: null,
           numberOfPortions: null,
           image: undefined,
+          recipeCategories: []
         }
       },
     },
@@ -237,6 +268,7 @@ export default {
         cookTimeMin: null,
         numberOfPortions: null,
         image: undefined,
+        recipeCategories: []
       }
       this.newItem = {}
       this.itemSearch = ''
@@ -363,6 +395,38 @@ export default {
       if (index !== -1) {
         instruction.ingredients.splice(index, 1)
       }
+    },
+    selectTag(event){
+      var allReadyIn = false
+      if(!isNaN(parseInt(event.target.value))){
+        const tag = this.$root.tags[event.target.value]
+        for (const tagIn of this.formRecipe.tags){
+          if(tagIn._id === tag._id){
+            allReadyIn = true
+            break
+          }
+        }
+        if(!allReadyIn){
+          this.formRecipe.tags.push(tag)
+        }
+      }
+      event.target.value = 'NaN'
+    },
+    selectCategory(event){
+      var allReadyIn = false
+      if(!isNaN(parseInt(event.target.value))){
+        const category = this.$root.recipeCategories[event.target.value]
+        for (const categoryIn of this.formRecipe.recipeCategories){
+          if(categoryIn._id === category._id){
+            allReadyIn = true
+            break
+          }
+        }
+        if(!allReadyIn){
+          this.formRecipe.recipeCategories.push(category)
+        }
+      }
+      event.target.value = 'NaN'
     },
     changeFile(form) {
       const reader = new FileReader()

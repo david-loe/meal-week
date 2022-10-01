@@ -1,4 +1,5 @@
 const ItemCategory = require('./models/recipe/itemCategory')
+const RecipeCategory = require('./models/recipe/recipeCategory')
 const Item = require('./models/recipe/item')
 const Tag = require('./models/recipe/tag')
 const initData = require('./initData.json')
@@ -46,6 +47,17 @@ function initDB() {
           console.log(err)
         }
         console.log('Added ' + docs.length + ' tags')
+      })
+    }
+  })
+  // RecipeCategory
+  RecipeCategory.find({}, (err, docs) => {
+    if (docs.length === 0) {
+      RecipeCategory.insertMany(initData.recipeCategories, (err, docs) => {
+        if (err) {
+          console.log(err)
+        }
+        console.log('Added ' + docs.length + ' recipe categories')
       })
     }
   })
