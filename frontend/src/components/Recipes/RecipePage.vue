@@ -26,7 +26,12 @@
             <td>{{ recipe.numberOfPortions}}</td>
           </tr>
         </table>
-        <RecipeRating :reviews="recipe.reviews" :recipeId="recipe._id" @new-reviews="(a) => $emit('new-reviews', a)"></RecipeRating>
+        <div class="row">
+        <RecipeLike class="col-auto" :likes="recipe.likes" :recipeId="recipe._id" @new-likes="(a) => $emit('new-likes', a)"></RecipeLike>
+
+        <RecipeRating  class="col-auto p-0" :reviews="recipe.reviews" :recipeId="recipe._id" @new-reviews="(a) => $emit('new-reviews', a)"></RecipeRating>
+
+        </div>
         <div>
           <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
         </div>
@@ -78,9 +83,10 @@
 
 <script>
 import RecipeRating from './RecipeRating.vue'
+import RecipeLike from './RecipeLike.vue'
 export default {
   name: 'RecipePage',
-  emits: ['new-reviews', 'show-edit-form'],
+  emits: ['new-reviews', 'new-likes', 'show-edit-form'],
   data() {
     return {
       customNumberOfPortions: null,
@@ -89,6 +95,7 @@ export default {
   },
   components: {
     RecipeRating,
+    RecipeLike
   },
   props: { recipe: { type: Object }, showTitle: {type: Boolean, default: true} },
   methods: {

@@ -156,6 +156,46 @@ router.post('/reviews', async (req,res) => {
   }else {
     res.status(400).send({ message: 'Missing assessment or recipeId'})
   }
-  
 })
+
+router.post('/likes', async (req, res) => {
+  if(req.body.recipeId && req.body.recipeId.length > 0){
+    const recipe = await Recipe.findOne({_id: req.body.recipeId})
+    var index = recipe.likes.indexOf(req.user._id)
+    if(index != -1){
+      return res.send({message: 'Already liked', result: recipe.likes})
+    }
+    recipe.likes.push(req.user._id)
+    recipe.markModified('likes')
+    try {
+      const result = await recipe.save()
+      res.send({ message: 'Success', result: result.likes })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
+    }
+  }else {
+    res.status(400).send({ message: 'Missing recipeId'})
+  }
+})
+
+router.delete('/likes', async (req, res) => {
+  if(req.query.recipeId && req.query.recipeId.length > 0){
+    const recipe = await Recipe.findOne({_id: req.query.recipeId})
+    var index = recipe.likes.indexOf(req.user._id)
+    if(index == -1){
+      return res.send({message: 'Already not liked', result: recipe.likes})
+    }
+    recipe.likes.splice(index, 1)
+    recipe.markModified('likes')
+    try {
+      const result = await recipe.save()
+      res.send({ message: 'Success', result: result.likes })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
+    }
+  }else {
+    res.status(400).send({ message: 'Missing recipeId'})
+  }
+})
+
 module.exports = router

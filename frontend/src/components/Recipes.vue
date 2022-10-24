@@ -9,7 +9,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @show-edit-form="showModal('edit', modalRecipe)"></RecipePage>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)"></RecipePage>
             <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" v-on:cancel="this.recipeModal.hide()" :recipe="modalRecipe" @add="this.addRecipe" @edit="this.addRecipe"></RecipeForm>
           </div>
         </div>
@@ -36,7 +36,7 @@
       <div class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in this.recipes" :key="recipe._id">
-            <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a" @clicked="showModal('view', recipe)"></RecipeTile>
+            <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @clicked="showModal('view', recipe)"></RecipeTile>
           </div>
         </div>
       </div>

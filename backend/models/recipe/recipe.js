@@ -21,6 +21,7 @@ const recipeSchema = new mongoose.Schema({
     },
   ],
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
   recipeCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RecipeCategory' }],
   prepTimeMin: { type: Number, required: true },

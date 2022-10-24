@@ -9,8 +9,9 @@
       </div>
     </a>
     <div class="card-body position-relative">
-      <div class="position-absolute top-0 end-0 pe-1">
-        <RecipeRating :reviews="recipe.reviews" :recipeId="recipe._id" @new-reviews="(a) => $emit('new-reviews', a)"></RecipeRating>
+      <div class="position-absolute top-0 end-0 pe-1 row">
+        <RecipeLike class="col-auto p-0" :likes="recipe.likes" :recipeId="recipe._id" @new-likes="(a) => $emit('new-likes', a)"></RecipeLike>
+        <RecipeRating class="col-auto" :reviews="recipe.reviews" :recipeId="recipe._id" @new-reviews="(a) => $emit('new-reviews', a)"></RecipeRating>
       </div>
       <a v-if="!recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
         <h5 class="card-title">{{ recipe.name }}</h5>
@@ -26,14 +27,16 @@
 
 <script>
 import RecipeRating from './RecipeRating.vue'
+import RecipeLike from './RecipeLike.vue'
 export default {
   name: 'RecipeTile',
-  emits: ['new-reviews', 'clicked'],
+  emits: ['new-reviews', 'new-likes', 'clicked'],
   data() {
     return {}
   },
   components: {
     RecipeRating,
+    RecipeLike
   },
   props: { recipe: { type: Object } },
   methods: {},
