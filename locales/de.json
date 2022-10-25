@@ -10,7 +10,8 @@
     "recipes": "Rezepte",
     "ingredients": "Zutaten",
     "tags": "Tags",
-    "categories": "Kategorien"
+    "categories": "Kategorien",
+    "weekPlan": "Wochenplan"
   },
   "labels": {
     "email": "Email Addresse",
@@ -45,7 +46,8 @@
     "addToWeekPlan": "Zum Wochenplan hinzufügen",
     "addTag": "Tag hinzufügen",
     "addCategory": "Kategorie hinzufügen",
-    "editRecipe": "Rezept bearbeiten"
+    "editRecipe": "Rezept bearbeiten",
+    "clearWeekPlan": "Wochenplan löschen"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",

@@ -90,7 +90,9 @@ router.delete('/logout', function (req, res) {
 })
 
 router.get('/user', async (req, res) => {
-  const { hash, __v, ...user } = req.user
+  var user = await User.findOne({ _id: req.user._id })
+  user.hash = undefined
+  user.__v = undefined
   res.send({
     data: user,
   })
@@ -196,6 +198,46 @@ router.delete('/likes', async (req, res) => {
   }else {
     res.status(400).send({ message: 'Missing recipeId'})
   }
+})
+
+router.post('/weekplan', async (req, res) => {
+  if(req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null){
+    const recipe = await Recipe.findOne({_id: req.body.recipeId})
+    if(recipe == null){
+      return res.status(400).send({message: 'No Recipe with id: ' + req.body.recipeId})
+    }
+    const user = await User.findOne({ _id: req.user._id })
+    user.weekPlan.push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
+    user.markModified('weekPlan')
+    try {
+      const result = await user.save()
+      res.send({ message: 'Success', result: result.weekPlan })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
+    }
+  }else {
+    res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions'})
+  }
+})
+
+router.delete('/weekplan', async (req, res) => {
+  const user = await User.findOne({ _id: req.user._id })
+  if(req.query.id && req.query.id.length > 0){
+    const index = user.weekPlan.map(o => o._id).indexOf(req.query.id)
+    if(index == -1){
+      return res.send({message: 'Id already not in weekPlan.', result: user.weekPlan})
+    }
+    user.weekPlan.splice(index, 1)
+  }else{
+    user.weekPlan = [];
+  }
+  user.markModified('weekPlan')
+    try {
+      const result = await user.save()
+      res.send({ message: 'Success', result: result.weekPlan })
+    } catch (error) {
+      res.status(400).send({ message: 'Error while saving', error: error })
+    }
 })
 
 module.exports = router

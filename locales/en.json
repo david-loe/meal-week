@@ -11,7 +11,8 @@
     "instructions": "Instructions",
     "ingredients": "Ingredients",
     "tags": "Tags",
-    "categories": "Categories"
+    "categories": "Categories",
+    "weekPlan": "Week Plan"
   },
   "labels": {
     "email": "Email address",
@@ -44,7 +45,8 @@
     "addToWeekPlan": "Add to week plan",
     "addTag": "Add a tag",
     "addCategory": "Add a Category",
-    "editRecipe": "Edit recipe"
+    "editRecipe": "Edit recipe",
+    "clearWeekPlan": "Clear the Week Plan"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",

@@ -9,8 +9,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)"></RecipePage>
-            <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" v-on:cancel="this.recipeModal.hide()" :recipe="modalRecipe" @add="this.addRecipe" @edit="this.addRecipe"></RecipeForm>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)" @add-to-week-plan="(a)=>addToWeekPlan(modalRecipe._id,a)"></RecipePage>
+            <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" @cancel="recipeModal.hide()" :recipe="modalRecipe" @add="addRecipe" @edit="addRecipe"></RecipeForm>
           </div>
         </div>
       </div>
@@ -21,7 +21,7 @@
           <h1>{{ $t('headlines.recipes') }}</h1>
         </div>
         <div class="col-auto">
-          <button class="btn btn-secondary" v-on:click="showModal('add')">
+          <button class="btn btn-secondary" @click="showModal('add')">
             <i class="bi bi-plus-lg"></i>
             <span class="ms-1">{{ $t('recipes.add') }}</span>
           </button>
@@ -35,7 +35,7 @@
       </div>
       <div class="container">
         <div class="row justify-content-center gx-4 gy-2">
-          <div class="col-auto" v-for="recipe in this.recipes" :key="recipe._id">
+          <div class="col-auto" v-for="recipe in recipes" :key="recipe._id">
             <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @clicked="showModal('view', recipe)"></RecipeTile>
           </div>
         </div>
@@ -107,7 +107,23 @@ export default {
         }
       }
     },
-    showModal(mode, recipe = {}){
+    async addToWeekPlan(recipeId, numberOfPortions) {
+      try {
+        const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/weekplan', {recipeId: recipeId, numberOfPortions: numberOfPortions}, {
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          this.$root.user.weekPlan = res.data.result
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    showModal(mode, recipe){
       this.modalMode = mode
       this.modalRecipe = recipe
       this.recipeModal.show()

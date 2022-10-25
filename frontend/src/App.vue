@@ -15,6 +15,12 @@
               <span class="ms-1 d-none d-md-block">{{ $t('headlines.recipes') }}</span>
             </router-link>
           </div>
+          <div>
+            <router-link v-if="auth" to="/weekplan" class="nav-link link-dark d-flex align-items-center">
+              <i class="fs-4 bi bi-calendar-week"></i>
+              <span class="ms-1 d-none d-md-block">{{ $t('headlines.weekPlan') }}</span>
+            </router-link>
+          </div>
           <div v-if="auth" class="dropdown">
             <a class="nav-link link-dark d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
               <i class="fs-4 bi bi-person-circle"></i>

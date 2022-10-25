@@ -4,6 +4,7 @@ import Register from '../components/Register.vue'
 import Settings from '../components/Settings.vue'
 import Home from '../components/Home.vue'
 import Recipes from '../components/Recipes.vue'
+import WeekPlan from '../components/WeekPlan.vue'
 import axios from 'axios'
 
 const routes = [
@@ -26,11 +27,17 @@ const routes = [
     meta: { requiresAuth: true}
   },
   {
-    path: '/recipes/:recipeId(^[0-9a-fA-F]{24}$)?',
+    path: '/recipes/:recipeId([0-9a-fA-F]{24})?',
     name: 'Recipes',
     component: Recipes,
     meta: { requiresAuth: true},
     props: true
+  },
+  {
+    path: '/weekplan',
+    name: 'WeekPlan',
+    component: WeekPlan,
+    meta: { requiresAuth: true}
   },
   {
     path: '/',

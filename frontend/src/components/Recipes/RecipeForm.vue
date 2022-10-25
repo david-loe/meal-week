@@ -1,12 +1,12 @@
 <template>
   <form
     autocomplete="off"
-    @submit.prevent="this.$emit(this.mode, this.formRecipe);this.clear()">
+    @submit.prevent="$emit(mode, formRecipe);clear()">
     <div class="mb-2">
       <label for="recipeFormName" class="form-label">
         {{ $t('labels.name') }}
       </label>
-      <input type="text" class="form-control" id="recipeFormName" v-model="formRecipe.name" required :disabled="this.mode === 'edit'" />
+      <input type="text" class="form-control" id="recipeFormName" v-model="formRecipe.name" required :disabled="mode === 'edit'" />
     </div>
     <div class="mb-2">
       <label for="recipeFormCategories" class="form-label"> {{ $t('headlines.categories') }}</label>
@@ -84,7 +84,7 @@
               <button
                 type="button"
                 class="btn btn-secondary btn-sm mx-auto"
-                v-on:click="createNewItemAndAddToRecipe(newItem)"
+                @click="createNewItemAndAddToRecipe(newItem)"
                 :disabled="newItem.itemCategory === '' || newItem.unit === ''"
               >
                 {{ $t('labels.addItem') }}
@@ -92,7 +92,7 @@
               <button
                 type="button"
                 class="btn btn-light btn-sm"
-                v-on:click="newItem = {}; showNewItemDialog = false">
+                @click="newItem = {}; showNewItemDialog = false">
                 {{ $t('labels.cancel') }}
               </button>
             </td>
@@ -108,7 +108,7 @@
               </div>
             </td>
             <td>
-              <button type="button" class="btn btn-danger btn-sm" v-on:click="this.deleteIngredient(ingredient)">
+              <button type="button" class="btn btn-danger btn-sm" @click="deleteIngredient(ingredient)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -123,7 +123,7 @@
       <div class="row" v-for="(instruction, index) in formRecipe.instructions" :key="index">
         <div class="col-auto">
           <div><h3>{{ index + 1 }}.</h3></div>
-          <div><button type="button" class="btn btn-danger btn-sm" v-on:click="this.deleteInstruction(instruction)">
+          <div><button type="button" class="btn btn-danger btn-sm" @click="deleteInstruction(instruction)">
                 <i class="bi bi-trash"></i>
               </button></div>
         </div>
@@ -149,7 +149,7 @@
               </div>
         </div>
         <div class="col-auto">
-        <button type="button" class="btn btn-danger btn-sm" v-on:click="this.deleteInstructionIngredient(instruction, ingredient)">
+        <button type="button" class="btn btn-danger btn-sm" @click="deleteInstructionIngredient(instruction, ingredient)">
                 <i class="bi bi-trash"></i>
               </button>
         </div>
@@ -160,7 +160,7 @@
         
       </div>
       <div class="mt-1">
-      <button type="button" class="btn btn-light btn-sm" v-on:click="formRecipe.instructions.push({text: '', ingredients: []})">{{$t('labels.addInstruction')}}</button>
+      <button type="button" class="btn btn-light btn-sm" @click="formRecipe.instructions.push({text: '', ingredients: []})">{{$t('labels.addInstruction')}}</button>
       </div>
     </div>
 
@@ -201,16 +201,16 @@
         </div>
     </div>
     <div class="mb-2">
-      <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
+      <button type="submit" class="btn btn-primary me-2" v-if="mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
         {{ $t('recipes.add') }}
       </button>
-      <button type="submit" class="btn btn-primary me-2" v-if="this.mode === 'edit'">
+      <button type="submit" class="btn btn-primary me-2" v-if="mode === 'edit'">
         {{ $t('labels.save') }}
       </button>
       <button
         type="button"
         class="btn btn-light"
-        v-on:click="this.$emit('cancel');this.clear()">
+        @click="$emit('cancel');clear()">
         {{ $t('labels.cancel') }}
       </button>
     </div>

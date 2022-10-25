@@ -10,7 +10,12 @@
           <input type="number" class="form-control" id="customNumberOfPortionsInput" min="1" v-model="customNumberOfPortions">
           <label for="customNumberOfPortionsInput">{{ $t('labels.numberOfPortions') }}</label>
         </div>
-        <button class="btn btn-primary" type="button" id="button-addon2">{{ $t('labels.addToWeekPlan') }}</button>
+        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', customNumberOfPortions);addedToWeekPlan=true">
+          {{ $t('labels.addToWeekPlan') }}
+          <span v-if="addedToWeekPlan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
+            ✔
+          </span>
+        </button>
       </div>
         <table class="table mb-2">
           <tr>
@@ -74,7 +79,7 @@
         v-if="recipe.author._id === $root.user._id"
         type="button"
         class="btn btn-light"
-        v-on:click="this.$emit('show-edit-form')">
+        @click="$emit('show-edit-form')">
         <i class="bi bi-pencil"></i>&nbsp;
         {{ $t('labels.editRecipe') }}
       </button>
@@ -86,11 +91,12 @@ import RecipeRating from './RecipeRating.vue'
 import RecipeLike from './RecipeLike.vue'
 export default {
   name: 'RecipePage',
-  emits: ['new-reviews', 'new-likes', 'show-edit-form'],
+  emits: ['new-reviews', 'new-likes', 'show-edit-form', 'add-to-week-plan'],
   data() {
     return {
       customNumberOfPortions: null,
-      factor: 1
+      factor: 1,
+      addedToWeekPlan: false,
     }
   },
   components: {
@@ -109,6 +115,7 @@ export default {
   watch: {
     recipe: function () {
       this.customNumberOfPortions = this.recipe.numberOfPortions
+      this.addedToWeekPlan = false
     },
     customNumberOfPortions: function() {
       if(this.customNumberOfPortions === this.recipe.numberOfPortions){
