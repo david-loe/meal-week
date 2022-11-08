@@ -14,7 +14,7 @@
       <div v-if="loaded" class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in $root.user.weekPlan" :key="recipe._id">
-            <WeekPlanRecipeTile :numberOfPortions="recipe.numberOfPortions" :recipe="recipes[recipe.recipe]"></WeekPlanRecipeTile>
+            <WeekPlanRecipeTile :numberOfPortions="recipe.numberOfPortions" :recipe="recipes[recipe.recipe]" @clicked="router.push(`/recipes/${recipe.recipe}`)"></WeekPlanRecipeTile>
           </div>
         </div>
       </div>
