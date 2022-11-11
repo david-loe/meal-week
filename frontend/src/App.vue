@@ -52,7 +52,7 @@
       </div>
     </header>
 
-    <div v-if="!loaded" class="position-absolute top-50 start-50 translate-middle">
+    <div v-if="loadState !== 'LOADED'" class="position-absolute top-50 start-50 translate-middle">
       <div class="spinner-grow me-3" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
@@ -63,7 +63,7 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <router-view :class="loaded ? 'd-block' : 'd-none'" />
+    <router-view :class="loadState === 'LOADED' ? 'd-block' : 'd-none'" />
 
     <footer class="py-3 border-top">
       <div class="container">
@@ -86,7 +86,8 @@ export default {
       auth: false,
       user: {},
       reload: null,
-      loaded: false,
+      loadState: 'UNLOADED',
+      loadingPromise: null,
       tags: [],
       itemCategories: [],
       recipeCategories: []
@@ -94,21 +95,22 @@ export default {
   },
   methods: {
     async load() {
-      await this.getUser()
-      this.itemCategories = await this.getter('itemCategories')
-      this.tags = await this.getter('tags')
-      this.recipeCategories = await this.getter('recipeCategories')
-      this.loaded = true
-    },
-    async getUser() {
-      try {
-        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/user', {
-          withCredentials: true,
+      if(this.loadState === 'UNLOADED'){
+        this.loadState = 'LOADING'
+        this.loadingPromise = new Promise(async (resolve) => {
+          this.user = await this.getter('user')
+          if(Object.keys(this.user).length > 0){
+            this.auth = true
+          }
+          this.itemCategories = await this.getter('itemCategories')
+          this.tags = await this.getter('tags')
+          this.recipeCategories = await this.getter('recipeCategories')
+          this.loadState = 'LOADED'
+          resolve()
         })
-        this.user = res.data.data
-        this.auth = res.status === 200
-      } catch (error) {
-        this.$router.push('/login')
+        await this.loadingPromise
+      }else if(this.loadState === 'LOADING'){
+        await this.loadingPromise
       }
     },
     async logout() {

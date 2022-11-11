@@ -207,7 +207,17 @@ router.post('/weekplan', async (req, res) => {
       return res.status(400).send({message: 'No Recipe with id: ' + req.body.recipeId})
     }
     const user = await User.findOne({ _id: req.user._id })
-    user.weekPlan.push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
+    var recipeNotInWeekPlan = true
+    for(var weekPlanRecipe of user.weekPlan){
+      if(weekPlanRecipe.recipe == req.body.recipeId){
+        recipeNotInWeekPlan = false
+        weekPlanRecipe.numberOfPortions = req.body.numberOfPortions
+        break
+      }
+    }
+    if(recipeNotInWeekPlan){
+      user.weekPlan.push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
+    }
     user.markModified('weekPlan')
     try {
       const result = await user.save()
@@ -223,7 +233,7 @@ router.post('/weekplan', async (req, res) => {
 router.delete('/weekplan', async (req, res) => {
   const user = await User.findOne({ _id: req.user._id })
   if(req.query.id && req.query.id.length > 0){
-    const index = user.weekPlan.map(o => o._id).indexOf(req.query.id)
+    const index = user.weekPlan.map(o => o.recipe.toString()).indexOf(req.query.id)
     if(index == -1){
       return res.send({message: 'Id already not in weekPlan.', result: user.weekPlan})
     }

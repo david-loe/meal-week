@@ -1,25 +1,25 @@
 <template>
   <div class="card" style="width: 18rem">
-    <a v-if="recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
+    <router-link v-if="recipe.image" :to="'/recipes/'+recipe._id" class="nav-link">
       <img :src="recipe.image" class="card-img-top" alt="" height="150" style="object-fit: cover;" />
-      <div class="card-img-overlay p-0">
+      <div class="position-absolute top-0 start-0 end-0 p-0">
         <div class="p-3" id="title-bg">
           <h5 class="card-title">{{ recipe.name }}</h5>
         </div>
       </div>
-    </a>
+    </router-link>
     <div class="card-body">
-      <a v-if="!recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
+      <router-link :to="'/recipes/'+recipe._id" v-if="!recipe.image" class="nav-link">
         <h5 class="card-title">{{ recipe.name }}</h5>
-      </a>
+      </router-link>
       <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
       <span v-for="tag in recipe.tags" class="badge text-dark" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
       <div class="form-floating">
-        <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="tileNumberOfPortions" >
+        <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="tileNumberOfPortions">
         <label for="numberOfPortionsInput">{{ $t('labels.numberOfPortions') }}</label>
       </div>
       <div>
-        <button type="button" class="btn btn-danger btn-sm" @click="deleteIngredient(ingredient)">
+        <button type="button" class="btn btn-danger btn-sm" @click="$emit('deleted')">
           <i class="bi bi-trash"></i>
         </button>
       </div>
@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'WeekPlanRecipeTile',
-  emits: ['deleted', 'changed'],
+  emits: ['deleted', 'new-number-of-portions'],
   data() {
     return {
       tileNumberOfPortions: null
@@ -51,6 +51,12 @@ export default {
     numberOfPortions: function () {
       this.tileNumberOfPortions = this.numberOfPortions
     },
+    tileNumberOfPortions: function (newVal, oldVal) {
+      if(oldVal && oldVal != newVal){
+        this.$emit('new-number-of-portions', this.tileNumberOfPortions)
+      }
+      
+    }
   },
   beforeMount() {
     this.tileNumberOfPortions = this.numberOfPortions

@@ -76,7 +76,8 @@ export default {
       }
     },
   },
-  beforeMount() {
+  async beforeMount() {
+    await this.$root.load()
     this.getUserLike()
   },
   watch: {

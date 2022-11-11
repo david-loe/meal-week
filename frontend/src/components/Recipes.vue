@@ -134,9 +134,7 @@ export default {
   },
   async beforeMount() {
     this.recipes = await this.getRecipes({})
-    if (!this.$root.loaded) {
-      await this.$root.load()
-    }
+    await this.$root.load()
     if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
       this.showModal('view', await this.getRecipes({id: this.recipeId}))
     }

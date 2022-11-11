@@ -2,7 +2,7 @@
   <div class="card" style="width: 18rem">
     <a v-if="recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
       <img :src="recipe.image" class="card-img-top" alt="" height="150" style="object-fit: cover;" />
-      <div class="card-img-overlay p-0">
+      <div class="position-absolute top-0 start-0 end-0 p-0">
         <div class="p-3" id="title-bg">
           <h5 class="card-title">{{ recipe.name }}</h5>
         </div>

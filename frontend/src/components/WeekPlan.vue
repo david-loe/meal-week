@@ -14,7 +14,7 @@
       <div v-if="loaded" class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in $root.user.weekPlan" :key="recipe._id">
-            <WeekPlanRecipeTile :numberOfPortions="recipe.numberOfPortions" :recipe="recipes[recipe.recipe]" @clicked="router.push(`/recipes/${recipe.recipe}`)"></WeekPlanRecipeTile>
+            <WeekPlanRecipeTile :numberOfPortions="recipe.numberOfPortions" :recipe="recipes[recipe.recipe]" @deleted="deleteFromWeekPlan(recipe.recipe)" @new-number-of-portions="(n) => changeNumberOfPortions(recipe.recipe, n)"></WeekPlanRecipeTile>
           </div>
         </div>
       </div>
@@ -46,7 +46,29 @@ export default {
           },
         )
         if (res.status === 200) {
-          
+          this.$root.user.weekPlan = res.data.result
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    async changeNumberOfPortions(id, newNumberOfPortions){
+      try {
+        const res = await axios.post(
+          process.env.VUE_APP_BACKEND_URL + '/api/weekplan',
+          {
+            recipeId: id,
+            numberOfPortions: newNumberOfPortions
+          },
+          { 
+            withCredentials: true,
+          },
+        )
+        if (res.status === 200) {
           this.$root.user.weekPlan = res.data.result
         }
       } catch (error) {
@@ -59,9 +81,7 @@ export default {
     },
   },
   async beforeMount() {
-    if (!this.$root.loaded) {
-      await this.$root.load()
-    }
+    await this.$root.load()
     for(const recipe of this.$root.user.weekPlan){
       this.recipes[recipe.recipe] = await this.$root.getter('recipes', {id: recipe.recipe})
     }

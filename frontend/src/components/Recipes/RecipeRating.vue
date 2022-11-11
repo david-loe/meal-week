@@ -88,7 +88,8 @@ export default {
       }
     },
   },
-  beforeMount() {
+  async beforeMount() {
+    await this.$root.load()
     this.calcRating(this.reviews)
     this.getUserRating()
   },
