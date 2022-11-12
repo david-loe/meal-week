@@ -97,7 +97,7 @@ export default {
     async load() {
       if(this.loadState === 'UNLOADED'){
         this.loadState = 'LOADING'
-        this.loadingPromise = new Promise(async (resolve) => {
+        this.loadingPromise = new Promise(async (resolve) => { // eslint-disable-line no-async-promise-executor
           this.user = await this.getter('user')
           if(Object.keys(this.user).length > 0){
             this.auth = true

@@ -11,7 +11,8 @@
     "ingredients": "Zutaten",
     "tags": "Tags",
     "categories": "Kategorien",
-    "weekPlan": "Wochenplan"
+    "weekPlan": "Wochenplan",
+    "shoppingList": "Einkaufsliste"
   },
   "labels": {
     "email": "Email Addresse",
@@ -47,7 +48,10 @@
     "addTag": "Tag hinzufügen",
     "addCategory": "Kategorie hinzufügen",
     "editRecipe": "Rezept bearbeiten",
-    "clearWeekPlan": "Wochenplan löschen"
+    "clearWeekPlan": "Wochenplan löschen",
+    "weekday": "Wochentag",
+    "recipe": "Rezept",
+    "portions": "Portionen"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",
@@ -116,5 +120,23 @@
     "drinks": "Getränke",
     "salads": "Salate",
     "snacks": "Snacks"
+  },
+  "weekdays": {
+    "0": "Sonntag", 
+    "1": "Montag",
+    "2": "Dienstag",
+    "3": "Mittwoch",
+    "4": "Donnerstag",
+    "5": "Freitag",
+    "6": "Samstag"
+  },
+  "weekdaysShort": {
+    "0": "So", 
+    "1": "Mo",
+    "2": "Di",
+    "3": "Mi",
+    "4": "Do",
+    "5": "Fr",
+    "6": "Sa"
   }
 }

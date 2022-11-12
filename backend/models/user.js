@@ -7,8 +7,9 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   notes: [{ recipe: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe', required: true, unique: true, index: true }, note: { type: String, required: true } }],
   weekPlan: [
+      [
     { recipe: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe', required: true }, numberOfPortions: { type: Number, required: true } },
-  ],
+  ]],
 })
 
 userSchema.methods.setPassword = async function (password) {

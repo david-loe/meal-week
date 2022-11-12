@@ -201,14 +201,14 @@ router.delete('/likes', async (req, res) => {
 })
 
 router.post('/weekplan', async (req, res) => {
-  if(req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null){
+  if(req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null && req.body.weekday !== undefined && req.body.weekday >= 0 && req.body.weekday <= 6){
     const recipe = await Recipe.findOne({_id: req.body.recipeId})
     if(recipe == null){
       return res.status(400).send({message: 'No Recipe with id: ' + req.body.recipeId})
     }
     const user = await User.findOne({ _id: req.user._id })
     var recipeNotInWeekPlan = true
-    for(var weekPlanRecipe of user.weekPlan){
+    for(var weekPlanRecipe of user.weekPlan[req.body.weekday]){
       if(weekPlanRecipe.recipe == req.body.recipeId){
         recipeNotInWeekPlan = false
         weekPlanRecipe.numberOfPortions = req.body.numberOfPortions
@@ -216,7 +216,7 @@ router.post('/weekplan', async (req, res) => {
       }
     }
     if(recipeNotInWeekPlan){
-      user.weekPlan.push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
+      user.weekPlan[req.body.weekday].push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
     }
     user.markModified('weekPlan')
     try {
@@ -226,20 +226,20 @@ router.post('/weekplan', async (req, res) => {
       res.status(400).send({ message: 'Error while saving', error: error })
     }
   }else {
-    res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions'})
+    res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions or weekday'})
   }
 })
 
 router.delete('/weekplan', async (req, res) => {
   const user = await User.findOne({ _id: req.user._id })
-  if(req.query.id && req.query.id.length > 0){
-    const index = user.weekPlan.map(o => o.recipe.toString()).indexOf(req.query.id)
+  if(req.query.id && req.query.id.length > 0 && req.query.weekday !== undefined && parseInt(req.query.weekday) >= 0 && parseInt(req.query.weekday) <= 6){
+    const index = user.weekPlan[parseInt(req.query.weekday)].map(o => o.recipe.toString()).indexOf(req.query.id)
     if(index == -1){
       return res.send({message: 'Id already not in weekPlan.', result: user.weekPlan})
     }
-    user.weekPlan.splice(index, 1)
+    user.weekPlan[parseInt(req.query.weekday)].splice(index, 1)
   }else{
-    user.weekPlan = [];
+    user.weekPlan = [[],[],[],[],[],[],[]];
   }
   user.markModified('weekPlan')
     try {

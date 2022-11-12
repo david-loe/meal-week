@@ -27,7 +27,7 @@ const routes = [
     meta: { requiresAuth: true}
   },
   {
-    path: '/recipes/:recipeId([0-9a-fA-F]{24})?',
+    path: '/recipes/:recipeId([0-9a-fA-F]{24})?/:customNumberOfPortions(\\d+)?',
     name: 'Recipes',
     component: Recipes,
     meta: { requiresAuth: true},

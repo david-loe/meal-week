@@ -2,15 +2,18 @@
   <div id="recipe-header">
     <div class="row gy-2">
       <div class="col-auto">
-        <img :src="recipe.image" style="max-width:100%;"/>
+        <img :src="recipe.image" style="object-fit: cover;max-height:275px;max-width:100%;"/>
       </div>
       <div class="col">
       <div class="input-group mb-2">
         <div class="form-floating">
-          <input type="number" class="form-control" id="customNumberOfPortionsInput" min="1" v-model="customNumberOfPortions">
-          <label for="customNumberOfPortionsInput">{{ $t('labels.numberOfPortions') }}</label>
+          <input type="number" class="form-control" id="customNumberOfPortionsInput" min="1" v-model="pagePortions">
+          <label for="customNumberOfPortionsInput">{{ $t('labels.portions') }}</label>
         </div>
-        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', customNumberOfPortions);addedToWeekPlan=true">
+        <select class="form-select" style="max-width:5em;" v-model="selectedWeekDay">
+          <option v-for="n in 7" :key="n" :value="n">{{ $t('weekdaysShort.' + ((n + todaysWeekday) % 7)) }}</option>
+        </select>
+        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
           {{ $t('labels.addToWeekPlan') }}
           <span v-if="addedToWeekPlan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
             ✔
@@ -94,34 +97,45 @@ export default {
   emits: ['new-reviews', 'new-likes', 'show-edit-form', 'add-to-week-plan'],
   data() {
     return {
-      customNumberOfPortions: null,
+      pagePortions: null,
       factor: 1,
       addedToWeekPlan: false,
+      todaysWeekday: 0,
+      selectedWeekDay: 1,
     }
   },
   components: {
     RecipeRating,
     RecipeLike
   },
-  props: { recipe: { type: Object }, showTitle: {type: Boolean, default: true} },
+  props: { recipe: { type: Object }, showTitle: {type: Boolean, default: true}, customNumberOfPortions: {type: Number, default: null} },
   methods: {
     calcQ(quantity){
       return quantity * this.factor
     }
   },
   beforeMount() {
-    this.customNumberOfPortions = this.recipe.numberOfPortions
+    this.todaysWeekday = new Date().getDay()
+    if(this.customNumberOfPortions === null){
+      this.pagePortions = this.recipe.numberOfPortions
+    }else{
+      this.pagePortions = this.customNumberOfPortions
+    }
   },
   watch: {
-    recipe: function () {
-      this.customNumberOfPortions = this.recipe.numberOfPortions
-      this.addedToWeekPlan = false
+    customNumberOfPortions: function (){
+      this.pagePortions = this.customNumberOfPortions
     },
-    customNumberOfPortions: function() {
-      if(this.customNumberOfPortions === this.recipe.numberOfPortions){
+    recipe: function () {
+      this.pagePortions = this.recipe.numberOfPortions
+      this.addedToWeekPlan = false
+      this.selectedWeekDay = 1
+    },
+    pagePortions: function() {
+      if(this.pagePortions === this.recipe.numberOfPortions){
         this.factor = 1
-      }else if(this.customNumberOfPortions > 0){
-        this.factor = this.customNumberOfPortions / this.recipe.numberOfPortions
+      }else if(this.pagePortions > 0){
+        this.factor = this.pagePortions / this.recipe.numberOfPortions
       }
     }
   },

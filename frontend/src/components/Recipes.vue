@@ -9,7 +9,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)" @add-to-week-plan="(a)=>addToWeekPlan(modalRecipe._id,a)"></RecipePage>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :customNumberOfPortions="modalPortions" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)" @add-to-week-plan="(w,n)=>addToWeekPlan(modalRecipe._id,w,n)"></RecipePage>
             <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" @cancel="recipeModal.hide()" :recipe="modalRecipe" @add="addRecipe" @edit="addRecipe"></RecipeForm>
           </div>
         </div>
@@ -63,10 +63,11 @@ export default {
       recipeModal: undefined,
       recipes: [],
       modalMode: '',
-      modalRecipe: {} 
+      modalRecipe: {},
+      modalPortions: null
     }
   },
-  props: {recipeId: {type: String}},
+  props: {recipeId: {type: String}, customNumberOfPortions: {type: String, default: 'null'}},
   methods: {
     async searchChange() {
       if (this.searchString.length >= 2) {
@@ -107,11 +108,12 @@ export default {
         }
       }
     },
-    async addToWeekPlan(recipeId, numberOfPortions) {
+    async addToWeekPlan(recipeId, weekday, numberOfPortions) {
       try {
-        const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/weekplan', {recipeId: recipeId, numberOfPortions: numberOfPortions}, {
-          withCredentials: true,
-        })
+        const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/weekplan',
+          {recipeId: recipeId, numberOfPortions: numberOfPortions, weekday: weekday},
+          {withCredentials: true}
+        )
         if (res.status === 200) {
           this.$root.user.weekPlan = res.data.result
         }
@@ -123,9 +125,10 @@ export default {
         }
       }
     },
-    showModal(mode, recipe){
+    showModal(mode, recipe, customNumberOfPortions = null){
       this.modalMode = mode
       this.modalRecipe = recipe
+      this.modalPortions = customNumberOfPortions
       this.recipeModal.show()
     }
   },
@@ -136,13 +139,13 @@ export default {
     this.recipes = await this.getRecipes({})
     await this.$root.load()
     if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
-      this.showModal('view', await this.getRecipes({id: this.recipeId}))
+      this.showModal('view', await this.getRecipes({id: this.recipeId}), parseInt(this.customNumberOfPortions))
     }
   },
   watch: {
     recipeId: async function () {
       if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
-        this.showModal('view', await this.getRecipes({id: this.recipeId}))
+        this.showModal('view', await this.getRecipes({id: this.recipeId}), parseInt(this.customNumberOfPortions))
       }
     },
   },
