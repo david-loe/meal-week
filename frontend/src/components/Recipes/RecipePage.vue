@@ -1,4 +1,5 @@
 <template>
+<div>
   <div id="recipe-header">
     <div class="row gy-2">
       <div class="col-auto">
@@ -87,6 +88,7 @@
         {{ $t('labels.editRecipe') }}
       </button>
   </div>
+</div>
 </template>
 
 <script>
@@ -111,7 +113,7 @@ export default {
   props: { recipe: { type: Object }, showTitle: {type: Boolean, default: true}, customNumberOfPortions: {type: Number, default: null} },
   methods: {
     calcQ(quantity){
-      return quantity * this.factor
+      return Math.round(quantity * this.factor * 100) / 100
     }
   },
   beforeMount() {

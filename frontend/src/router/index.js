@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Settings from '../components/Settings.vue'
-import Home from '../components/Home.vue'
 import Recipes from '../components/Recipes.vue'
 import WeekPlan from '../components/WeekPlan.vue'
+import ShoppingList from '../components/ShoppingList.vue'
 import axios from 'axios'
 
 const routes = [
@@ -34,20 +34,20 @@ const routes = [
     props: true
   },
   {
-    path: '/weekplan',
+    path: '/week-plan',
     name: 'WeekPlan',
     component: WeekPlan,
     meta: { requiresAuth: true}
   },
   {
-    path: '/',
-    name: 'Home',
-    component: Home,
+    path: '/shopping-list',
+    name: 'ShoppingList',
+    component: ShoppingList,
     meta: { requiresAuth: true}
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/'
+    redirect: '/recipes'
   }
 ]
 

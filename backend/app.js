@@ -27,9 +27,12 @@ passport.use(new LocalStrategy(
   }
 ));
 
+require('./initdb')
+
 User.find({}, async (err, docs) => {
   if (docs.length === 0) {
     const admin = new User({ email: process.env.ADMIN_EMAIL, name: 'Admin' })
+    await admin.setDefaults()
     await admin.setPassword(process.env.ADMIN_PASSWORD)
     await admin.save()
   }
@@ -77,9 +80,9 @@ app.post('/register', async (req, res) => {
   }
   const user = new User({
     name: req.body.name,
-    email: req.body.email,
-    weekPlan: [[],[],[],[],[],[],[]]
+    email: req.body.email
   })
+  await user.setDefaults()
   await user.setPassword(req.body.password)
   try {
     await user.save()
@@ -103,8 +106,6 @@ app.use('/api', async (req, res, next) => {
 })
 const routes = require('./routes/routes')
 app.use('/api', routes)
-
-require('./initdb')
 
 app.listen(port, () => {
   console.log(`Backend listening at ${url}`)

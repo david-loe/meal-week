@@ -81,7 +81,7 @@ export default {
   methods: {
     async deleteFromWeekPlan(id, weekday) {
       try {
-        const res = await axios.delete(process.env.VUE_APP_BACKEND_URL + '/api/weekplan', {
+        const res = await axios.delete(process.env.VUE_APP_BACKEND_URL + '/api/week-plan', {
           params: { id: id, weekday: weekday },
           withCredentials: true,
         })
@@ -100,7 +100,7 @@ export default {
     async changeNumberOfPortions(id, weekday, newNumberOfPortions) {
       try {
         const res = await axios.post(
-          process.env.VUE_APP_BACKEND_URL + '/api/weekplan',
+          process.env.VUE_APP_BACKEND_URL + '/api/week-plan',
           {
             recipeId: id,
             numberOfPortions: newNumberOfPortions,

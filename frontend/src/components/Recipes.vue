@@ -27,12 +27,40 @@
           </button>
         </div>
       </div>
-      <div class="input-group w-50 mx-auto mt-2 mb-5">
+      
+      <div class="input-group w-50 mx-auto mt-2 mb-2">
         <span class="input-group-text">
           <i class="bi bi-search"></i>
         </span>
-        <input class="form-control" type="text" :placeholder="$t('labels.search')" v-model="searchString" @input="searchChange" />
+        <input class="form-control" type="text" :placeholder="$t('labels.search')" v-model="filter.search"/>
       </div>
+        <div class="bg-light rounded-3 px-3 py-2 mx-auto mb-4" style="max-width:500px;">
+          <h6>{{$t('labels.filter') + ':'}}</h6>
+          <div class="row gy-1">
+            <div class="col-auto">
+              <select class="form-select form-select-sm" v-model="filter.recipeCategories">
+                <option :value="null" selected>{{ $t('labels.recipeCategory') }}</option>
+                <option v-for="category in $root.recipeCategories" :value="category._id" :key="category._id">
+                  {{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}
+                </option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <select class="form-select form-select-sm" v-model="filter.tags">
+                <option :value="null" selected>{{ $t('labels.tag') }}</option>
+                <option v-for="tag in $root.tags" :value="tag._id" :key="tag._id">
+                  {{ $t(tag.name) + ' ' + (tag.emoji ? ' ' + tag.emoji : '') }}
+                </option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <div class="border rounded-2 px-2" style="color: #ec4a57;" @click="filter.likes ? filter.likes=undefined : filter.likes=$root.user._id">
+                <i v-if="filter.likes" class="bi bi-heart-fill"></i>
+                <i v-else class="bi bi-heart"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       <div class="container">
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in recipes" :key="recipe._id">
@@ -59,21 +87,17 @@ export default {
   },
   data() {
     return {
-      searchString: '',
+      filter: {search: '', recipeCategories: null, tags: null},
       recipeModal: undefined,
       recipes: [],
       modalMode: '',
       modalRecipe: {},
-      modalPortions: null
+      modalPortions: null,
+      showAllRecipes: true
     }
   },
   props: {recipeId: {type: String}, customNumberOfPortions: {type: String, default: 'null'}},
   methods: {
-    async searchChange() {
-      if (this.searchString.length >= 2) {
-        this.recipes = await this.getRecipes({ search: this.searchString })
-      }
-    },
     async getRecipes(params) {
       try {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/recipes', {
@@ -99,6 +123,7 @@ export default {
         if (res.status === 200) {
           this.recipeModal.hide()
           this.recipes = await this.getRecipes({})
+          this.showAllRecipes = true
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -110,7 +135,7 @@ export default {
     },
     async addToWeekPlan(recipeId, weekday, numberOfPortions) {
       try {
-        const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/weekplan',
+        const res = await axios.post(process.env.VUE_APP_BACKEND_URL + '/api/week-plan',
           {recipeId: recipeId, numberOfPortions: numberOfPortions, weekday: weekday},
           {withCredentials: true}
         )
@@ -137,17 +162,24 @@ export default {
   },
   async beforeMount() {
     this.recipes = await this.getRecipes({})
+    this.showAllRecipes = true
     await this.$root.load()
     if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
       this.showModal('view', await this.getRecipes({id: this.recipeId}), parseInt(this.customNumberOfPortions))
     }
   },
   watch: {
-    recipeId: async function () {
+    recipeId: async function() {
       if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
         this.showModal('view', await this.getRecipes({id: this.recipeId}), parseInt(this.customNumberOfPortions))
       }
     },
+    filter: {
+      async handler() {
+        this.recipes = await this.getRecipes(this.filter)
+      },
+      deep: true
+    }
   },
 }
 </script>

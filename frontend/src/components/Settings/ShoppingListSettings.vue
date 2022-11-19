@@ -1,0 +1,55 @@
+<template>
+  <div class="container mb-3">
+    <h2>{{ $t('headlines.shoppingList') }}</h2>
+    <div class="container">
+      <h3>{{ $t('settings.shoppingList.changeOrder') }}</h3>
+      
+        <button type="submit" class="btn btn-secondary position-relative">
+          {{ $t('settings.account.changePassword') }}
+          <span v-if="changePasswordSuccess" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+            {{ $t('labels.done') }}
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'ShoppingListSettings',
+  data() {
+    return {
+      settings: {}
+    }
+  },
+  props: [],
+  components: {},
+  methods: {
+    async changeSettings(newSettings) {
+      try {
+        const res = await axios.post(
+          process.env.VUE_APP_BACKEND_URL + '/api/user/settings',
+          newSettings,
+          {
+            withCredentials: true,
+          },
+        )
+        if (res.status === 200) {
+          this.$root.user.settings = res.data.result
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+  },
+}
+</script>
+
+<style>
+</style>

@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const User = require('../models/user')
-const uid = require('uid')
 const i18n = require('../i18n')
 const helper = require('../helper')
 const Recipe = require('../models/recipe/recipe')
@@ -35,9 +34,21 @@ function getter(model, name, defaultLimit = 10, searchAlias = false) {
       var conditions = {}
       var message = 'No ' + name
       if (req.query.search && req.query.search.length >= 2) {
-        conditions['$or'] = [{ name: { $regex: req.query.search, $options: 'i' } }]
-        if (searchAlias) conditions['$or'].push({ alias: { $regex: req.query.search, $options: 'i' } })
+        conditions = {$and: [{$or: []}]}
+        conditions.$and[0].$or.push({ name: { $regex: req.query.search, $options: 'i' } })
+        if (searchAlias) conditions.$and[0].$or.push({ alias: { $regex: req.query.search, $options: 'i' } })
         message = message + " with name containing: '" + req.query.search + "'"
+      }
+      delete req.query.search
+      for(const filter of Object.keys(req.query)){
+        if(req.query[filter] && req.query[filter].length > 0){
+          var qFilter = {}
+          qFilter[filter] = req.query[filter]
+          if(!('$and' in conditions)){
+            conditions.$and = []
+          }
+          conditions.$and.push(qFilter)
+        }
       }
       const result = await model.find(conditions)
       meta.count = result.length
@@ -200,7 +211,7 @@ router.delete('/likes', async (req, res) => {
   }
 })
 
-router.post('/weekplan', async (req, res) => {
+router.post('/week-plan', async (req, res) => {
   if(req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null && req.body.weekday !== undefined && req.body.weekday >= 0 && req.body.weekday <= 6){
     const recipe = await Recipe.findOne({_id: req.body.recipeId})
     if(recipe == null){
@@ -230,7 +241,7 @@ router.post('/weekplan', async (req, res) => {
   }
 })
 
-router.delete('/weekplan', async (req, res) => {
+router.delete('/week-plan', async (req, res) => {
   const user = await User.findOne({ _id: req.user._id })
   if(req.query.id && req.query.id.length > 0 && req.query.weekday !== undefined && parseInt(req.query.weekday) >= 0 && parseInt(req.query.weekday) <= 6){
     const index = user.weekPlan[parseInt(req.query.weekday)].map(o => o.recipe.toString()).indexOf(req.query.id)
@@ -248,6 +259,53 @@ router.delete('/weekplan', async (req, res) => {
     } catch (error) {
       res.status(400).send({ message: 'Error while saving', error: error })
     }
+})
+
+router.get('/shopping-list', async (req, res) => {
+  const user = await User.findOne({ _id: req.user._id })
+  const shoppingList = [];
+  for(const weekday of user.weekPlan){
+    for(const planEntry of weekday){
+      const recipe = await Recipe.findOne({_id: planEntry.recipe})
+      const factor = planEntry.numberOfPortions / recipe.numberOfPortions
+      for(const ingredient of recipe.ingredients){
+        const quantity = ingredient.quantity * factor
+        var added = false;
+        for(const listEntry of shoppingList){
+          if(listEntry.item._id.equals(ingredient.item._id)){
+            listEntry.quantity += quantity
+            added = true
+            break
+          }
+        }
+        if(!added){
+          shoppingList.push({item: ingredient.item, quantity: quantity})
+        }
+      }
+    }
+  }
+  for(const listEntry of shoppingList){
+    listEntry.quantity = Math.round(listEntry.quantity * 100) / 100
+  }
+  const compFunc = function (a, b) {
+    indexA = user.settings.shoppingListOrder.indexOf(a.item.itemCategory)
+    indexB = user.settings.shoppingListOrder.indexOf(b.item.itemCategory)
+    return indexB - indexA 
+  }
+  shoppingList.sort(compFunc)
+  res.send({data: shoppingList})
+})
+
+router.post('/user/settings', async (req, res) => {
+  const user = await User.findOne({ _id: req.user._id })
+  user.settings = req.body
+  user.markModified('settings')
+  try {
+    const result = await user.save()
+    res.send({ message: 'Success', result: result.settings })
+  } catch (error) {
+    res.status(400).send({ message: 'Error while saving', error: error })
+  }
 })
 
 module.exports = router

@@ -50,7 +50,11 @@
     "clearWeekPlan": "Clear the Week Plan",
     "weekday": "Weekday",
     "recipe": "Recipe",
-    "portions": "Portions"
+    "portions": "Portions",
+    "generateShoppingList": "Generate shopping list",
+    "filter": "Filter",
+    "recipeCategory": "Recipe Category",
+    "tag": "Tag"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
@@ -85,6 +89,9 @@
   "settings": {
     "account": {
       "changePassword": "Change Password"
+    },
+    "shoppingList":{
+      "changeOrder": "Change order"
     }
   },
   "itemCategory": {
@@ -96,6 +103,7 @@
     "meatAndFish": "Meat/Fish",
     "cannedProducts": "Canned products",
     "stapleFood": "Staple food",
+    "bakingIngredients": "Baking Ingredients",
     "other": "Other"
   },
   "tags": {
@@ -113,7 +121,7 @@
     "soups": "Soups",
     "cakesPastries": "Cakes & Pastries",
     "casserolesGratins": "Casseroles & Gratins",
-    "breadBackedGoods": "Bread & Backed goods",
+    "breadBakedGoods": "Bread & Baked Goods",
     "dipsSauces": "Dips & Sauces",
     "breakfast": "Breakfast",
     "drinks": "Drinks",

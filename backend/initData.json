@@ -20,7 +20,7 @@
             "name": "recipeCategory.casserolesGratins"
         },
         {
-            "name": "recipeCategory.breadBackedGoods",
+            "name": "recipeCategory.breadBakedGoods",
             "emoji": "🍞"
         },
         {
@@ -49,6 +49,10 @@
             "emoji": "🍞"
         },
         {
+            "name": "itemCategory.bakingIngredients",
+            "emoji": "🥧"
+        },
+        {
             "name": "itemCategory.fruitsAndVegetables",
             "emoji": "🍅"
         },
@@ -75,6 +79,10 @@
         {
             "name": "itemCategory.stapleFood",
             "emoji": "🍚"
+        },
+        {
+            "name": "itemCategory.drinks",
+            "emoji": "🍾"
         },
         {
             "name": "itemCategory.other",
@@ -120,10 +128,42 @@
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
+            "name": "Feigen",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Kaki",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Papaya",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Drachenfrucht",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Eigelb",
+            "emoji": "🥚🟡",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Eiweiß",
+            "emoji": "🥚⚪",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
             "name": "Eier",
             "emoji": "🥚",
             "unit": "units.count",
-            "itemCategory": "itemCategory.stapleFood"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Hackfleisch",
@@ -144,13 +184,48 @@
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
-                "Mörren"
+                "Möhren"
             ]
         },
         {
             "name": "Brokkoli",
             "emoji": "🥦",
             "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Rosenkohl",
+            "emoji": "🥬",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Rotkohl",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Kohlrabi",
+            "emoji": "🥬",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Blumenkohl",
+            "emoji": "🥬",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Mangold",
+            "emoji": "🥬",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Aubergine",
+            "emoji": "🍆",
+            "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
@@ -177,8 +252,54 @@
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
+            "name": "Sojasauce",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
             "name": "Basilikum",
             "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Majoran",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Rosmarin",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Curry",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Thymian",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Petersilie",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Petersilienstängel",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Schnittlauch",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": ["Schnittlauchröllchen"]
+        },
+        {
+            "name": "Basilikumblätter",
+            "unit": "units.count",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
@@ -192,6 +313,12 @@
         },
         {
             "name": "Skyr",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
+            "name": "Quark",
+            "emoji": "🥛",
             "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated"
         },
@@ -217,6 +344,11 @@
             "emoji": "🥜",
             "unit": "units.mass",
             "itemCategory": "itemCategory.other"
+        },
+        {
+            "name": "Johannisbeeren",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Heidelbeeren",
@@ -371,7 +503,8 @@
             "name": "Gemüsebrühe",
             "emoji": "🍜",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.spicesAndSauces"
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": ["Brühwürfel"]
         },
         {
             "name": "Cherrytomaten",
@@ -420,6 +553,21 @@
             "itemCategory": "itemCategory.refrigerated"
         },
         {
+            "name": "Kürbiskerne",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Sonnenblumenkerne",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
+            "name": "Sesam",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.cerealProducts"
+        },
+        {
             "name": "Müsli",
             "unit": "units.mass",
             "itemCategory": "itemCategory.cerealProducts"
@@ -462,6 +610,12 @@
             "itemCategory": "itemCategory.refrigerated"
         },
         {
+            "name": "Frischkäse",
+            "emoji": "🧀",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.refrigerated"
+        },
+        {
             "name": "Räucherlachs",
             "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish"
@@ -479,8 +633,37 @@
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
+            "name": "Mandarinen",
+            "emoji": "🍊",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Clementinen"]
+        },
+        {
+            "name": "Orangen",
+            "emoji": "🍊",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Zitronenschale",
+            "emoji": "🍋",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
             "name": "Zitronen",
             "emoji": "🍋",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Honigmelone",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Galiamelone",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
@@ -494,13 +677,78 @@
             ]
         },
         {
+            "name": "Orangensaft",
+            "emoji": "🍊",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.drinks"
+        },
+        {
+            "name": "Wasser",
+            "emoji": "💧",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.drinks"
+        },
+        {
+            "name": "Rotwein",
+            "emoji": "🍷",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.drinks"
+        },
+        {
+            "name": "Weißwein",
+            "emoji": "🍷",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.drinks"
+        },
+        {
+            "name": "Pfeffer",
+            "emoji": "🧂",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": [
+                "Schwarzer Pfeffer"
+            ]
+        },
+        {
+            "name": "Tomaten getrocknet",
+            "emoji": "🍅",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": ["getrocknete Tomaten"]
+        },
+        {
+            "name": "Senf",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Lorbeerblätter",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
             "name": "Salz",
             "emoji": "🧂",
             "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
         {
+            "name": "Muskat",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
             "name": "Olivenöl",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Erdnussöl",
+            "unit": "units.volume",
+            "itemCategory": "itemCategory.spicesAndSauces"
+        },
+        {
+            "name": "Öl",
             "unit": "units.volume",
             "itemCategory": "itemCategory.spicesAndSauces"
         },
@@ -511,6 +759,31 @@
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
+            "name": "Zwiebeln",
+            "emoji": "🧅",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Schalotten"]
+        },
+        {
+            "name": "Lauch",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Porree"]
+        },
+        {
+            "name": "Frühlingszwiebeln",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Winterzwiebeln", "Lauchzwiebel"]
+        },
+        {
+            "name": "Rote Zwiebeln",
+            "emoji": "🧅",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
             "name": "Tomaten gehackt",
             "emoji": "🍅",
             "unit": "units.mass",
@@ -518,6 +791,31 @@
             "alias": [
                 "gehackte Tomaten"
             ]
+        },
+        {
+            "name": "Kürbis",
+            "emoji": "🎃",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Hokkaido-Kürbis"]
+        },
+        {
+            "name": "Butternusskürbis",
+            "emoji": "🎃",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Erbsen",
+            "emoji": "🟢",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.cannedProducts"
+        },
+        {
+            "name": "Spargel",
+            "emoji": "🥬",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
             "name": "Tomaten passiert",
@@ -606,14 +904,30 @@
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
         {
+            "name": "Knoblauchzehe",
+            "emoji": "🧄",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Kakaopulver",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Gelatine",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
             "name": "Pankomehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Paniermehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Mozzarella gerieben",
@@ -722,10 +1036,53 @@
         {
             "name": "Trockenhefe",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.other",
+            "itemCategory": "itemCategory.bakingIngredients",
             "alias": [
                 "Backhefe"
             ]
+        },
+        {
+            "name": "Speisestärke",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients",
+            "alias": [
+                "Maisstärke"
+            ]
+        },
+        {
+            "name": "Natron",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Backpulver",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Vanillezucker",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Mandeln gehackt",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Mandeln gemahlen",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Haselnüsse gehackt",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Haselnüsse gemahlen",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Hefe frisch",
@@ -738,27 +1095,33 @@
         {
             "name": "Mehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Vollkornmehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Dinkelvollkornmehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
+            "name": "Roggenmehl",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Vanilleschoten",
             "unit": "units.count",
-            "itemCategory": "itemCategory.other"
+            "itemCategory": "itemCategory.bakingIngredients"
         },
         {
             "name": "Schinken",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.meatAndFish"
+            "itemCategory": "itemCategory.meatAndFish",
+            "alias": ["Kochschinken"]
         },
         {
             "name": "Rucola",
@@ -772,6 +1135,23 @@
         },
         {
             "name": "Reis",
+            "emoji": "🍚",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Chiasamen",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Risottoreis",
+            "emoji": "🍚",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
+            "name": "Couscous",
             "emoji": "🍚",
             "unit": "units.mass",
             "itemCategory": "itemCategory.stapleFood"
