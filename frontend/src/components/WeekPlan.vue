@@ -16,20 +16,20 @@
         <thead>
           <tr>
             <th scope="col">
-              {{ window.width >= 768 ? $t('labels.weekday') : '' }}
+              {{ window.width >= $root.bp.md ? $t('labels.weekday') : '' }}
             </th>
             <th scope="col">
               {{ $t('labels.recipe') }}
             </th>
             <th scope="col">
-              {{ $t('labels.' + (window.width >= 768 ? 'numberOfPortions' : 'portions')) }}
+              {{ $t('labels.' + (window.width >= $root.bp.md ? 'numberOfPortions' : 'portions')) }}
             </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
         <tr v-for="m in matrix" :key="m.k">
-          <th v-if="m.f" scope="col" :rowspan="m.l">{{ $t((window.width >= 768 ? 'weekdays.' : 'weekdaysShort.') + (m.w)) }}</th>
+          <th v-if="m.f" scope="col" :rowspan="m.l">{{ $t((window.width >= $root.bp.md ? 'weekdays.' : 'weekdaysShort.') + (m.w)) }}</th>
           <template v-if="m.e">
             <td colspan="3"></td>
           </template>
@@ -42,15 +42,15 @@
               </router-link>
             </td>
             <td>
-              <div :class="'input-group' + (window.width >= 768 ? '' : ' input-group-sm')">
-                <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="m.r.numberOfPortions" :style="'max-width:' + (window.width >= 768 ? '5em;': '2.5em;')">
+              <div :class="'input-group' + (window.width >= $root.bp.md ? '' : ' input-group-sm')">
+                <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="m.r.numberOfPortions" :style="'max-width:' + (window.width >= $root.bp.md ? '5em;': '2.5em;')">
                 <button type="button" class="btn btn-outline-secondary" @click="changeNumberOfPortions(m.r.recipe, m.w, m.r.numberOfPortions)">
                   <i class="bi bi-save"></i>
                 </button>
               </div>
             </td>
             <td>
-              <button type="button" :class="'btn btn-danger' + (window.width >= 768 ? '' : ' btn-sm')" @click="deleteFromWeekPlan(m.r.recipe, m.w)">
+              <button type="button" :class="'btn btn-danger' + (window.width >= $root.bp.md ? '' : ' btn-sm')" @click="deleteFromWeekPlan(m.r.recipe, m.w)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>

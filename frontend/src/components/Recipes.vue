@@ -9,7 +9,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :customNumberOfPortions="modalPortions" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)" @add-to-week-plan="(w,n)=>addToWeekPlan(modalRecipe._id,w,n)"></RecipePage>
+            <RecipePage v-if="modalMode === 'view'" :recipe="modalRecipe" :customNumberOfPortions="modalPortions" :showTitle="false" @new-reviews="(a)=>modalRecipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @show-edit-form="showModal('edit', modalRecipe)" @add-to-week-plan="(w,n)=>addToWeekPlan(modalRecipe._id,w,n)" @deleted="deleteRecipe(modalRecipe._id)"></RecipePage>
             <RecipeForm v-else-if="modalMode === 'add' || modalMode === 'edit'" :mode="modalMode" @cancel="recipeModal.hide()" :recipe="modalRecipe" @add="addRecipe" @edit="addRecipe"></RecipeForm>
           </div>
         </div>
@@ -54,7 +54,7 @@
               </select>
             </div>
             <div class="col-auto">
-              <div class="border rounded-2 px-2" style="color: #ec4a57;" @click="filter.likes ? filter.likes=undefined : filter.likes=$root.user._id">
+              <div class="border rounded-2 px-2" style="color: #ec4a57;" @click="filter.likes ? filter.likes=null : filter.likes=$root.user._id">
                 <i v-if="filter.likes" class="bi bi-heart-fill"></i>
                 <i v-else class="bi bi-heart"></i>
               </div>
@@ -65,6 +65,23 @@
         <div class="row justify-content-center gx-4 gy-2">
           <div class="col-auto" v-for="recipe in recipes" :key="recipe._id">
             <RecipeTile :recipe="recipe" @new-reviews="(a)=>recipe.reviews = a" @new-likes="(a)=>modalRecipe.likes = a" @clicked="showModal('view', recipe)"></RecipeTile>
+          </div>
+          <div v-if="meta.page < meta.countPages" class="col-auto">
+            <div class="card" style="width: 18rem">
+              <div class="card-body position-relative">
+                <div class="position-absolute top-0 end-0 pe-1 placeholder-glow" style="width: 45%">
+                  <span class="placeholder col-2 bg-danger me-3"></span>
+                  <span class="placeholder col-7 bg-warning"></span>
+                </div>
+                  <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
+                  <p><button class="btn btn-light btn-sm" type="button" @click="loadMoreRecipes()">{{$t('labels.loadMoreRecipes')}}</button></p>
+              </div>
+              <div class="card-footer placeholder-glow">
+                <small class="text-muted">
+                  <span class="placeholder col-5 placeholder-sm"></span>
+                </small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -87,13 +104,14 @@ export default {
   },
   data() {
     return {
-      filter: {search: '', recipeCategories: null, tags: null},
+      filter: {limit: 3, search: '', recipeCategories: null, tags: null, likes: null},
       recipeModal: undefined,
       recipes: [],
       modalMode: '',
       modalRecipe: {},
       modalPortions: null,
-      showAllRecipes: true
+      throttlePause: false,
+      meta: {count: 1, countPages: 1, limit: 99, page: 1}
     }
   },
   props: {recipeId: {type: String}, customNumberOfPortions: {type: String, default: 'null'}},
@@ -105,7 +123,13 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
+          if(res.data.meta){
+            this.meta = res.data.meta
+          }else{
+            this.meta = {count: 1, countPages: 1, limit: 99, page: 1}
+          }
           return res.data.data
+          
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -122,8 +146,25 @@ export default {
         })
         if (res.status === 200) {
           this.recipeModal.hide()
-          this.recipes = await this.getRecipes({})
-          this.showAllRecipes = true
+          this.recipes = await this.getRecipes(this.filter)
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    async deleteRecipe(id) {
+      try {
+        const res = await axios.delete(process.env.VUE_APP_BACKEND_URL + '/api/recipes', {
+          params: {id: id},
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          this.recipeModal.hide()
+          this.recipes = await this.getRecipes(this.filter)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -155,18 +196,48 @@ export default {
       this.modalRecipe = recipe
       this.modalPortions = customNumberOfPortions
       this.recipeModal.show()
+    },
+    infinitScroll(){
+      this.throttle(this.loadMoreRecipes, 50)
+    },
+    async loadMoreRecipes() {
+      if(this.meta.page < this.meta.countPages){
+        const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 88; // height of placeholder: 288
+        if(endOfPage){
+          const filterNext = Object.assign({}, this.filter, {limit: this.meta.limit, page: this.meta.page + 1})
+          this.recipes = this.recipes.concat(await this.getRecipes(filterNext))
+          return true
+        }
+      }
+      return false
+    },
+    async throttle(callback, time) {
+      if (this.throttlePause) return true;
+    
+      this.throttlePause = true;
+      setTimeout(() => {
+        this.throttlePause = false;
+      }, time);
+      return await callback();
     }
   },
-  mounted() {
+  async mounted() {
     this.recipeModal = new Modal(document.getElementById('recipeModal'), {})
+    //var loadCount = 0
+    if(window.innerWidth >= this.$root.bp.md) this.filter.limit = 6
+    if(window.innerWidth >= this.$root.bp.lg) this.filter.limit = 9
+    if(window.innerWidth >= this.$root.bp.xl) this.filter.limit = 12
+    this.recipes = await this.getRecipes(this.filter)
   },
   async beforeMount() {
-    this.recipes = await this.getRecipes({})
-    this.showAllRecipes = true
     await this.$root.load()
     if(this.recipeId.match(/^[0-9a-fA-F]{24}$/)){
       this.showModal('view', await this.getRecipes({id: this.recipeId}), parseInt(this.customNumberOfPortions))
     }
+    window.addEventListener("scroll", this.infinitScroll)
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.infinitScroll);
   },
   watch: {
     recipeId: async function() {

@@ -18,9 +18,8 @@
         </div>
         <button type="submit" class="btn btn-secondary position-relative">
           {{ $t('settings.account.changePassword') }}
-          <span v-if="changePasswordSuccess" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-            {{ $t('labels.done') }}
-            <span class="visually-hidden">unread messages</span>
+          <span v-if="changePasswordSuccess"  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
+            ✔
           </span>
         </button>
       </form>

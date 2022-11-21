@@ -8,6 +8,7 @@
     "user": "Benutzer",
     "account": "Konto",
     "recipes": "Rezepte",
+    "instructions": "Zubereitung",
     "ingredients": "Zutaten",
     "tags": "Tags",
     "categories": "Kategorien",
@@ -55,12 +56,15 @@
     "generateShoppingList": "Einkaufsliste erstellen",
     "filter": "Filter",
     "recipeCategory": "Rezept Kategorie",
-    "tag": "Tag"
+    "tag": "Tag",
+    "copyShoppingList": "Einkaufsliste kopieren",
+    "loadMoreRecipes": "Weitere Rezepte laden"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",
     "loginFailed": "Anmeldung fehlgeschlagen!",
     "wrongPassword": "Falsches Passwort",
+    "areYouSureDelete": "Bist du dir sicher, dass du das löschen willst?",
     "request": {
       "unauthorized": "Nicht autorisiert!"
     },
@@ -105,6 +109,7 @@
     "cannedProducts": "Dosenprodukte",
     "stapleFood": "Grundnahrungsmittel",
     "bakingIngredients": "Backzutaten",
+    "drinks": "Getränke",
     "other": "Anderes"
   },
   "tags": {

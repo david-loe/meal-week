@@ -18,10 +18,10 @@ function getter(model, name, defaultLimit = 10, searchAlias = false) {
       countPages: null,
     }
     if (req.query.limit && parseInt(req.query.limit) <= meta.limit && parseInt(req.query.limit) > 0) {
-      meta.limit = req.query.limit
+      meta.limit = parseInt(req.query.limit)
     }
     if (req.query.page && parseInt(req.query.page) > 0) {
-      meta.page = req.query.page
+      meta.page = parseInt(req.query.page)
     }
     if (req.query.id && req.query.id != '') {
       const result = await model.findOne({ _id: req.query.id })
@@ -91,6 +91,21 @@ function setter(model) {
   }
 }
 
+function deleter(model) {
+  return async (req, res) => {
+    if (req.query.id && req.query.id !== '') {
+      try {
+        await model.deleteOne({_id: req.query.id})
+        res.send({ message: 'Success'})
+      } catch (error) {
+        res.status(400).send({ message: 'Error while deleting', error: error })
+      }
+    }else{
+      return res.status(400).send({ message: 'Missing id' })
+    }
+  }
+}
+
 router.delete('/logout', function (req, res) {
   req.logout(function (err) {
     if (err) {
@@ -126,13 +141,15 @@ router.post('/user/password', async (req, res) => {
   }
 })
 
-router.get('/recipes', getter(Recipe, 'recipe'))
+router.get('/recipes', getter(Recipe, 'recipe', 20))
 router.get('/items', getter(Item, 'item', 10, true))
 router.get('/itemCategories', getter(ItemCategory, 'item category', 20))
 router.get('/tags', getter(Tag, 'tag', 20))
 router.get('/recipeCategories', getter(RecipeCategory, 'recipe category', 20))
 
 router.post('/items', setter(Item))
+
+router.delete('/recipes', deleter(Recipe))
 
 router.post('/recipes', async (req, res) => {
   req.body.author = req.user._id

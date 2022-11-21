@@ -3,12 +3,22 @@
     <h2>{{ $t('headlines.shoppingList') }}</h2>
     <div class="container">
       <h3>{{ $t('settings.shoppingList.changeOrder') }}</h3>
-      
-        <button type="submit" class="btn btn-secondary position-relative">
-          {{ $t('settings.account.changePassword') }}
-          <span v-if="changePasswordSuccess" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-            {{ $t('labels.done') }}
-            <span class="visually-hidden">unread messages</span>
+        <div>
+          <draggable 
+            v-model="settings.shoppingListOrder"
+            :itemKey="(a)=>a"
+            class="list-group mb-2"
+            style="width: fit-content;"
+            >
+            <template #item="{element}">
+              <div class="list-group-item list-group-item-action pe-5">{{$t($root.getById('itemCategories', element).name) + ($root.getById('itemCategories', element).emoji ? ' ' + $root.getById('itemCategories', element).emoji : '')}}</div>
+            </template>
+          </draggable>
+        </div>
+        <button type="submit" class="btn btn-secondary position-relative" @click="changeSettings(settings)">
+          {{ $t('labels.save') }}
+          <span v-if="changeSuccess"  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
+            ✔
           </span>
         </button>
     </div>
@@ -17,15 +27,19 @@
 
 <script>
 import axios from 'axios'
+import draggable from 'vuedraggable'
 export default {
   name: 'ShoppingListSettings',
   data() {
     return {
-      settings: {}
+      settings: {},
+      changeSuccess: false,
     }
   },
   props: [],
-  components: {},
+  components: {
+    draggable
+  },
   methods: {
     async changeSettings(newSettings) {
       try {
@@ -38,6 +52,7 @@ export default {
         )
         if (res.status === 200) {
           this.$root.user.settings = res.data.result
+          this.changeSuccess = true;
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -47,6 +62,10 @@ export default {
         }
       }
     },
+  },
+  async beforeMount() {
+    await this.$root.load()
+    this.settings = this.$root.user.settings
   },
 }
 </script>

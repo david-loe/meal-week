@@ -86,7 +86,6 @@ app.post('/register', async (req, res) => {
   await user.setPassword(req.body.password)
   try {
     await user.save()
-    console.log(user)
     res.send({ message: 'Successfully created new User.' })
   } catch (error) {
     if(error.code === 11000){

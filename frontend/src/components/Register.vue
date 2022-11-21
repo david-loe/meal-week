@@ -6,7 +6,7 @@
       <h2 class="h2 mb-4">{{$t('headlines.weekOfMeals')}}</h2>
 
       <div class="form-floating">
-        <input class="form-control" id="name" :placeholder="$t('labels.name')" v-model="name" required />
+        <input type="text" class="form-control" id="name" :placeholder="$t('labels.name')" v-model="name" required />
         <label for="name">{{ $t('labels.name') }}</label>
       </div>
       <div class="form-floating">
@@ -17,12 +17,13 @@
         <input
           type="password"
           class="form-control"
-          id="floatingPassword"
+          id="password"
           :placeholder="$t('labels.password')"
           v-model="password"
+          autocomplete="new-password"
           required
         />
-        <label for="floatingPassword">{{ $t('labels.password') }}</label>
+        <label for="password">{{ $t('labels.password') }}</label>
       </div>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit">{{$t('register.createAccount')}}</button>
@@ -69,7 +70,7 @@ export default {
     },
   },
   beforeMount() {
-    this.$root.loaded = true
+    this.$root.loadState = 'LOADED'
   },
 }
 </script>
@@ -100,10 +101,18 @@ export default {
   z-index: 2;
 }
 
+.form-signin input[type='text'] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .form-signin input[type='email'] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .form-signin input[type='password'] {

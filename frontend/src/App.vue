@@ -96,7 +96,8 @@ export default {
       loadingPromise: null,
       tags: [],
       itemCategories: [],
-      recipeCategories: []
+      recipeCategories: [],
+      bp: {sm: 576, md: 768, lg: 992, xl: 1200, xxl: 1400}
     }
   },
   methods: {
@@ -150,6 +151,17 @@ export default {
         }
       }
     },
+    getById(property, id){
+      if(property in this){
+        for(const element of this[property]){
+          if(element._id == id){
+            return element
+          }
+        }
+        return false
+      }
+      return false
+    }
   },
   beforeMount() {
     document.title = this.$t('headlines.weekOfMeals') + ' ' + this.$t('headlines.emoji')

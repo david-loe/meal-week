@@ -54,12 +54,15 @@
     "generateShoppingList": "Generate shopping list",
     "filter": "Filter",
     "recipeCategory": "Recipe Category",
-    "tag": "Tag"
+    "tag": "Tag",
+    "copyShoppingList": "Copy shopping list",
+    "loadMoreRecipes": "Load more recipes"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
     "loginFailed": "Failed to Login!",
     "wrongPassword": "Wrong Password",
+    "areYouSureDelete": "Are you sure that you want to delete this?",
     "request": {
       "unauthorized": "Not authorized!"
     },
@@ -104,6 +107,7 @@
     "cannedProducts": "Canned products",
     "stapleFood": "Staple food",
     "bakingIngredients": "Baking Ingredients",
+    "drinks": "Drinks",
     "other": "Other"
   },
   "tags": {

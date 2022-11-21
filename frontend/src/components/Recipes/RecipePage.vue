@@ -80,13 +80,21 @@
   </div>
   <div id="recipe-footer">
     <button
-        v-if="recipe.author._id === $root.user._id"
-        type="button"
-        class="btn btn-light"
-        @click="$emit('show-edit-form')">
-        <i class="bi bi-pencil"></i>&nbsp;
-        {{ $t('labels.editRecipe') }}
-      </button>
+      v-if="recipe.author._id === $root.user._id"
+      type="button"
+      class="btn btn-light me-2"
+      @click="$emit('show-edit-form')">
+      <i class="bi bi-pencil"></i>&nbsp;
+      {{ $t('labels.editRecipe') }}
+    </button>
+    <button
+      v-if="recipe.author._id === $root.user._id"
+      type="button"
+      class="btn btn-danger"
+      @click="deleteThis()">
+      <i class="bi bi-trash"></i>&nbsp;
+      {{ $t('labels.delete') }}
+    </button>
   </div>
 </div>
 </template>
@@ -96,7 +104,7 @@ import RecipeRating from './RecipeRating.vue'
 import RecipeLike from './RecipeLike.vue'
 export default {
   name: 'RecipePage',
-  emits: ['new-reviews', 'new-likes', 'show-edit-form', 'add-to-week-plan'],
+  emits: ['new-reviews', 'new-likes', 'show-edit-form', 'add-to-week-plan', 'deleted'],
   data() {
     return {
       pagePortions: null,
@@ -114,6 +122,12 @@ export default {
   methods: {
     calcQ(quantity){
       return Math.round(quantity * this.factor * 100) / 100
+    },
+    deleteThis(){
+      if(confirm(this.$t('alerts.areYouSureDelete'))){
+        this.$emit('deleted')
+      }
+      
     }
   },
   beforeMount() {
