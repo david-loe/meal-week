@@ -5,7 +5,12 @@
         <h1>{{ $t('headlines.shoppingList') }}</h1>
       </div>
       <div class="col-auto">
-        
+        <button class="btn btn-secondary position-relative" type="button" @click="shoppingListToClipboard()">
+          <i class="bi bi-clipboard"></i> {{ $t('labels.copyShoppingList') }}
+          <span v-if="clipboardSuccess" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
+            ✔
+          </span>
+        </button>
       </div>
     </div>
     <div>
@@ -24,7 +29,8 @@ export default {
   data() {
     return {
       shoppingList: [],
-      shoppingListStr: ''
+      shoppingListStr: '',
+      clipboardSuccess: false,
     }
   },
   methods: {
@@ -50,6 +56,16 @@ export default {
       this.shoppingListStr = ''
       for(const entry of this.shoppingList){
         this.shoppingListStr += entry.quantity + this.$t(entry.item.unit) + ' ' + entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') + '\n'
+      }
+    },
+    async shoppingListToClipboard(){
+      if (window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(this.shoppingListStr)
+          this.clipboardSuccess = true
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   },
