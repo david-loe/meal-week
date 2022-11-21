@@ -14,7 +14,7 @@
         <select class="form-select" style="max-width:5em;" v-model="selectedWeekDay">
           <option v-for="n in 7" :key="n" :value="n">{{ $t('weekdaysShort.' + ((n + todaysWeekday) % 7)) }}</option>
         </select>
-        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
+        <button :class="'btn btn-primary position-relative'  + (window.width >= $root.bp.md ? '' : ' btn-sm')" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
           {{ $t('labels.addToWeekPlan') }}
           <span v-if="addedToWeekPlan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
             ✔
@@ -112,6 +112,7 @@ export default {
       addedToWeekPlan: false,
       todaysWeekday: 0,
       selectedWeekDay: 1,
+      window: {width: 1},
     }
   },
   components: {
@@ -137,6 +138,7 @@ export default {
     }else{
       this.pagePortions = this.customNumberOfPortions
     }
+    this.window.width = window.innerWidth
   },
   watch: {
     customNumberOfPortions: function (){
