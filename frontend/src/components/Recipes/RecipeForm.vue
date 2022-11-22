@@ -101,7 +101,7 @@
             <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
             <td>
               <div class="input-group" style="max-width: 10em">
-                <input class="form-control" type="number" min="1" v-model="ingredient.quantity" />
+                <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.quantity" />
                 <span class="input-group-text">
                   {{ $t(ingredient.item.unit) }}
                 </span>

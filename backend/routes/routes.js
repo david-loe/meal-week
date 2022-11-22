@@ -78,6 +78,12 @@ function setter(model) {
     }
     var newObject = {}
     if (req.body._id && req.body._id !== '') {
+      if('author' in model.schema.tree){
+        var oldObject = await model.findOne({ _id: req.body._id })
+        if(!oldObject.author._id.equals(req.user._id)){
+          return res.send(403)
+        }
+      }
       newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body)
     } else {
       newObject = new model(req.body)
@@ -94,6 +100,12 @@ function setter(model) {
 function deleter(model) {
   return async (req, res) => {
     if (req.query.id && req.query.id !== '') {
+      if('author' in model.schema.tree){
+        var doc = await model.findOne({ _id: req.query.id })
+        if(!doc.author._id.equals(req.user._id)){
+          return res.send(403)
+        }
+      }
       try {
         await model.deleteOne({_id: req.query.id})
         res.send({ message: 'Success'})
