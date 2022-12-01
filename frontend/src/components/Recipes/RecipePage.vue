@@ -59,7 +59,7 @@
     <table class="table">
       <tr v-for="ingredient in recipe.ingredients" :key="ingredient.item._id">
         <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
-        <td>{{ calcQ(ingredient.quantity) + ' ' + $t(ingredient.item.unit) }}</td>
+        <td>{{ calcQ(ingredient.quantity) + ' ' + $t(ingredient.item.unit.name) }}</td>
       </tr>
     </table>
   </div>
@@ -71,7 +71,7 @@
         <td>
           <div>{{ instruction.text }}</div>
           <div class="text-secondary">
-            <small><span v-for="(ingredient, index) in instruction.ingredients" :key="ingredient.item._id"><span v-if="index !== 0"> - </span>{{calcQ(ingredient.quantity) + $t(ingredient.item.unit) + ' ' + ingredient.item.name }}</span></small>
+            <small><span v-for="(ingredient, index) in instruction.ingredients" :key="ingredient.item._id"><span v-if="index !== 0"> - </span>{{calcQ(ingredient.quantity) + $t(ingredient.item.unit.name) + ' ' + ingredient.item.name }}</span></small>
           </div>
         </td>
       </tr>

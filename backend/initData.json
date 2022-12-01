@@ -1,4 +1,39 @@
-{
+{   
+    "units": [
+        {
+            "name": "units.mass",
+            "miscellaneousUnits": [
+                {
+                    "name": "units.pinch",
+                    "factor": 0.1
+                },
+                {
+                    "name": "units.teaspoon",
+                    "factor": 4
+                },
+                {
+                    "name": "units.tablespoon",
+                    "factor": 12
+                }
+            ]
+        },
+        {
+            "name": "units.volume",
+            "miscellaneousUnits": [
+                {
+                    "name": "units.teaspoon",
+                    "factor": 5
+                },
+                {
+                    "name": "units.tablespoon",
+                    "factor": 15
+                }
+            ]
+        },
+        {
+            "name": "units.count"
+        }
+    ],
     "recipeCategories": [
         {
             "name": "recipeCategory.mainDishes",
@@ -99,6 +134,12 @@
                 "Pilze",
                 "Egerlinge",
                 "Angerlinge"
+            ],
+            "converter": [
+                {
+                    "unit": "units.count",
+                    "factor": 10
+                  }
             ]
         },
         {
@@ -113,39 +154,82 @@
             "name": "Nektarinen",
             "emoji": "🍑",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 125
+                  }
+            ]
         },
         {
             "name": "Avocados",
             "emoji": "🥑",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 160
+                  }
+            ]
         },
         {
             "name": "Limetten",
             "emoji": "🍋",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 65
+                  }
+            ]
         },
         {
             "name": "Feigen",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 48
+                  }
+            ]
         },
         {
             "name": "Kaki",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 200
+                  }
+            ]
         },
         {
             "name": "Papaya",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 400
+                  }
+            ]
         },
         {
             "name": "Drachenfrucht",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": ["Pitaya"],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 450
+                  }
+            ]
         },
         {
             "name": "Eigelb",
@@ -181,10 +265,16 @@
         {
             "name": "Karotten",
             "emoji": "🥕",
-            "unit": "units.count",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Möhren"
+            ],
+            "converter": [
+                {
+                    "unit": "units.count",
+                    "factor": 0.013
+                  }
             ]
         },
         {
@@ -226,13 +316,25 @@
             "name": "Aubergine",
             "emoji": "🍆",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 340
+                  }
+            ]
         },
         {
             "name": "Gurken",
             "emoji": "🥒",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 400
+                  }
+            ]
         },
         {
             "name": "Spinat",
@@ -244,7 +346,13 @@
             "name": "Tomaten",
             "emoji": "🍅",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 130
+                  }
+            ]
         },
         {
             "name": "Minze",
@@ -491,13 +599,25 @@
             "name": "Birnen",
             "emoji": "🍐",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 140
+                  }
+            ]
         },
         {
             "name": "Apfel",
             "emoji": "🍎",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 130
+                  }
+            ]
         },
         {
             "name": "Gemüsebrühe",
@@ -540,6 +660,12 @@
                 "Hähnchenbrust",
                 "Putenbrustfilet",
                 "Putenbrust"
+            ],
+            "converter": [
+                {
+                    "unit": "units.count",
+                    "factor": 0.006
+                  }
             ]
         },
         {
@@ -575,7 +701,13 @@
         {
             "name": "Zucchini",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 200
+                  }
+            ]
         },
         {
             "name": "Zitronensaft",
@@ -607,7 +739,13 @@
             "name": "Mozzarella",
             "emoji": "🧀",
             "unit": "units.count",
-            "itemCategory": "itemCategory.refrigerated"
+            "itemCategory": "itemCategory.refrigerated",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 125
+                  }
+            ]
         },
         {
             "name": "Frischkäse",
@@ -621,29 +759,53 @@
             "itemCategory": "itemCategory.meatAndFish"
         },
         {
-            "name": "Toastbrot",
+            "name": "Toastbrotscheiben",
             "emoji": "🍞",
-            "unit": "units.mass",
-            "itemCategory": "itemCategory.cerealProducts"
+            "unit": "units.count",
+            "itemCategory": "itemCategory.cerealProducts",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 30
+                  }
+            ]
         },
         {
             "name": "Kartoffeln",
             "emoji": "🥔",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.count",
+                    "factor": 0.0125
+                  }
+            ]
         },
         {
             "name": "Mandarinen",
             "emoji": "🍊",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Clementinen"]
+            "alias": ["Clementinen"],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 80
+                  }
+            ]
         },
         {
             "name": "Orangen",
             "emoji": "🍊",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 200
+                  }
+            ]
         },
         {
             "name": "Zitronenschale",
@@ -655,22 +817,41 @@
             "name": "Zitronen",
             "emoji": "🍋",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 80
+                  }
+            ]
         },
         {
             "name": "Honigmelone",
+            "emoji": "🍈",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 870
+                  }
+            ]
         },
         {
             "name": "Galiamelone",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 600
+                  }
+            ]
         },
         {
             "name": "Wassermelone",
             "emoji": "🍉",
-            "unit": "units.count",
+            "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Melone"
@@ -763,7 +944,13 @@
             "emoji": "🧅",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Schalotten"]
+            "alias": ["Schalotten"],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 85
+                  }
+            ]
         },
         {
             "name": "Lauch",
@@ -775,13 +962,25 @@
             "name": "Frühlingszwiebeln",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Winterzwiebeln", "Lauchzwiebel"]
+            "alias": ["Winterzwiebeln", "Lauchzwiebel"],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 35
+                  }
+            ]
         },
         {
             "name": "Rote Zwiebeln",
             "emoji": "🧅",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 85
+                  }
+            ]
         },
         {
             "name": "Tomaten gehackt",
@@ -797,13 +996,25 @@
             "emoji": "🎃",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Hokkaido-Kürbis"]
+            "alias": ["Hokkaido-Kürbis"],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 600
+                  }
+            ]
         },
         {
             "name": "Butternusskürbis",
             "emoji": "🎃",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 1000
+                  }
+            ]
         },
         {
             "name": "Erbsen",
@@ -857,7 +1068,13 @@
             "name": "Süßkartoffeln",
             "emoji": "🥔",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.count",
+                    "factor": 0.0033
+                  }
+            ]
         },
         {
             "name": "Zucker",
@@ -866,7 +1083,7 @@
         },
         {
             "name": "Brötchen",
-            "emoji": "🍞",
+            "emoji": "🥯",
             "unit": "units.count",
             "itemCategory": "itemCategory.cerealProducts"
         },
@@ -874,7 +1091,13 @@
             "name": "Pfirsiche",
             "emoji": "🍑",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 120
+                  }
+            ]
         },
         {
             "name": "Eisbergsalat",
@@ -883,13 +1106,25 @@
             "itemCategory": "itemCategory.fruitsAndVegetables",
             "alias": [
                 "Salat"
+            ],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 300
+                  }
             ]
         },
         {
             "name": "Romanasalat",
             "emoji": "🥗",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 120
+                  }
+            ]
         },
         {
             "name": "Feldsalat",
@@ -901,7 +1136,13 @@
             "name": "Kopfsalat",
             "emoji": "🥗",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 600
+                  }
+            ]
         },
         {
             "name": "Knoblauchzehe",
@@ -969,7 +1210,13 @@
             "name": "Paprika",
             "emoji": "🫑",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 150
+                  }
+            ]
         },
         {
             "name": "Oregano",
@@ -992,7 +1239,13 @@
             "name": "Bananen",
             "emoji": "🍌",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 150
+                  }
+            ]
         },
         {
             "name": "Himbeeren",
@@ -1003,7 +1256,13 @@
             "name": "Mango",
             "emoji": "🥭",
             "unit": "units.count",
-            "itemCategory": "itemCategory.fruitsAndVegetables"
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 250
+                  }
+            ]
         },
         {
             "name": "Schokolade",

@@ -48,6 +48,7 @@ recipeSchema.pre(/^find/, function () {
   this.populate({ path: 'recipeCategories' })
   this.populate({ path: 'author', select: 'name' })
   this.populate({ path: 'ingredients.item', model: 'Item' })
+  this.populate({ path: 'ingredients.item.unit', model: 'Unit' })
   this.populate({ path: 'instructions.ingredients.item', model: 'Item' })
   this.populate({ path: 'tags' })
 })

@@ -66,8 +66,8 @@
                   <td>
                     <select class="form-select" v-model="newItem.unit">
                       <option disabled value="">{{ $t('labels.chooseUnit') }}</option>
-                      <option v-for="unit in units" :value="unit" :key="unit">
-                        {{ $t(unit) }}
+                      <option v-for="unit in $root.units" :value="unit._id" :key="unit._id">
+                        {{ $t(unit.name) }}
                       </option>
                     </select>
                   </td>
@@ -103,7 +103,7 @@
               <div class="input-group" style="max-width: 10em">
                 <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.quantity" />
                 <span class="input-group-text">
-                  {{ $t(ingredient.item.unit) }}
+                  {{ $t(ingredient.item.unit.name) }}
                 </span>
               </div>
             </td>
@@ -144,7 +144,7 @@
         <div class="input-group input-group-sm" style="max-width: 10em">
                 <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.quantity" />
                 <span class="input-group-text">
-                  {{ $t(ingredient.item.unit) }}
+                  {{ $t(ingredient.item.unit.name) }}
                 </span>
               </div>
         </div>
@@ -224,7 +224,6 @@ export default {
   emits: ['add', 'edit', 'cancel'],
   data() {
     return {
-      units: ['units.mass', 'units.volume', 'units.count'],
       formRecipe: this.recipe,
       itemSuggestions: [],
       itemSearch: '',

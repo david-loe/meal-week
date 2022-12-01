@@ -97,6 +97,7 @@ export default {
       tags: [],
       itemCategories: [],
       recipeCategories: [],
+      units: [],
       bp: {sm: 576, md: 768, lg: 992, xl: 1200, xxl: 1400}
     }
   },
@@ -112,6 +113,7 @@ export default {
           this.itemCategories = await this.getter('itemCategories')
           this.tags = await this.getter('tags')
           this.recipeCategories = await this.getter('recipeCategories')
+          this.units = await this.getter('units')
           this.loadState = 'LOADED'
           resolve()
         })

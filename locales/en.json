@@ -87,7 +87,12 @@
   "units": {
     "mass": "g",
     "volume": "ml",
-    "count": "pcs."
+    "count": "pcs.",
+    "mass1000": "kg",
+    "volume1000": "l",
+    "pinch": "pinch",
+    "teaspoon": "ts",
+    "tablespoon": "Tb"
   },
   "settings": {
     "account": {

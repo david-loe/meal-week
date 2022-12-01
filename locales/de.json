@@ -89,7 +89,12 @@
   "units": {
     "mass": "g",
     "volume": "ml",
-    "count": "Stk."
+    "count": "Stk.",
+    "mass1000": "kg",
+    "volume1000": "l",
+    "pinch": "Pr.",
+    "teaspoon": "TL",
+    "tablespoon": "EL"
   },
   "settings": {
     "account": {

@@ -7,6 +7,7 @@ const Item = require('../models/recipe/item')
 const ItemCategory = require('../models/recipe/itemCategory')
 const RecipeCategory = require('../models/recipe/recipeCategory')
 const Tag = require('../models/recipe/tag')
+const Unit = require('../models/recipe/unit')
 const Review = require('../models/recipe/review')
 
 function getter(model, name, defaultLimit = 10, searchAlias = false) {
@@ -158,6 +159,7 @@ router.get('/items', getter(Item, 'item', 10, true))
 router.get('/itemCategories', getter(ItemCategory, 'item category', 20))
 router.get('/tags', getter(Tag, 'tag', 20))
 router.get('/recipeCategories', getter(RecipeCategory, 'recipe category', 20))
+router.get('/units', getter(Unit, 'unit', 20))
 
 router.post('/items', setter(Item))
 
