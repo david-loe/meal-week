@@ -102,9 +102,12 @@
             <td>
               <div class="input-group" style="max-width: 10em">
                 <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.quantity" />
-                <span class="input-group-text">
-                  {{ $t(ingredient.item.unit.name) }}
-                </span>
+                <select class="form-select" id="recipeFormTags" @change="selectUnit($event, ingredient)" style="max-width: 4em">
+                  <option selected :value="ingredient.item.unit.name">{{$t(ingredient.item.unit.name)}}</option>
+                  <option v-for="unit in getAdditionalUnits(ingredient.item)" :key="unit" :value="unit">
+                    {{ $t(unit) }}
+                  </option>
+                </select>
               </div>
             </td>
             <td>
@@ -188,17 +191,17 @@
     <div class="mb-2">
       <label for="recipeFormTags" class="form-label"> {{ $t('headlines.tags') }}</label>
       <select class="form-select" id="recipeFormTags" @change="selectTag($event)">
-          <option selected disabled value="NaN">{{$t('labels.addTag')}}</option>
-          <option v-for="(tag, index) in $root.tags" :key="tag._id" :value="index">
-            {{ $t(tag.name) + (tag.emoji ? ' ' + tag.emoji : '') }}
-          </option>
-        </select>
-        <div>
-          <div v-for="(tag, index) in formRecipe.tags" class="badge text-dark text-nowrap fs-6 ms-1 mt-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">
-            {{ $t(tag.name) + ' ' + tag.emoji }}
-            <a href="#" class="text-dark ms-1" @click="formRecipe.tags.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
-          </div>
+        <option selected disabled value="NaN">{{$t('labels.addTag')}}</option>
+        <option v-for="(tag, index) in $root.tags" :key="tag._id" :value="index">
+          {{ $t(tag.name) + (tag.emoji ? ' ' + tag.emoji : '') }}
+        </option>
+      </select>
+      <div>
+        <div v-for="(tag, index) in formRecipe.tags" class="badge text-dark text-nowrap fs-6 ms-1 mt-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">
+          {{ $t(tag.name) + ' ' + tag.emoji }}
+          <a href="#" class="text-dark ms-1" @click="formRecipe.tags.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
         </div>
+      </div>
     </div>
     <div class="mb-2">
       <button type="submit" class="btn btn-primary me-2" v-if="mode === 'add'" :disabled="formRecipe.ingredients.length < 1">
@@ -350,6 +353,7 @@ export default {
         if (res.status === 200) {
           this.formRecipe.ingredients.push({ item: res.data.result, quantity: 0 })
           this.newItem = {}
+          this.showNewItemDialog = false
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -437,6 +441,23 @@ export default {
       } else {
         alert(this.$t('alerts.imageToBig'))
         this.formRecipe.image = undefined
+      }
+    },
+    getAdditionalUnits(item){
+      const units = []
+      for (const converter of item.converter){
+        units.push(converter.unit.name)
+      }
+      for (const miscellaneousUnit of item.unit.miscellaneousUnits){
+        units.push(miscellaneousUnit.name)
+      }
+      return units
+    },
+    selectUnit(event, ingredient){
+      if(event.target.value != ingredient.item.unit.name){
+        ingredient.displayUnit = event.target.value
+      }else{
+        ingredient.displayUnit = undefined
       }
     },
     // From https://stackoverflow.com/a/52983833/13582326

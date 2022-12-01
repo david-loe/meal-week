@@ -5,8 +5,10 @@ const recipeSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   ingredients: [
     {
-      quantity: { type: Number, required: true },
+      quantity: { type: Number, min: 0, required: true },
       item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: true },
+      displayUnit: { type: String },
+      displayQuantity: {type: Number, min: 0}
     },
   ],
   instructions: [
@@ -14,8 +16,10 @@ const recipeSchema = new mongoose.Schema({
       text: { type: String, required: true },
       ingredients: [
         {
-          quantity: { type: Number, required: true },
+          quantity: { type: Number, min: 0, required: true },
           item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: true },
+          displayUnit: { type: String },
+          displayQuantity: {type: Number, min: 0}
         },
       ],
     },
@@ -24,9 +28,9 @@ const recipeSchema = new mongoose.Schema({
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
   recipeCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RecipeCategory' }],
-  prepTimeMin: { type: Number, required: true },
-  cookTimeMin: { type: Number, required: true },
-  numberOfPortions: { type: Number, required: true },
+  prepTimeMin: { type: Number, min: 0, required: true },
+  cookTimeMin: { type: Number, min: 0, required: true },
+  numberOfPortions: { type: Number, min: 1, required: true },
   image: { type: String },
 })
 
