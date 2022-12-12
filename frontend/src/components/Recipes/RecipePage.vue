@@ -59,7 +59,7 @@
     <table class="table">
       <tr v-for="ingredient in recipe.ingredients" :key="ingredient.item._id">
         <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
-        <td>{{ calcQ(ingredient.quantity) + ' ' + $t(ingredient.item.unit.name) }}</td>
+        <td>{{ ingrdientToString(ingredient) }}</td>
       </tr>
     </table>
   </div>
@@ -71,7 +71,7 @@
         <td>
           <div>{{ instruction.text }}</div>
           <div class="text-secondary">
-            <small><span v-for="(ingredient, index) in instruction.ingredients" :key="ingredient.item._id"><span v-if="index !== 0"> - </span>{{calcQ(ingredient.quantity) + $t(ingredient.item.unit.name) + ' ' + ingredient.item.name }}</span></small>
+            <small><span v-for="(ingredient, index) in instruction.ingredients" :key="ingredient.item._id"><span v-if="index !== 0"> - </span>{{ingrdientToString(ingredient, true) + ' ' + ingredient.item.name }}</span></small>
           </div>
         </td>
       </tr>
@@ -124,11 +124,25 @@ export default {
     calcQ(quantity){
       return Math.round(quantity * this.factor * 100) / 100
     },
+    ingrdientToString(ingredient, short = false){
+      if(short){
+        if(ingredient.displayUnit){
+          return this.calcQ(ingredient.displayQuantity) + this.$t(ingredient.displayUnit)
+        }else{
+          return this.calcQ(ingredient.quantity) + this.$t(ingredient.item.unit.name)
+        }
+      }else{
+        if(ingredient.displayUnit){
+          return this.calcQ(ingredient.displayQuantity) + ' ' + this.$t(ingredient.displayUnit) + ' (' + this.calcQ(ingredient.quantity) + ' ' + this.$t(ingredient.item.unit.name) + ')'
+        }else{
+          return this.calcQ(ingredient.quantity) + ' ' + this.$t(ingredient.item.unit.name)
+        }
+      }
+    },
     deleteThis(){
       if(confirm(this.$t('alerts.areYouSureDelete'))){
         this.$emit('deleted')
       }
-      
     }
   },
   beforeMount() {

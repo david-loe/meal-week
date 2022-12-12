@@ -42,6 +42,7 @@ export default {
         })
         if (res.status === 200) {
           this.shoppingList = res.data.data
+          console.log(this.shoppingList)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -55,7 +56,12 @@ export default {
     shoppingListToStr(){
       this.shoppingListStr = ''
       for(const entry of this.shoppingList){
-        this.shoppingListStr += entry.quantity + this.$t(entry.item.unit) + ' ' + entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') + '\n'
+        this.shoppingListStr += entry.quantity + this.$t(entry.item.unit.name)
+        for(const converter of entry.item.converter){
+          var convertedQuantiy = Math.round(entry.quantity * converter.factor * 10) /10
+          this.shoppingListStr += '(~' + convertedQuantiy + this.$t(converter.unit.name) + ')'
+        }
+        this.shoppingListStr += ' ' + entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') + '\n'
       }
     },
     async shoppingListToClipboard(){

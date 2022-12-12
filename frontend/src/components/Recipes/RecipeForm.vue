@@ -101,7 +101,7 @@
             <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
             <td>
               <div class="input-group" style="max-width: 10em">
-                <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.quantity" />
+                <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <select class="form-select" id="recipeFormTags" @change="selectUnit($event, ingredient)" style="max-width: 4em">
                   <option selected :value="ingredient.item.unit.name">{{$t(ingredient.item.unit.name)}}</option>
                   <option v-for="unit in getAdditionalUnits(ingredient.item)" :key="unit" :value="unit">
@@ -145,9 +145,9 @@
         <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
         <div class="col-auto">
         <div class="input-group input-group-sm" style="max-width: 10em">
-                <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.quantity" />
+                <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <span class="input-group-text">
-                  {{ $t(ingredient.item.unit.name) }}
+                  {{ ingredient.displayUnit ? $t(ingredient.displayUnit) : $t(ingredient.item.unit.name) }}
                 </span>
               </div>
         </div>
@@ -284,7 +284,7 @@ export default {
           for (const sug of this.itemSuggestions) {
             if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
               selected = true
-              this.formRecipe.ingredients.push({ item: await this.getItems({ id: sug._id }), quantity: 0 })
+              this.formRecipe.ingredients.push({ item: await this.getItems({ id: sug._id }), displayQuantity: 0 })
               this.itemSearch = ''
               break
             }
@@ -335,14 +335,15 @@ export default {
     deleteIngredient(ingredient) {
       const index = this.formRecipe.ingredients.indexOf(ingredient)
       if (index !== -1) {
-        this.formRecipe.ingredients.splice(index, 1)
         for(var instruction of this.formRecipe.instructions){
-          for(var i = 0; i <= instruction.ingredients.length; i++){
+          for(var i = 0; i < instruction.ingredients.length; i++){
             if(instruction.ingredients[i].item._id === ingredient.item._id){
               instruction.ingredients.splice(i, 1)
+              break
             }
           }
         }
+        this.formRecipe.ingredients.splice(index, 1)
       }
     },
     async createNewItemAndAddToRecipe(item) {
@@ -380,7 +381,8 @@ export default {
           }
         }
         if(!allReadyIn){
-          instruction.ingredients.push({quantity: this.formRecipe.ingredients[event.target.value].quantity, item: item})
+          const ing = Object.assign({}, this.formRecipe.ingredients[event.target.value])
+          instruction.ingredients.push(ing)
         }
       }
       event.target.value = 'NaN'
@@ -388,7 +390,7 @@ export default {
     getIngredientQuantityByItemId(itemId){
       for(const ingredient of this.formRecipe.ingredients){
         if(ingredient.item._id === itemId){
-          return ingredient.quantity
+          return ingredient.displayQuantity
         }
       }
       return null
@@ -459,6 +461,37 @@ export default {
       }else{
         ingredient.displayUnit = undefined
       }
+      for (const instruction of this.formRecipe.instructions){
+        for (const ing of instruction.ingredients){
+          if(ingredient.item._id == ing.item._id){
+            ing.displayUnit = ingredient.displayUnit
+          }
+        }
+      }
+      this.quantityChange(ingredient)
+    },
+    quantityChange(ingredient){
+      var factor = 1
+      if(ingredient.displayUnit){
+        var match = false
+        for (const converter of ingredient.item.converter){
+          if(converter.unit.name == ingredient.displayUnit){
+            factor = 1 / converter.factor
+            match = true
+            break
+          }
+        }
+        if(!match){
+          for (const miscellaneousUnit of ingredient.item.unit.miscellaneousUnits){
+            if(miscellaneousUnit.name == ingredient.displayUnit){
+              factor = miscellaneousUnit.factor
+              break
+            }
+          }
+        }
+      }
+
+      ingredient.quantity = ingredient.displayQuantity * factor
     },
     // From https://stackoverflow.com/a/52983833/13582326
     resizedataURL(datas, wantedWidth) {
