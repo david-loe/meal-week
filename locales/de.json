@@ -58,7 +58,10 @@
     "recipeCategory": "Rezept Kategorie",
     "tag": "Tag",
     "copyShoppingList": "Einkaufsliste kopieren",
-    "loadMoreRecipes": "Weitere Rezepte laden"
+    "loadMoreRecipes": "Weitere Rezepte laden",
+    "import": "Importieren",
+    "chooseSource": "Wähle eine Quelle",
+    "url": "URL"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",

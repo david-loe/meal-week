@@ -126,6 +126,11 @@
     ],
     "items": [
         {
+            "name": "Linsen",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.stapleFood"
+        },
+        {
             "name": "Champignons",
             "emoji": "🍄",
             "unit": "units.mass",
@@ -888,6 +893,28 @@
             "itemCategory": "itemCategory.spicesAndSauces",
             "alias": [
                 "Schwarzer Pfeffer"
+            ]
+        },
+        {
+            "name": "Zimt",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.spicesAndSauces",
+            "alias": [
+                "Zimtpulver"
+            ]
+        },
+        {
+            "name": "Blätterteig",
+            "unit": "units.count",
+            "itemCategory": "itemCategory.refrigerated",
+            "alias": [
+                "frischer Blätterteig"
+            ],
+            "converter": [
+                {
+                    "unit": "units.mass",
+                    "factor": 275
+                  }
             ]
         },
         {

@@ -31,7 +31,7 @@ require('./initdb')
 
 User.find({}, async (err, docs) => {
   if (docs.length === 0) {
-    const admin = new User({ email: process.env.ADMIN_EMAIL, name: 'Admin' })
+    const admin = new User({ email: process.env.ADMIN_EMAIL, name: process.env.ADMIN_NAME, isAdmin: true })
     await admin.setDefaults()
     await admin.setPassword(process.env.ADMIN_PASSWORD)
     await admin.save()
@@ -80,7 +80,8 @@ app.post('/register', async (req, res) => {
   }
   const user = new User({
     name: req.body.name,
-    email: req.body.email
+    email: req.body.email,
+    isAdmin: false
   })
   await user.setDefaults()
   await user.setPassword(req.body.password)

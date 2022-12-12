@@ -1,5 +1,33 @@
 <template>
-  <form
+  <div>
+    <div v-if="mode ==='add'">
+      <div v-if="!showImport" class="d-flex justify-content-end">
+        <button type="button" class="btn btn-info btn-sm" @click="showImport = true">{{$t('labels.import')}}</button>
+      </div>
+      <form v-else @submit.prevent="importer()">
+        <div class="mb-2">
+          <select class="form-select" id="recipeFormSource" v-model="source" required>
+            <option selected disabled value="">{{$t('labels.chooseSource')}}</option>
+            <option v-for="source in sources" :key="source.key" :value="source.key">
+              {{ source.name }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="recipeFormURL" class="form-label">
+            {{ $t('labels.url') }}
+          </label>
+          <input type="text" class="form-control" id="recipeFormURL" v-model="url" required/>
+        </div>
+        <div class="mb-2">
+          <button type="submit" class="btn btn-info btn-sm" >{{ $t('labels.import') }}</button>
+          <button type="button" class="btn btn-light" @click="showImport = false">{{ $t('labels.cancel') }}</button>
+        </div>
+
+      </form>
+    </div>
+    
+    <form
     autocomplete="off"
     @submit.prevent="$emit(mode, formRecipe);clear()">
     <div class="mb-2">
@@ -218,6 +246,7 @@
       </button>
     </div>
   </form>
+  </div>
 </template>
 
 <script>
@@ -227,6 +256,10 @@ export default {
   emits: ['add', 'edit', 'cancel'],
   data() {
     return {
+      url: '',
+      source: '',
+      sources: [{key: 'fwl', name: 'Food with Love APP'}],
+      showImport: false,
       formRecipe: this.recipe,
       itemSuggestions: [],
       itemSearch: '',
@@ -355,6 +388,27 @@ export default {
           this.formRecipe.ingredients.push({ item: res.data.result, quantity: 0 })
           this.newItem = {}
           this.showNewItemDialog = false
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push('login')
+        } else {
+          console.log(error.response.data)
+        }
+      }
+    },
+    async importer(){
+      const id = this.url.match(/[0-9a-fA-F]{24}/)[0]
+      console.log(id)
+      try {
+        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/recipe-parser', {
+          params: {source: this.source, id: id},
+          withCredentials: true,
+        })
+        if (res.status === 200) {
+          console.log(res.data.result)
+          Object.assign(this.formRecipe, res.data.result)
+          this.showImport = false
         }
       } catch (error) {
         if (error.response.status === 401) {

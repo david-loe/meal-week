@@ -10,115 +10,6 @@ const Tag = require('../models/recipe/tag')
 const Unit = require('../models/recipe/unit')
 const Review = require('../models/recipe/review')
 
-function getter(model, name, defaultLimit = 10, searchAlias = false) {
-  return async (req, res) => {
-    const meta = {
-      limit: defaultLimit,
-      page: 1,
-      count: null,
-      countPages: null,
-    }
-    if (req.query.limit && parseInt(req.query.limit) <= meta.limit && parseInt(req.query.limit) > 0) {
-      meta.limit = parseInt(req.query.limit)
-    }
-    if (req.query.page && parseInt(req.query.page) > 0) {
-      meta.page = parseInt(req.query.page)
-    }
-    if (req.query.id && req.query.id != '') {
-      const result = await model.findOne({ _id: req.query.id })
-      if (result != null) {
-        res.send({ data: result })
-      } else {
-        res.status(204).send({ message: 'No ' + name + ' with id ' + req.query.id })
-      }
-    } else {
-      var conditions = {}
-      var message = 'No ' + name
-      if (req.query.search && req.query.search.length >= 2) {
-        conditions = {$and: [{$or: []}]}
-        conditions.$and[0].$or.push({ name: { $regex: req.query.search, $options: 'i' } })
-        if (searchAlias) conditions.$and[0].$or.push({ alias: { $regex: req.query.search, $options: 'i' } })
-        message = message + " with name containing: '" + req.query.search + "'"
-      }
-      delete req.query.search
-      for(const filter of Object.keys(req.query)){
-        if(req.query[filter] && req.query[filter].length > 0){
-          var qFilter = {}
-          qFilter[filter] = req.query[filter]
-          if(!('$and' in conditions)){
-            conditions.$and = []
-          }
-          conditions.$and.push(qFilter)
-        }
-      }
-      const result = await model.find(conditions)
-      meta.count = result.length
-      meta.countPages = Math.ceil(meta.count / meta.limit)
-      if (result != null) {
-        res.send({ meta: meta, data: result.slice(meta.limit * (meta.page - 1), meta.limit * meta.page) })
-      } else {
-        res.status(204).send({ message: message })
-      }
-    }
-  }
-}
-
-function setter(model) {
-  return async (req, res) => {
-    for (const field of Object.keys(model.schema.tree)) {
-      if (model.schema.tree[field].required) {
-        if (
-          req.body[field] === undefined ||
-          (model.schema.tree[field].type === String && req.body[field].length === 0) ||
-          (model.schema.tree[field].type === Number && req.body[field] === null) ||
-          (Array.isArray(model.schema.tree[field]) && req.body[field].length === 0) 
-        ) {
-          return res.status(400).send({ message: 'Missing ' + field })
-        }
-      }
-    }
-    var newObject = {}
-    if (req.body._id && req.body._id !== '') {
-      if('author' in model.schema.tree){
-        var oldObject = await model.findOne({ _id: req.body._id })
-        if(!oldObject.author._id.equals(req.user._id)){
-          return res.send(403)
-        }
-      }
-      newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body)
-    } else {
-      newObject = new model(req.body)
-    }
-    try {
-      const result = await newObject.save()
-      res.send({ message: 'Success', result: result })
-    } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
-    }
-  }
-}
-
-function deleter(model) {
-  return async (req, res) => {
-    if (req.query.id && req.query.id !== '') {
-      if('author' in model.schema.tree){
-        var doc = await model.findOne({ _id: req.query.id })
-        if(!doc.author._id.equals(req.user._id)){
-          return res.send(403)
-        }
-      }
-      try {
-        await model.deleteOne({_id: req.query.id})
-        res.send({ message: 'Success'})
-      } catch (error) {
-        res.status(400).send({ message: 'Error while deleting', error: error })
-      }
-    }else{
-      return res.status(400).send({ message: 'Missing id' })
-    }
-  }
-}
-
 router.delete('/logout', function (req, res) {
   req.logout(function (err) {
     if (err) {
@@ -154,20 +45,20 @@ router.post('/user/password', async (req, res) => {
   }
 })
 
-router.get('/recipes', getter(Recipe, 'recipe', 20))
-router.get('/items', getter(Item, 'item', 10, true))
-router.get('/itemCategories', getter(ItemCategory, 'item category', 20))
-router.get('/tags', getter(Tag, 'tag', 20))
-router.get('/recipeCategories', getter(RecipeCategory, 'recipe category', 20))
-router.get('/units', getter(Unit, 'unit', 20))
+router.get('/recipes', helper.getter(Recipe, 'recipe', 20))
+router.get('/items', helper.getter(Item, 'item', 10, true))
+router.get('/itemCategories', helper.getter(ItemCategory, 'item category', 20))
+router.get('/tags', helper.getter(Tag, 'tag', 20))
+router.get('/recipeCategories', helper.getter(RecipeCategory, 'recipe category', 20))
+router.get('/units', helper.getter(Unit, 'unit', 20))
 
-router.post('/items', setter(Item))
+router.post('/items', helper.setter(Item))
 
-router.delete('/recipes', deleter(Recipe))
+router.delete('/recipes', helper.deleter(Recipe))
 
 router.post('/recipes', async (req, res) => {
   req.body.author = req.user._id
-  return setter(Recipe)(req,res)
+  return helper.setter(Recipe)(req,res)
 })
 
 router.post('/reviews', async (req,res) => {
@@ -337,6 +228,15 @@ router.post('/user/settings', async (req, res) => {
   } catch (error) {
     res.status(400).send({ message: 'Error while saving', error: error })
   }
+})
+
+router.get('/recipe-parser', async (req, res) =>{
+  // try {
+    const recipe = await helper.recipeParser(req.query.source, req.query.id)
+    res.send({result: recipe})
+  // } catch (error) {
+  //   res.status(400).send({ message: 'Error while parsing', error: error })
+  // }
 })
 
 module.exports = router

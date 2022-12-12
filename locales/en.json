@@ -56,7 +56,10 @@
     "recipeCategory": "Recipe Category",
     "tag": "Tag",
     "copyShoppingList": "Copy shopping list",
-    "loadMoreRecipes": "Load more recipes"
+    "loadMoreRecipes": "Load more recipes",
+    "import": "Import",
+    "chooseSource": "Choose Source",
+    "url": "URL"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",

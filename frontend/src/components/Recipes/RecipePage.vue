@@ -143,6 +143,14 @@ export default {
       if(confirm(this.$t('alerts.areYouSureDelete'))){
         this.$emit('deleted')
       }
+    },
+    getNoteForRecipe(id){
+      for(const note of this.$root.user.notes){
+        if(note.recipe == id){
+          return note.note
+        }
+      }
+      return false
     }
   },
   beforeMount() {
