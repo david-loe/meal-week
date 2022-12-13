@@ -231,12 +231,12 @@ router.post('/user/settings', async (req, res) => {
 })
 
 router.get('/recipe-parser', async (req, res) =>{
-  // try {
-    const recipe = await helper.recipeParser(req.query.source, req.query.id)
-    res.send({result: recipe})
-  // } catch (error) {
-  //   res.status(400).send({ message: 'Error while parsing', error: error })
-  // }
+  try {
+    const parser = await helper.recipeParser(req.query.source, req.query.id)
+    res.send({result: parser.recipe, errors: parser.errors})
+  } catch (error) {
+    res.status(400).send({ message: 'Error while parsing', error: error })
+  }
 })
 
 module.exports = router

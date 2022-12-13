@@ -1,6 +1,8 @@
 const User = require('./models/user')
+const i18n = require('./i18n')
 const axios = require('axios')
 const sharp = require('sharp')
+const Item = require('./models/recipe/item')
 
 function getter(model, name, defaultLimit = 10, searchAlias = false) {
   return async (req, res) => {
@@ -117,8 +119,58 @@ function parseHTMLStr(str){
   return str.replaceAll(/<[^<>]*>/g, '')
 }
 
+function matchUnit(str, Tunit){
+  var re = new RegExp( '^' + i18n.t(Tunit), 'i')
+  return Boolean(str.match(re))
+}
+
+async function getIngredientByName(name, unit, quantity){
+  var re = new RegExp('^' + name + '$')
+  const ingredient = {item: {}, quantity: 0, displayQuantity: 0, displayUnit: undefined}
+  conditions = { $or: [
+    { name: { $regex: re, $options: 'i' } },
+    { alias: { $regex: re, $options: 'i' } }
+  ] }
+  ingredient.item = await Item.findOne(conditions)
+  if(!ingredient.item){
+    throw i18n.t('alerts.noItemFoundFor') + ': "' + name + '"'
+  }
+
+  if(matchUnit(unit, ingredient.item.unit.name)){
+    ingredient.quantity = parseFloat(quantity)
+    ingredient.displayQuantity = ingredient.quantity
+  }else{
+    var match = false
+    for(const converter of ingredient.item.converter){
+      if(matchUnit(unit, converter.unit.name)){
+        ingredient.displayUnit = converter.unit.name
+        ingredient.displayQuantity = parseFloat(quantity)
+        ingredient.quantity = ingredient.displayQuantity / converter.factor
+        match = true
+        break
+      }
+    }
+    if(!match){
+      for (const miscellaneousUnit of ingredient.item.unit.miscellaneousUnits){
+        if(matchUnit(unit, miscellaneousUnit.name)){
+          ingredient.displayUnit = miscellaneousUnit.name
+          ingredient.displayQuantity = parseFloat(quantity)
+          ingredient.quantity = ingredient.displayQuantity * miscellaneousUnit.factor
+          match = true
+          break
+        }
+      }
+    }
+    if(!match){
+      throw i18n.t('alerts.noUnitFoundFor') + ': "' + unit + '" (' + name + ')'
+    }
+  }
+  return ingredient
+}
+
 async function recipeParser(source, id){
-  var recipe = {}
+  const recipe = {}
+  const errors = []
   switch (source) {
     case 'fwl':
       const data = (await axios.get('https://dq6g8f1oxafcs.cloudfront.net/api/v2/recipes/' + id)).data[0]
@@ -127,11 +179,15 @@ async function recipeParser(source, id){
       recipe.prepTimeMin = data.preparationTime
       recipe.name = data.title
       image = await sharp((await axios.get(data.imageURLs[0], {responseType: 'arraybuffer'})).data).resize({width: 450}).toFormat('jpeg').toBuffer()
-      recipe.image = 'data:image/png;base64,' + image.toString('base64')
+      recipe.image = 'data:image/jpg;base64,' + image.toString('base64')
       recipe.ingredients = []
       for(const ingType of data.ingredients){
         for(const ingredient of ingType.ingredients){
-
+          try {
+            recipe.ingredients.push(await getIngredientByName(ingredient.name, ingredient.unit, ingredient.quantity))
+          } catch (error) {
+            errors.push(error)
+          }
         }
       }
       recipe.instructions = []
@@ -144,7 +200,7 @@ async function recipeParser(source, id){
     default:
       break;
   }
-  return recipe
+  return {recipe: recipe, errors: errors}
 }
 
 

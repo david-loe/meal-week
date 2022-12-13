@@ -25,6 +25,13 @@
         </div>
 
       </form>
+      <div v-if="importErrors.length > 0" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <ul>
+          <li v-for="error of importErrors" :key="error">{{error}}</li>
+        </ul>
+        <button type="button" class="btn-close" @click="importErrors=[]"></button>
+      </div>
     </div>
     
     <form
@@ -260,6 +267,7 @@ export default {
       source: '',
       sources: [{key: 'fwl', name: 'Food with Love APP'}],
       showImport: false,
+      importErrors: [],
       formRecipe: this.recipe,
       itemSuggestions: [],
       itemSearch: '',
@@ -409,6 +417,7 @@ export default {
           console.log(res.data.result)
           Object.assign(this.formRecipe, res.data.result)
           this.showImport = false
+          this.importErrors = res.data.errors
         }
       } catch (error) {
         if (error.response.status === 401) {

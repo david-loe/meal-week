@@ -13,7 +13,8 @@
     "tags": "Tags",
     "categories": "Kategorien",
     "weekPlan": "Wochenplan",
-    "shoppingList": "Einkaufsliste"
+    "shoppingList": "Einkaufsliste",
+    "items": "Zutaten"
   },
   "labels": {
     "email": "Email Addresse",
@@ -68,6 +69,8 @@
     "loginFailed": "Anmeldung fehlgeschlagen!",
     "wrongPassword": "Falsches Passwort",
     "areYouSureDelete": "Bist du dir sicher, dass du das löschen willst?",
+    "noItemFoundFor": "Keine Zutat gefunden für",
+    "noUnitFoundFor": "Keine passende Einheit gefunden für",
     "request": {
       "unauthorized": "Nicht autorisiert!"
     },
