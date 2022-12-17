@@ -42,7 +42,6 @@ export default {
         })
         if (res.status === 200) {
           this.shoppingList = res.data.data
-          console.log(this.shoppingList)
         }
       } catch (error) {
         if (error.response.status === 401) {

@@ -6,9 +6,9 @@
       </div>
       <form v-else @submit.prevent="importer()">
         <div class="mb-2">
-          <select class="form-select" id="recipeFormSource" v-model="source" required>
+          <select class="form-select" id="recipeFormSource" v-model="sourceId" required>
             <option selected disabled value="">{{$t('labels.chooseSource')}}</option>
-            <option v-for="source in sources" :key="source.key" :value="source.key">
+            <option v-for="(source, index) in sources" :key="source.key" :value="index">
               {{ source.name }}
             </option>
           </select>
@@ -17,10 +17,10 @@
           <label for="recipeFormURL" class="form-label">
             {{ $t('labels.url') }}
           </label>
-          <input type="text" class="form-control" id="recipeFormURL" v-model="url" required/>
+          <input type="text" class="form-control" id="recipeFormURL" :pattern="sources[parseInt(sourceId)] ? '.*'+ sources[parseInt(sourceId)].regex +'.*': ''" v-model="importUrl" required/>
         </div>
         <div class="mb-2">
-          <button type="submit" class="btn btn-info btn-sm" >{{ $t('labels.import') }}</button>
+          <button type="submit" class="btn btn-info me-2" >{{ $t('labels.import') }}</button>
           <button type="button" class="btn btn-light" @click="showImport = false">{{ $t('labels.cancel') }}</button>
         </div>
 
@@ -54,7 +54,7 @@
         <div>
           <div v-for="(category, index) in formRecipe.recipeCategories" class="badge bg-light text-dark text-nowrap fs-6 ms-1 mt-1" :key="category._id">
             {{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}
-            <a href="#" class="text-dark ms-1" @click="formRecipe.recipeCategories.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
+            <span class="text-dark ms-1" @click="formRecipe.recipeCategories.splice(index, 1)" style="cursor: pointer"><i class="bi bi-x-lg"></i></span>
           </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
             <td>
               <div class="input-group" style="max-width: 10em">
                 <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
-                <select class="form-select" id="recipeFormTags" @change="selectUnit($event, ingredient)" style="max-width: 4em">
+                <select class="form-select" id="recipeFormUnit" v-model="ingredient.displayUnit" @change="selectUnit($event, ingredient)" style="max-width: 4.5em">
                   <option selected :value="ingredient.item.unit.name">{{$t(ingredient.item.unit.name)}}</option>
                   <option v-for="unit in getAdditionalUnits(ingredient.item)" :key="unit" :value="unit">
                     {{ $t(unit) }}
@@ -182,7 +182,7 @@
         <div class="input-group input-group-sm" style="max-width: 10em">
                 <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <span class="input-group-text">
-                  {{ ingredient.displayUnit ? $t(ingredient.displayUnit) : $t(ingredient.item.unit.name) }}
+                  {{ ingredient.displayUnit }}
                 </span>
               </div>
         </div>
@@ -234,7 +234,7 @@
       <div>
         <div v-for="(tag, index) in formRecipe.tags" class="badge text-dark text-nowrap fs-6 ms-1 mt-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">
           {{ $t(tag.name) + ' ' + tag.emoji }}
-          <a href="#" class="text-dark ms-1" @click="formRecipe.tags.splice(index, 1)"><i class="bi bi-x-lg"></i></a>
+          <span class="text-dark ms-1" @click="formRecipe.tags.splice(index, 1)" style="cursor: pointer"><i class="bi bi-x-lg"></i></span>
         </div>
       </div>
     </div>
@@ -263,9 +263,9 @@ export default {
   emits: ['add', 'edit', 'cancel'],
   data() {
     return {
-      url: '',
-      source: '',
-      sources: [{key: 'fwl', name: 'Food with Love APP'}],
+      importUrl: '',
+      sourceId: '',
+      sources: [{key: 'fwl', name: 'Food with Love APP', regex: '[0-9a-fA-F]{24}'},{key: 'chefkoch', name: 'Chefkoch', regex: '\\d{13,17}' },{key:'cookidoo', name: 'Cookidoo', regex:'r\\d{5,7}'}],
       showImport: false,
       importErrors: [],
       formRecipe: this.recipe,
@@ -317,6 +317,8 @@ export default {
       this.itemSearch = ''
       this.itemSuggestions = []
       this.showNewItemDialog = false
+      this.importErrors = []
+      this.showImport = false
     },
     async itemSearchChange() {
       var selected = false
@@ -325,7 +327,8 @@ export default {
           for (const sug of this.itemSuggestions) {
             if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
               selected = true
-              this.formRecipe.ingredients.push({ item: await this.getItems({ id: sug._id }), displayQuantity: 0 })
+              var item = await this.getItems({ id: sug._id })
+              this.formRecipe.ingredients.push({ item: item, displayQuantity: 0, displayUnit: item.unit.name })
               this.itemSearch = ''
               break
             }
@@ -393,7 +396,7 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          this.formRecipe.ingredients.push({ item: res.data.result, quantity: 0 })
+          this.formRecipe.ingredients.push({ item: res.data.result, displayQuantity: 0, displayUnit: res.data.result.unit.name })
           this.newItem = {}
           this.showNewItemDialog = false
         }
@@ -406,17 +409,16 @@ export default {
       }
     },
     async importer(){
-      const id = this.url.match(/[0-9a-fA-F]{24}/)[0]
-      console.log(id)
+      const id = this.importUrl.match(this.sources[parseInt(this.sourceId)].regex)[0]
       try {
         const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/recipe-parser', {
-          params: {source: this.source, id: id},
+          params: {source: this.sources[parseInt(this.sourceId)].key, id: id},
           withCredentials: true,
         })
         if (res.status === 200) {
-          console.log(res.data.result)
           Object.assign(this.formRecipe, res.data.result)
           this.showImport = false
+          this.importUrl = ''
           this.importErrors = res.data.errors
         }
       } catch (error) {
@@ -519,11 +521,8 @@ export default {
       return units
     },
     selectUnit(event, ingredient){
-      if(event.target.value != ingredient.item.unit.name){
-        ingredient.displayUnit = event.target.value
-      }else{
-        ingredient.displayUnit = undefined
-      }
+      ingredient.displayUnit = event.target.value
+
       for (const instruction of this.formRecipe.instructions){
         for (const ing of instruction.ingredients){
           if(ingredient.item._id == ing.item._id){
@@ -535,7 +534,7 @@ export default {
     },
     quantityChange(ingredient){
       var factor = 1
-      if(ingredient.displayUnit){
+      if(ingredient.displayUnit != ingredient.item.unit.name){
         var match = false
         for (const converter of ingredient.item.converter){
           if(converter.unit.name == ingredient.displayUnit){

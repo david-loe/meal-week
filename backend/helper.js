@@ -3,6 +3,32 @@ const i18n = require('./i18n')
 const axios = require('axios')
 const sharp = require('sharp')
 const Item = require('./models/recipe/item')
+const Tag = require('./models/recipe/tag')
+
+const fractions = {
+  '1_2': '½',
+  '1_3': '⅓',
+  '2_3': '⅔',
+  '1_4': '¼',
+  '2_4': '½',
+  '3_4': '¾',
+  '1_5': '⅕',
+  '2_5': '⅖',
+  '3_5': '⅗',
+  '4_5': '⅘',
+  '1_6': '⅙',
+  '2_6': '⅓',
+  '3_6': '½',
+  '4_6': '⅔',
+  '5_6': '⅚',
+  '1_8': '⅛',
+  '2_8': '¼',
+  '3_8': '⅜',
+  '4_8': '½',
+  '5_8': '⅝',
+  '6_8': '¾',
+  '7_8': '⅞',
+}
 
 function getter(model, name, defaultLimit = 10, searchAlias = false) {
   return async (req, res) => {
@@ -79,7 +105,7 @@ function setter(model) {
           return res.send(403)
         }
       }
-      newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body)
+      newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body, {new: true})
     } else {
       newObject = new model(req.body)
     }
@@ -113,36 +139,53 @@ function deleter(model) {
   }
 }
 
+function durationStringToMinutes(str){
+  const regex = /P.*T(\d+.?\d*)H(\d+.?\d*)M/
+  const matches = regex.exec(str)
+  return parseFloat(matches[1]) * 60 + parseFloat(matches[2])
+}
 
-function parseHTMLStr(str){
+function parseHTMLStr(str) {
   str = str.replaceAll('</p><p>', '\n')
   return str.replaceAll(/<[^<>]*>/g, '')
 }
 
-function matchUnit(str, Tunit){
-  var re = new RegExp( '^' + i18n.t(Tunit), 'i')
+const units = Object.values(i18n.t('units', { returnObjects: true }))
+
+function matchUnit(str, Tunit) {
+  var re = new RegExp('^' + i18n.t(Tunit), 'i')
   return Boolean(str.match(re))
 }
 
-async function getIngredientByName(name, unit, quantity){
+async function getIngredientByName(name, unit, quantity) {
   var re = new RegExp('^' + name + '$')
-  const ingredient = {item: {}, quantity: 0, displayQuantity: 0, displayUnit: undefined}
-  conditions = { $or: [
-    { name: { $regex: re, $options: 'i' } },
-    { alias: { $regex: re, $options: 'i' } }
-  ] }
-  ingredient.item = await Item.findOne(conditions)
-  if(!ingredient.item){
-    throw i18n.t('alerts.noItemFoundFor') + ': "' + name + '"'
+  const ingredient = { item: {}, quantity: 0, displayQuantity: 0, displayUnit: undefined }
+  function conditions(re) {
+    return {
+      $or: [
+      { name: { $regex: re, $options: 'i' } },
+      { alias: { $regex: re, $options: 'i' } }
+    ]}
   }
-
-  if(matchUnit(unit, ingredient.item.unit.name)){
-    ingredient.quantity = parseFloat(quantity)
-    ingredient.displayQuantity = ingredient.quantity
-  }else{
+  ingredient.item = await Item.findOne(conditions(re))
+  if (!ingredient.item) {
+    firstUpperWord = name.replaceAll(/[\(\)\[\]]/g, '').match(/[A-ZÄÜÖ][a-zäüöß]+/)
+    if(firstUpperWord){
+      re = new RegExp('^' + firstUpperWord[0] + '$')
+      ingredient.item = await Item.findOne(conditions(re))
+    }
+    if (!ingredient.item) {
+      return {error: i18n.t('alerts.noItemFoundFor') + ': "' + name + '" (' + quantity + unit + ')'}
+    }
+    
+  }
+  ingredient.displayUnit = ingredient.item.unit.name
+  ingredient.quantity = parseFloat(quantity)
+  ingredient.displayQuantity = ingredient.quantity
+  if(!matchUnit(unit, ingredient.item.unit.name)) {
     var match = false
-    for(const converter of ingredient.item.converter){
-      if(matchUnit(unit, converter.unit.name)){
+    for (const converter of ingredient.item.converter) {
+      if (matchUnit(unit, converter.unit.name)) {
         ingredient.displayUnit = converter.unit.name
         ingredient.displayQuantity = parseFloat(quantity)
         ingredient.quantity = ingredient.displayQuantity / converter.factor
@@ -150,9 +193,9 @@ async function getIngredientByName(name, unit, quantity){
         break
       }
     }
-    if(!match){
-      for (const miscellaneousUnit of ingredient.item.unit.miscellaneousUnits){
-        if(matchUnit(unit, miscellaneousUnit.name)){
+    if (!match) {
+      for (const miscellaneousUnit of ingredient.item.unit.miscellaneousUnits) {
+        if (matchUnit(unit, miscellaneousUnit.name)) {
           ingredient.displayUnit = miscellaneousUnit.name
           ingredient.displayQuantity = parseFloat(quantity)
           ingredient.quantity = ingredient.displayQuantity * miscellaneousUnit.factor
@@ -161,14 +204,14 @@ async function getIngredientByName(name, unit, quantity){
         }
       }
     }
-    if(!match){
-      throw i18n.t('alerts.noUnitFoundFor') + ': "' + unit + '" (' + name + ')'
+    if (!match) {
+      return {ingredient: ingredient, error: i18n.t('alerts.noUnitFoundFor') + ': "' + unit + '" (' + name + ')'}
     }
   }
-  return ingredient
+  return {ingredient: ingredient}
 }
 
-async function recipeParser(source, id){
+async function recipeParser(source, id) {
   const recipe = {}
   const errors = []
   switch (source) {
@@ -177,30 +220,123 @@ async function recipeParser(source, id){
       recipe.name = data.title
       recipe.numberOfPortions = data.servingsNumber
       recipe.prepTimeMin = data.preparationTime
-      recipe.name = data.title
-      image = await sharp((await axios.get(data.imageURLs[0], {responseType: 'arraybuffer'})).data).resize({width: 450}).toFormat('jpeg').toBuffer()
+      image = await sharp((await axios.get(data.imageURLs[0], { responseType: 'arraybuffer' })).data).resize({ width: 450 }).toFormat('jpeg').toBuffer()
       recipe.image = 'data:image/jpg;base64,' + image.toString('base64')
       recipe.ingredients = []
-      for(const ingType of data.ingredients){
-        for(const ingredient of ingType.ingredients){
-          try {
-            recipe.ingredients.push(await getIngredientByName(ingredient.name, ingredient.unit, ingredient.quantity))
-          } catch (error) {
-            errors.push(error)
+      for (const ingType of data.ingredients) {
+        for (const ingredient of ingType.ingredients) {
+          const result = await getIngredientByName(ingredient.name, ingredient.unit, ingredient.quantity)
+          if(result.ingredient) {
+            recipe.ingredients.push(result.ingredient)
+          } if (result.error) {
+            errors.push(result.error)
           }
         }
       }
       recipe.instructions = []
-      for(const step of data.steps){
-        recipe.instructions.push({text: parseHTMLStr(step.instruction)})
+      for (const step of data.steps) {
+        recipe.instructions.push({ text: parseHTMLStr(step.instruction) })
       }
 
+      recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+
       break;
-  
+    case 'chefkoch':
+      const htmlStr = (await axios.get('https://www.chefkoch.de/rezepte/' + id)).data
+      const start = htmlStr.search(/\{\n\s*"@context": "http:\/\/schema\.org",\n\s*"@type": "Recipe",/)
+      const end = htmlStr.indexOf('</script>', start)
+      const jsonStr = htmlStr.substring(start, end)
+      const data1 = JSON.parse(jsonStr)
+      recipe.name = data1.name
+      recipe.numberOfPortions = data1.recipeYield.match(/\d+(?= Portion)/)[0]
+      recipe.prepTimeMin = durationStringToMinutes(data1.prepTime)
+      recipe.cookTimeMin = durationStringToMinutes(data1.cookTime)
+      image = await sharp((await axios.get(data1.image, { responseType: 'arraybuffer' })).data).resize({ width: 450 }).toFormat('jpeg').toBuffer()
+      recipe.image = 'data:image/jpg;base64,' + image.toString('base64')
+
+      const instructionTexts = data1.recipeInstructions.replaceAll(/\n+/g, '\n').split('\n')
+      recipe.instructions = []
+      for (const text of instructionTexts) {
+        recipe.instructions.push({ text: text })
+      }
+
+      recipe.ingredients = []
+      const ingredientRegEx = new RegExp('(\\d+|([\u00bc-\u00be\u2150-\u215e])) ?([\u00bc-\u00be\u2150-\u215e])? ?('+ units.join('|') +'|Pck\\.|Liter)?,? (.+)')
+      for(const ingredient of data1.recipeIngredient){
+        const match = ingredientRegEx.exec(ingredient)
+        if(match == null){
+          errors.push(i18n.t('alerts.matchError') + ': "' + ingredient + '"')
+          continue
+        }
+        var quantity = 0
+        if(!match[2]){
+          quantity = parseInt(match[1])
+        }else{
+          match[3] = match[2]
+        }
+        if(match[3]){
+          for(const fraction in Object.keys(fractions)){
+            if(fractions[fraction] == match[2]){
+              quantity += parseInt(fraction.substring(0,1)) / parseInt(fraction.substring(2))
+              break
+            }
+          }
+        }
+        var unit = match[4] ? match[4] : i18n.t('units.count')
+        const result = await getIngredientByName(match[5], unit, quantity)
+        if(result.ingredient) {
+          recipe.ingredients.push(result.ingredient)
+        } if (result.error) {
+          errors.push(result.error)
+        }
+      }
+      break;
+    case 'cookidoo':
+      const data2 = (await axios.get('https://cookidoo.de/recipes/recipe/de-DE/' + id, {
+        headers: {
+          'accept': 'application/json'
+        }
+      })).data
+      recipe.name = data2.title
+      recipe.numberOfPortions = data2.servingSize.quantity.value
+      for(const time of data2.times){
+        if(time.type == 'activeTime'){
+          recipe.prepTimeMin = Math.round(time.quantity.value / 60)
+        }
+      }
+      for(const time of data2.times){
+        if(time.type == 'totalTime'){
+          recipe.cookTimeMin = Math.round(time.quantity.value / 60) - recipe.prepTimeMin
+        }
+      }
+      image = await sharp((await axios.get(data2.descriptiveAssets[0].square.replace('{transformation}', 't_web600x528'), { responseType: 'arraybuffer' })).data).resize({ width: 450 }).toFormat('jpeg').toBuffer()
+      recipe.image = 'data:image/jpg;base64,' + image.toString('base64')
+
+      recipe.ingredients = []
+      for (const ingGroup of data2.recipeIngredientGroups) {
+        for (const ingredient of ingGroup.recipeIngredients) {
+          const result = await getIngredientByName(ingredient.ingredientNotation, ingredient.unitNotation, ingredient.quantity.value)
+          if(result.ingredient) {
+            recipe.ingredients.push(result.ingredient)
+          } if (result.error) {
+            errors.push(result.error)
+          }
+        }
+      }
+      
+      recipe.instructions = []
+      for (const stepGroup of data2.recipeStepGroups) {
+        for(const step of stepGroup.recipeSteps){
+          recipe.instructions.push({ text: parseHTMLStr(step.formattedText) })
+        }
+      }
+
+      recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+      break;
     default:
       break;
   }
-  return {recipe: recipe, errors: errors}
+  return { recipe: recipe, errors: errors }
 }
 
 
@@ -216,30 +352,7 @@ function displayQuantity(quantity, recipePortions, displayPortions) {
   }
 }
 
-const fractions = {
-  '1_2': '½',
-  '1_3': '⅓',
-  '2_3': '⅔',
-  '1_4': '¼',
-  '2_4': '½',
-  '3_4': '¾',
-  '1_5': '⅕',
-  '2_5': '⅖',
-  '3_5': '⅗',
-  '4_5': '⅘',
-  '1_6': '⅙',
-  '2_6': '⅓',
-  '3_6': '½',
-  '4_6': '⅔',
-  '5_6': '⅚',
-  '1_8': '⅛',
-  '2_8': '¼',
-  '3_8': '⅜',
-  '4_8': '½',
-  '5_8': '⅝',
-  '6_8': '¾',
-  '7_8': '⅞',
-}
+
 
 
 module.exports = {

@@ -46,7 +46,7 @@
     "addIngredientToInstruction": "Add ingredient to step",
     "addToWeekPlan": "Add to week plan",
     "addTag": "Add a tag",
-    "addCategory": "Add a Category",
+    "addCategory": "Add a category",
     "editRecipe": "Edit recipe",
     "clearWeekPlan": "Clear the Week Plan",
     "weekday": "Weekday",
@@ -60,7 +60,15 @@
     "loadMoreRecipes": "Load more recipes",
     "import": "Import",
     "chooseSource": "Choose Source",
-    "url": "URL"
+    "url": "URL",
+    "emoji": "Emoji",
+    "unit": "Unit",
+    "itemCategory": "Item Category",
+    "alias": "Alias",
+    "addAlias": "Add alias",
+    "converter": "Converter",
+    "addConverter": "Add converter",
+    "factor": "Factor"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
@@ -69,6 +77,7 @@
     "areYouSureDelete": "Are you sure that you want to delete this?",
     "noItemFoundFor": "No item found for",
     "noUnitFoundFor": "No fitting unit was found for",
+    "matchError": "Error while matching",
     "request": {
       "unauthorized": "Not authorized!"
     },
@@ -104,8 +113,11 @@
     "account": {
       "changePassword": "Change Password"
     },
-    "shoppingList":{
+    "shoppingList": {
       "changeOrder": "Change order"
+    },
+    "items": {
+      "description": "Here you can change or create items."
     }
   },
   "itemCategory": {
@@ -128,9 +140,10 @@
     "lactoseFree": "lactose free",
     "highProtein": "high protein",
     "lowCarb": "low carb",
-    "onePot": "one pot"
+    "onePot": "one pot",
+    "thermomix": "Thermomix"
   },
-  "recipeCategory":{
+  "recipeCategory": {
     "mainDishes": "Main dishes",
     "desserts": "Desserts",
     "soups": "Soups",
@@ -144,7 +157,7 @@
     "snacks": "Snacks"
   },
   "weekdays": {
-    "0": "Sunday", 
+    "0": "Sunday",
     "1": "Monday",
     "2": "Tuesday",
     "3": "Wednesday",
@@ -153,7 +166,7 @@
     "6": "Saturday"
   },
   "weekdaysShort": {
-    "0": "Sun", 
+    "0": "Sun",
     "1": "Mon",
     "2": "Tue",
     "3": "Wed",

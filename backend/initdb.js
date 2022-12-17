@@ -56,7 +56,7 @@ function initItems() {
 
 function initDB() {
   // ItemCategory and Item
-  initer(ItemCategory, 'item categories', initData.itemCategories, initer(Unit, 'units', initData.units, initItems()))
+  initer(ItemCategory, 'item categories', initData.itemCategories, initer(Unit, 'units', initData.units, initItems))
   // Tag
   initer(Tag, 'tags', initData.tags)
   // RecipeCategory

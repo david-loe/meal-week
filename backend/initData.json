@@ -1,4 +1,4 @@
-{   
+{
     "units": [
         {
             "name": "units.mass",
@@ -144,7 +144,7 @@
                 {
                     "unit": "units.count",
                     "factor": 0.05
-                  }
+                }
             ]
         },
         {
@@ -164,7 +164,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 125
-                  }
+                }
             ]
         },
         {
@@ -176,7 +176,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 160
-                  }
+                }
             ]
         },
         {
@@ -188,7 +188,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 65
-                  }
+                }
             ]
         },
         {
@@ -199,7 +199,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 48
-                  }
+                }
             ]
         },
         {
@@ -210,7 +210,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 200
-                  }
+                }
             ]
         },
         {
@@ -221,19 +221,21 @@
                 {
                     "unit": "units.mass",
                     "factor": 400
-                  }
+                }
             ]
         },
         {
             "name": "Drachenfrucht",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Pitaya"],
+            "alias": [
+                "Pitaya"
+            ],
             "converter": [
                 {
                     "unit": "units.mass",
                     "factor": 450
-                  }
+                }
             ]
         },
         {
@@ -279,7 +281,7 @@
                 {
                     "unit": "units.count",
                     "factor": 0.013
-                  }
+                }
             ]
         },
         {
@@ -326,7 +328,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 340
-                  }
+                }
             ]
         },
         {
@@ -338,7 +340,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 400
-                  }
+                }
             ]
         },
         {
@@ -356,7 +358,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 130
-                  }
+                }
             ]
         },
         {
@@ -408,7 +410,9 @@
             "name": "Schnittlauch",
             "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces",
-            "alias": ["Schnittlauchröllchen"]
+            "alias": [
+                "Schnittlauchröllchen"
+            ]
         },
         {
             "name": "Basilikumblätter",
@@ -494,7 +498,7 @@
             "unit": "units.mass",
             "itemCategory": "itemCategory.refrigerated",
             "alias": [
-                "Jogurt"
+                "Jogurt", "Naturjoghurt"
             ]
         },
         {
@@ -538,6 +542,12 @@
         {
             "name": "Erdbeeren",
             "emoji": "🍓",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables"
+        },
+        {
+            "name": "Kirschen",
+            "emoji": "🍒",
             "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables"
         },
@@ -609,7 +619,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 140
-                  }
+                }
             ]
         },
         {
@@ -621,7 +631,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 130
-                  }
+                }
             ]
         },
         {
@@ -629,7 +639,9 @@
             "emoji": "🍜",
             "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces",
-            "alias": ["Brühwürfel"]
+            "alias": [
+                "Brühwürfel"
+            ]
         },
         {
             "name": "Cherrytomaten",
@@ -670,7 +682,7 @@
                 {
                     "unit": "units.count",
                     "factor": 0.006
-                  }
+                }
             ]
         },
         {
@@ -711,7 +723,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 200
-                  }
+                }
             ]
         },
         {
@@ -749,7 +761,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 125
-                  }
+                }
             ]
         },
         {
@@ -772,7 +784,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 30
-                  }
+                }
             ]
         },
         {
@@ -784,7 +796,7 @@
                 {
                     "unit": "units.count",
                     "factor": 0.0125
-                  }
+                }
             ]
         },
         {
@@ -792,12 +804,14 @@
             "emoji": "🍊",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Clementinen"],
+            "alias": [
+                "Clementinen"
+            ],
             "converter": [
                 {
                     "unit": "units.mass",
                     "factor": 80
-                  }
+                }
             ]
         },
         {
@@ -809,7 +823,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 200
-                  }
+                }
             ]
         },
         {
@@ -827,7 +841,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 80
-                  }
+                }
             ]
         },
         {
@@ -839,7 +853,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 870
-                  }
+                }
             ]
         },
         {
@@ -850,7 +864,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 600
-                  }
+                }
             ]
         },
         {
@@ -914,7 +928,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 275
-                  }
+                }
             ]
         },
         {
@@ -922,7 +936,9 @@
             "emoji": "🍅",
             "unit": "units.mass",
             "itemCategory": "itemCategory.spicesAndSauces",
-            "alias": ["getrocknete Tomaten"]
+            "alias": [
+                "getrocknete Tomaten"
+            ]
         },
         {
             "name": "Senf",
@@ -971,30 +987,37 @@
             "emoji": "🧅",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Schalotten"],
+            "alias": [
+                "Schalotten"
+            ],
             "converter": [
                 {
                     "unit": "units.mass",
                     "factor": 85
-                  }
+                }
             ]
         },
         {
             "name": "Lauch",
             "unit": "units.mass",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Porree"]
+            "alias": [
+                "Porree"
+            ]
         },
         {
             "name": "Frühlingszwiebeln",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Winterzwiebeln", "Lauchzwiebel"],
+            "alias": [
+                "Winterzwiebeln",
+                "Lauchzwiebel"
+            ],
             "converter": [
                 {
                     "unit": "units.mass",
                     "factor": 35
-                  }
+                }
             ]
         },
         {
@@ -1006,7 +1029,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 85
-                  }
+                }
             ]
         },
         {
@@ -1023,12 +1046,14 @@
             "emoji": "🎃",
             "unit": "units.count",
             "itemCategory": "itemCategory.fruitsAndVegetables",
-            "alias": ["Hokkaido-Kürbis"],
+            "alias": [
+                "Hokkaido-Kürbis"
+            ],
             "converter": [
                 {
                     "unit": "units.mass",
                     "factor": 600
-                  }
+                }
             ]
         },
         {
@@ -1040,7 +1065,10 @@
                 {
                     "unit": "units.mass",
                     "factor": 1000
-                  }
+                }
+            ],
+            "alias": [
+                "Butternuss-Kürbis"
             ]
         },
         {
@@ -1048,6 +1076,16 @@
             "emoji": "🟢",
             "unit": "units.mass",
             "itemCategory": "itemCategory.cannedProducts"
+        },
+        {
+            "name": "Croûtons",
+            "emoji": "🍞",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.fruitsAndVegetables",
+            "alias": [
+                "Croutons",
+                "Semmelbrösel"
+            ]
         },
         {
             "name": "Spargel",
@@ -1100,7 +1138,7 @@
                 {
                     "unit": "units.count",
                     "factor": 0.0033
-                  }
+                }
             ]
         },
         {
@@ -1123,7 +1161,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 120
-                  }
+                }
             ]
         },
         {
@@ -1138,7 +1176,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 300
-                  }
+                }
             ]
         },
         {
@@ -1150,7 +1188,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 120
-                  }
+                }
             ]
         },
         {
@@ -1168,7 +1206,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 600
-                  }
+                }
             ]
         },
         {
@@ -1242,7 +1280,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 150
-                  }
+                }
             ]
         },
         {
@@ -1271,7 +1309,10 @@
                 {
                     "unit": "units.mass",
                     "factor": 150
-                  }
+                }
+            ],
+            "alias": [
+                "Banane"
             ]
         },
         {
@@ -1288,7 +1329,7 @@
                 {
                     "unit": "units.mass",
                     "factor": 250
-                  }
+                }
             ]
         },
         {
@@ -1346,6 +1387,11 @@
             "itemCategory": "itemCategory.bakingIngredients"
         },
         {
+            "name": "Puderzucker",
+            "unit": "units.mass",
+            "itemCategory": "itemCategory.bakingIngredients"
+        },
+        {
             "name": "Vanillezucker",
             "unit": "units.mass",
             "itemCategory": "itemCategory.bakingIngredients"
@@ -1381,7 +1427,10 @@
         {
             "name": "Mehl",
             "unit": "units.mass",
-            "itemCategory": "itemCategory.bakingIngredients"
+            "itemCategory": "itemCategory.bakingIngredients",
+            "alias": [
+                "Weizenmehl"
+            ]
         },
         {
             "name": "Vollkornmehl",
@@ -1407,7 +1456,9 @@
             "name": "Schinken",
             "unit": "units.mass",
             "itemCategory": "itemCategory.meatAndFish",
-            "alias": ["Kochschinken"]
+            "alias": [
+                "Kochschinken"
+            ]
         },
         {
             "name": "Rucola",
@@ -1446,37 +1497,35 @@
     "tags": [
         {
             "name": "tags.vegetarian",
-            "emoji": "🚫🥩" 
-
+            "emoji": "🚫🥩"
         },
         {
             "name": "tags.vegan",
-            "emoji": "🌱" 
-
+            "emoji": "🌱"
         },
         {
             "name": "tags.glutenFree",
-            "emoji": "🚫🌾" 
-
+            "emoji": "🚫🌾"
         },
         {
             "name": "tags.lactoseFree",
-            "emoji": "🚫🥛" 
-
+            "emoji": "🚫🥛"
         },
         {
             "name": "tags.highProtein",
-            "emoji": "💪" 
-
+            "emoji": "💪"
         },
         {
             "name": "tags.lowCarb",
-            "emoji": "⤵️" 
+            "emoji": "⤵️"
         },
-
         {
             "name": "tags.onePot",
-            "emoji": "🍲" 
+            "emoji": "🍲"
+        },
+        {
+            "name": "tags.thermomix",
+            "emoji": "👨‍🍳"
         }
     ]
 }

@@ -55,6 +55,7 @@ router.get('/units', helper.getter(Unit, 'unit', 20))
 router.post('/items', helper.setter(Item))
 
 router.delete('/recipes', helper.deleter(Recipe))
+router.delete('/items', helper.deleter(Item))
 
 router.post('/recipes', async (req, res) => {
   req.body.author = req.user._id

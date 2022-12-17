@@ -62,7 +62,15 @@
     "loadMoreRecipes": "Weitere Rezepte laden",
     "import": "Importieren",
     "chooseSource": "Wähle eine Quelle",
-    "url": "URL"
+    "url": "URL",
+    "emoji": "Emoji",
+    "unit": "Einheit",
+    "itemCategory": "Zutatskategorie",
+    "alias": "Alias",
+    "addAlias": "Alias hinzufügen",
+    "converter": "Umrechnung",
+    "addConverter": "Umrechnung hinzufügen",
+    "factor": "Faktor"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",
@@ -71,6 +79,7 @@
     "areYouSureDelete": "Bist du dir sicher, dass du das löschen willst?",
     "noItemFoundFor": "Keine Zutat gefunden für",
     "noUnitFoundFor": "Keine passende Einheit gefunden für",
+    "matchError": "Fehler beim Abgleich von",
     "request": {
       "unauthorized": "Nicht autorisiert!"
     },
@@ -106,8 +115,11 @@
     "account": {
       "changePassword": "Passwort ändern"
     },
-    "shoppingList":{
+    "shoppingList": {
       "changeOrder": "Reihenfolge ändern"
+    },
+    "items": {
+      "description": "Hier kannst du Zutaten bearbeiten oder hinzufügen."
     }
   },
   "itemCategory": {
@@ -130,9 +142,10 @@
     "lactoseFree": "laktosefrei",
     "highProtein": "viele Proteine",
     "lowCarb": "wenig Kohlenhydrate",
-    "onePot": "one Pot"
+    "onePot": "one Pot",
+    "thermomix": "Thermomix"
   },
-  "recipeCategory":{
+  "recipeCategory": {
     "mainDishes": "Hauptgericht",
     "desserts": "Dessert",
     "soups": "Suppen",
@@ -146,7 +159,7 @@
     "snacks": "Snacks"
   },
   "weekdays": {
-    "0": "Sonntag", 
+    "0": "Sonntag",
     "1": "Montag",
     "2": "Dienstag",
     "3": "Mittwoch",
@@ -155,7 +168,7 @@
     "6": "Samstag"
   },
   "weekdaysShort": {
-    "0": "So", 
+    "0": "So",
     "1": "Mo",
     "2": "Di",
     "3": "Mi",
