@@ -64,7 +64,7 @@ export default {
         }
       } catch (error) {
         this.password = ''
-        alert(error.response.data.message)
+        this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         console.log(error.response.data)
       }
     },

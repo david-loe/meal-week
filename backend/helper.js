@@ -4,6 +4,7 @@ const axios = require('axios')
 const sharp = require('sharp')
 const Item = require('./models/recipe/item')
 const Tag = require('./models/recipe/tag')
+const RecipeCategory = require('./models/recipe/recipeCategory')
 
 const fractions = {
   '1_2': '½',
@@ -142,7 +143,11 @@ function deleter(model) {
 function durationStringToMinutes(str){
   const regex = /P.*T(\d+.?\d*)H(\d+.?\d*)M/
   const matches = regex.exec(str)
-  return parseFloat(matches[1]) * 60 + parseFloat(matches[2])
+  if(matches){
+    return parseFloat(matches[1]) * 60 + parseFloat(matches[2])
+  }else{
+    return null
+  }
 }
 
 function parseHTMLStr(str) {
@@ -151,10 +156,43 @@ function parseHTMLStr(str) {
 }
 
 const units = Object.values(i18n.t('units', { returnObjects: true }))
+const tagsObject = i18n.t('tags', { returnObjects: true })
+const recipeCategoriesObject = i18n.t('recipeCategory', { returnObjects: true })
 
 function matchUnit(str, Tunit) {
   var re = new RegExp('^' + i18n.t(Tunit), 'i')
   return Boolean(str.match(re))
+}
+
+async function getCategoriesOrTagsByNames(names, singleWords = false){
+  var words = []
+  if(!singleWords){
+    for(const name of names){
+      var matches = name.match(/[A-ZÄÜÖ][a-zäüöß]+/g)
+      if(matches){
+        words = words.concat(matches)
+      }
+    }
+  }else{
+    words = names
+  }
+  result = {tags: [], categories: []}
+  for(const word of words){
+    regex = new RegExp(word, 'i')
+    for(const tag of Object.keys(tagsObject)){
+      if(tagsObject[tag].match(regex)){
+        result.tags.push(await Tag.findOne({name: 'tags.' + tag}))
+        break
+      }
+    }
+    for(const category of Object.keys(recipeCategoriesObject)){
+      if(recipeCategoriesObject[category].match(regex)){
+        result.categories.push(await RecipeCategory.findOne({name: 'recipeCategory.' + category}))
+        break
+      }
+    }
+  }
+  return result
 }
 
 async function getIngredientByName(name, unit, quantity) {
@@ -238,7 +276,16 @@ async function recipeParser(source, id) {
         recipe.instructions.push({ text: parseHTMLStr(step.instruction) })
       }
 
-      recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+      if(data.categories){
+        const result = await getCategoriesOrTagsByNames(data.categories)
+        recipe.tags = result.tags
+        recipe.recipeCategories = result.categories
+      }
+      if(recipe.tags){
+        recipe.tags.push(await Tag.findOne({name: 'tags.thermomix'}))
+      }else{
+        recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+      }
 
       break;
     case 'chefkoch':
@@ -248,9 +295,16 @@ async function recipeParser(source, id) {
       const jsonStr = htmlStr.substring(start, end)
       const data1 = JSON.parse(jsonStr)
       recipe.name = data1.name
-      recipe.numberOfPortions = data1.recipeYield.match(/\d+(?= Portion)/)[0]
-      recipe.prepTimeMin = durationStringToMinutes(data1.prepTime)
-      recipe.cookTimeMin = durationStringToMinutes(data1.cookTime)
+      var portionsMatch = data1.recipeYield.match(/\d+(?= Portion)/)
+      if(portionsMatch){
+        recipe.numberOfPortions = portionsMatch[0]
+      }
+      if(data1.prepTime){
+        recipe.prepTimeMin = durationStringToMinutes(data1.prepTime)
+      }
+      if(data1.cookTime){
+        recipe.cookTimeMin = durationStringToMinutes(data1.cookTime)
+      }
       image = await sharp((await axios.get(data1.image, { responseType: 'arraybuffer' })).data).resize({ width: 450 }).toFormat('jpeg').toBuffer()
       recipe.image = 'data:image/jpg;base64,' + image.toString('base64')
 
@@ -258,6 +312,12 @@ async function recipeParser(source, id) {
       recipe.instructions = []
       for (const text of instructionTexts) {
         recipe.instructions.push({ text: text })
+      }
+
+      if(data1.keywords){
+        const result = await getCategoriesOrTagsByNames(data1.keywords, true)
+        recipe.tags = result.tags
+        recipe.recipeCategories = result.categories
       }
 
       recipe.ingredients = []
@@ -330,8 +390,24 @@ async function recipeParser(source, id) {
           recipe.instructions.push({ text: parseHTMLStr(step.formattedText) })
         }
       }
-
-      recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+      if(data2.tags){
+        const list = []
+        for(const tag of data2.tags){
+          list.push(tag.name)
+        }
+        for(const cat of data2.categories){
+          list.push(cat.title)
+        }
+        const result = await getCategoriesOrTagsByNames(list)
+        recipe.tags = result.tags
+        recipe.recipeCategories = result.categories
+      }
+      if(recipe.tags){
+        recipe.tags.push(await Tag.findOne({name: 'tags.thermomix'}))
+      }else{
+        recipe.tags = [await Tag.findOne({name: 'tags.thermomix'})]
+      }
+      
       break;
     default:
       break;

@@ -15,6 +15,7 @@ const url = process.env.VUE_APP_BACKEND_URL
 mongoose.connect(process.env.MONGO_URL, {}, () => {
   console.log(i18n.t("alerts.db.success"))
 })
+require('./initdb')
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
@@ -26,17 +27,6 @@ passport.use(new LocalStrategy(
     });
   }
 ));
-
-require('./initdb')
-
-User.find({}, async (err, docs) => {
-  if (docs.length === 0) {
-    const admin = new User({ email: process.env.ADMIN_EMAIL, name: process.env.ADMIN_NAME, isAdmin: true })
-    await admin.setDefaults()
-    await admin.setPassword(process.env.ADMIN_PASSWORD)
-    await admin.save()
-  }
-})
 
 const app = express()
 
@@ -73,6 +63,18 @@ app.use(passport.session());
 app.post('/login', passport.authenticate('local', { session: true }), async (req, res) => {
   res.send({ status: 'ok' })
 });
+
+User.find({}, async (err, docs) => {
+  if (docs.length === 0) {
+    const admin = new User({ email: process.env.ADMIN_EMAIL, name: process.env.ADMIN_NAME, isAdmin: true })
+    do {
+      await admin.setDefaults()
+    } while(admin.settings.shoppingListOrder.length == 0)
+    await admin.setPassword(process.env.ADMIN_PASSWORD)
+    await admin.save()
+    console.log('Added Admin User')
+  }
+})
 
 app.post('/register', async (req, res) => {
   if (!req.body.password || !req.body.email || !req.body.name || req.body.password.length === 0 || req.body.email.length === 0 || req.body.password.name === 0) {

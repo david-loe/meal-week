@@ -183,6 +183,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },
@@ -199,6 +200,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },

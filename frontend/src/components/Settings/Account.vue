@@ -62,6 +62,7 @@ export default {
           alert(this.$t('alerts.wrongPassword'))
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },

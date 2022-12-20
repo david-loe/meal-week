@@ -69,7 +69,19 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <router-view :class="loadState === 'LOADED' ? 'd-block' : 'd-none'" />
+    <div class="position-relative">
+      <div class="position-absolute top-0 end-0">
+        <div v-for="(alert, index) of alerts" :key="alert.id" class="alert alert-danger alert-dismissible m-2 position-relative" role="alert" style="z-index: 1100; max-width: 250px">
+          <strong><i class="bi bi-x-octagon-fill"></i> {{alert.title}}: </strong>
+          {{alert.message}}
+          <div class="progress position-absolute top-0 end-0" style="height: 5px; width: 100%">
+            <div class="progress-bar bg-danger" role="progressbar" id="alert-progress" aria-label="Danger example"></div>
+          </div>
+          <button type="button" class="btn-close" @click="alerts.splice(index, 1)"></button>
+        </div>
+      </div>
+      <router-view :class="loadState === 'LOADED' ? 'd-block' : 'd-none'" />
+    </div>
 
     <footer class="py-3 border-top">
       <div class="container">
@@ -89,6 +101,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      alerts: [],
       auth: false,
       user: {},
       reload: null,
@@ -133,6 +146,7 @@ export default {
           this.$router.push('/login')
         } 
       } catch (error) {
+        this.addAlert({message: error.response.data.message, title: "ERROR"})
         console.log(error.response.data)
       }
     },
@@ -150,6 +164,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },
@@ -163,6 +178,17 @@ export default {
         return false
       }
       return false
+    },
+    addAlert(alert){
+      alert = Object.assign(alert, {id: Math.random()})
+      this.alerts.push(alert)
+      setTimeout(()=>{
+        const index = this.alerts.findIndex((al) => {return al.id === alert.id})
+        console.log(index)
+        if(index !== -1){
+          this.alerts.splice(index, 1)
+        }
+      }, 5000)
     }
   },
   beforeMount() {
@@ -191,5 +217,16 @@ footer {
   width: 100%;
   height: 60px; /* Set the fixed height of the footer here */
   z-index: -999;
+}
+
+@keyframes run {
+  0%   {width: 0%;}
+  100% {width: 100%;}
+}
+
+#alert-progress {
+  animation-name: run;
+  animation-duration: 5s;
+  animation-timing-function: linear;
 }
 </style>

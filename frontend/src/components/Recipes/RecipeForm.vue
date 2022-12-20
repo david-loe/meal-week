@@ -25,7 +25,7 @@
         </div>
 
       </form>
-      <div v-if="importErrors.length > 0" class="alert alert-warning alert-dismissible fade show" role="alert">
+      <div v-if="importErrors.length > 0" class="alert alert-warning alert-dismissible" role="alert">
         <i class="bi bi-exclamation-triangle-fill"></i>
         <ul>
           <li v-for="error of importErrors" :key="error">{{error}}</li>
@@ -372,6 +372,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },
@@ -405,6 +406,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },
@@ -426,6 +428,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
         }
       }
     },

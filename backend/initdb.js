@@ -5,7 +5,7 @@ const Tag = require('./models/recipe/tag')
 const Unit = require('./models/recipe/unit')
 const initData = require('./initData.json')
 
-function initer(model, name, data, runAfterInsert = null){
+const initer = function (model, name, data, runAfterInsert = null){
   model.find({}, (err, docs) => {
     if (docs.length === 0) {
       model.insertMany(data, (err, docs) => {
