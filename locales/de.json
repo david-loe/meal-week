@@ -80,6 +80,11 @@
     "noItemFoundFor": "Keine Zutat gefunden für",
     "noUnitFoundFor": "Keine passende Einheit gefunden für",
     "matchError": "Fehler beim Abgleich von",
+    "errorSaving": "Beim Speichern ist ein Fehler aufgetreten",
+    "successSaving": "Gespeichert",
+    "errorDeleting": "Beim Löschen ist ein Fehler aufgetreten",
+    "successDeleting": "Gelöscht",
+    "errorParsing": "Beim Importieren ist ein Fehler aufgetreten",
     "request": {
       "unauthorized": "Nicht autorisiert!"
     },

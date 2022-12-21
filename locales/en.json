@@ -78,6 +78,11 @@
     "noItemFoundFor": "No item found for",
     "noUnitFoundFor": "No fitting unit was found for",
     "matchError": "Error while matching",
+    "errorSaving": "Error while saving",
+    "successSaving": "Saved successfully",
+    "errorDeleting": "Error while deleting",
+    "successDeleting": "Deleted successfully",
+    "errorParsing": "Error while parsing",
     "request": {
       "unauthorized": "Not authorized!"
     },

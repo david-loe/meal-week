@@ -53,13 +53,14 @@ export default {
         if (res.status === 200) {
           this.$root.user.settings = res.data.result
           this.changeSuccess = true;
+          this.$root.addAlert({message: '', title: res.data.message, type: "success"})
         }
       } catch (error) {
         if (error.response.status === 401) {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },

@@ -56,13 +56,14 @@ export default {
           this.newPassword2 = ''
           this.oldPassword = ''
           this.changePasswordSuccess = true
+          this.$root.addAlert({message: '', title: res.data.message, type: "success"})
         }
       } catch (error) {
         if (error.response.status === 401) {
           alert(this.$t('alerts.wrongPassword'))
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },

@@ -16,8 +16,8 @@
       <a v-if="!recipe.image" href="#" class="nav-link" @click="$emit('clicked')">
         <h5 class="card-title">{{ recipe.name }}</h5>
       </a>
-      <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
-      <span v-for="tag in recipe.tags" class="badge text-dark" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
+      <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark me-1" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
+      <span v-for="tag in recipe.tags" class="badge text-dark me-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
     </div>
     <div class="card-footer">
       <small class="text-muted">{{ $t('labels.createdBy') + ' ' + recipe.author.name }}</small>

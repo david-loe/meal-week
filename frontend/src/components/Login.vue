@@ -63,7 +63,7 @@ export default {
         }
       } catch (error) {
         this.password = ''
-        this.$root.addAlert({message: this.$t('alerts.loginFailed'), title: "ERROR"})
+        this.$root.addAlert({message: this.$t('alerts.loginFailed'), title: "ERROR", type: "danger"})
       }
     },
   },

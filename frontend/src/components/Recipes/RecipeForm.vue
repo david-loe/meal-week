@@ -372,7 +372,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },
@@ -381,10 +381,12 @@ export default {
       const index = this.formRecipe.ingredients.indexOf(ingredient)
       if (index !== -1) {
         for(var instruction of this.formRecipe.instructions){
-          for(var i = 0; i < instruction.ingredients.length; i++){
-            if(instruction.ingredients[i].item._id === ingredient.item._id){
-              instruction.ingredients.splice(i, 1)
-              break
+          if(instruction.ingredients){
+            for(var i = 0; i < instruction.ingredients.length; i++){
+              if(instruction.ingredients[i].item._id === ingredient.item._id){
+                instruction.ingredients.splice(i, 1)
+                break
+              }
             }
           }
         }
@@ -406,7 +408,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },
@@ -428,7 +430,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },
@@ -527,9 +529,11 @@ export default {
       ingredient.displayUnit = event.target.value
 
       for (const instruction of this.formRecipe.instructions){
-        for (const ing of instruction.ingredients){
-          if(ingredient.item._id == ing.item._id){
-            ing.displayUnit = ingredient.displayUnit
+        if(instruction.ingredients){
+          for (const ing of instruction.ingredients){
+            if(ingredient.item._id == ing.item._id){
+              ing.displayUnit = ingredient.displayUnit
+            }
           }
         }
       }

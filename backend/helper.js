@@ -106,16 +106,21 @@ function setter(model) {
           return res.send(403)
         }
       }
-      newObject = await model.findOneAndUpdate({ _id: req.body._id }, req.body, {new: true})
+      try {
+        const result = await model.findOneAndUpdate({ _id: req.body._id }, req.body, {new: true})
+        res.send({ message: i18n.t('alerts.successSaving'), result: result })
+      } catch (error) {
+        res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
+      }
     } else {
-      newObject = new model(req.body)
+      try {
+        const result = await (new model(req.body)).save()
+        res.send({ message: i18n.t('alerts.successSaving'), result: result })
+      } catch (error) {
+        res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
+      }
     }
-    try {
-      const result = await newObject.save()
-      res.send({ message: 'Success', result: result })
-    } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
-    }
+    
   }
 }
 
@@ -130,9 +135,9 @@ function deleter(model) {
       }
       try {
         await model.deleteOne({ _id: req.query.id })
-        res.send({ message: 'Success' })
+        res.send({ message: i18n.t('alerts.successDeleting') })
       } catch (error) {
-        res.status(400).send({ message: 'Error while deleting', error: error })
+        res.status(400).send({ message: i18n.t('alerts.errorDeleting'), error: error })
       }
     } else {
       return res.status(400).send({ message: 'Missing id' })

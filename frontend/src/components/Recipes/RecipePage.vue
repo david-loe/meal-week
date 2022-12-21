@@ -14,8 +14,11 @@
         <select class="form-select" style="max-width:5em;" v-model="selectedWeekDay">
           <option v-for="n in 7" :key="n" :value="n">{{ $t('weekdaysShort.' + ((n + todaysWeekday) % 7)) }}</option>
         </select>
-        <button :class="'btn btn-primary position-relative'  + (window.width >= $root.bp.md ? '' : ' btn-sm')" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
-          {{ $t('labels.addToWeekPlan') }}
+        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
+          <span>
+            <i class="bi bi-plus"></i>
+            <i class="bi bi-calendar-week"></i>
+          </span>
           <span v-if="addedToWeekPlan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
             ✔
           </span>
@@ -42,10 +45,10 @@
 
         </div>
         <div>
-          <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
+          <span v-for="category in recipe.recipeCategories" class="badge bg-light text-dark me-1" :key="category._id">{{ $t(category.name) + ' ' + (category.emoji ? ' ' + category.emoji : '') }}</span>
         </div>
         <div>
-          <span v-for="tag in recipe.tags" class="badge text-dark" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
+          <span v-for="tag in recipe.tags" class="badge text-dark me-1" :key="tag._id" style="background-color: rgba(var(--bs-info-rgb),0.25)">{{ $t(tag.name) + ' ' + tag.emoji }}</span>
         </div>
       </div>
       
@@ -126,16 +129,12 @@ export default {
     },
     ingrdientToString(ingredient, short = false){
       if(short){
-        if(ingredient.displayUnit){
-          return this.calcQ(ingredient.displayQuantity) + this.$t(ingredient.displayUnit)
-        }else{
-          return this.calcQ(ingredient.quantity) + this.$t(ingredient.item.unit.name)
-        }
+        return this.calcQ(ingredient.displayQuantity) + this.$t(ingredient.displayUnit)
       }else{
-        if(ingredient.displayUnit){
-          return this.calcQ(ingredient.displayQuantity) + ' ' + this.$t(ingredient.displayUnit) + ' (' + this.calcQ(ingredient.quantity) + ' ' + this.$t(ingredient.item.unit.name) + ')'
-        }else{
+        if(ingredient.displayUnit == ingredient.item.unit.name){
           return this.calcQ(ingredient.quantity) + ' ' + this.$t(ingredient.item.unit.name)
+        }else{
+          return this.calcQ(ingredient.displayQuantity) + ' ' + this.$t(ingredient.displayUnit) + ' (' + this.calcQ(ingredient.quantity) + ' ' + this.$t(ingredient.item.unit.name) + ')'
         }
       }
     },

@@ -48,7 +48,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
       this.shoppingListToStr()
@@ -71,7 +71,7 @@ export default {
           this.clipboardSuccess = true
         } catch (error) {
           console.log(error)
-          this.$root.addAlert({message: error, title: "ERROR"})
+          this.$root.addAlert({message: error, title: "ERROR", type: "danger"})
         }
       }
     }

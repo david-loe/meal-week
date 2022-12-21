@@ -71,11 +71,15 @@
     </div>
     <div class="position-relative">
       <div class="position-absolute top-0 end-0">
-        <div v-for="(alert, index) of alerts" :key="alert.id" class="alert alert-danger alert-dismissible m-2 position-relative" role="alert" style="z-index: 1100; max-width: 250px">
-          <strong><i class="bi bi-x-octagon-fill"></i> {{alert.title}}: </strong>
+        <div v-for="(alert, index) of alerts" :key="alert.id" :class="'alert alert-' + alert.type + ' alert-dismissible m-2 position-relative'" role="alert" style="z-index: 1100; max-width: 250px">
+          <strong>
+            <i v-if="alert.type == 'danger'" class="bi bi-x-octagon-fill"></i>
+            <i v-if="alert.type == 'success'" class="bi bi-check-circle-fill"></i>
+            {{alert.title}}{{ alert.title && alert.message ? ': ' : ''}}
+          </strong>
           {{alert.message}}
           <div class="progress position-absolute top-0 end-0" style="height: 5px; width: 100%">
-            <div class="progress-bar bg-danger" role="progressbar" id="alert-progress" aria-label="Danger example"></div>
+            <div :class="'progress-bar bg-' + alert.type" role="progressbar" id="alert-progress" aria-label="Danger example"></div>
           </div>
           <button type="button" class="btn-close" @click="alerts.splice(index, 1)"></button>
         </div>
@@ -146,7 +150,7 @@ export default {
           this.$router.push('/login')
         } 
       } catch (error) {
-        this.addAlert({message: error.response.data.message, title: "ERROR"})
+        this.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         console.log(error.response.data)
       }
     },
@@ -164,7 +168,7 @@ export default {
           this.$router.push('login')
         } else {
           console.log(error.response.data)
-          this.addAlert({message: error.response.data.message, title: "ERROR"})
+          this.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
     },
@@ -184,7 +188,6 @@ export default {
       this.alerts.push(alert)
       setTimeout(()=>{
         const index = this.alerts.findIndex((al) => {return al.id === alert.id})
-        console.log(index)
         if(index !== -1){
           this.alerts.splice(index, 1)
         }

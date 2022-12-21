@@ -85,9 +85,9 @@ router.post('/reviews', async (req,res) => {
     try {
       await review.save()
       const result = await recipe.save()
-      res.send({ message: 'Success', result: (await result.populate('reviews')).reviews })
+      res.send({ message: i18n.t('alerts.successSaving'), result: (await result.populate('reviews')).reviews })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
+      res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
   }else {
     res.status(400).send({ message: 'Missing assessment or recipeId'})
@@ -105,9 +105,9 @@ router.post('/likes', async (req, res) => {
     recipe.markModified('likes')
     try {
       const result = await recipe.save()
-      res.send({ message: 'Success', result: result.likes })
+      res.send({ message: i18n.t('alerts.successSaving'), result: result.likes })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
+      res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
   }else {
     res.status(400).send({ message: 'Missing recipeId'})
@@ -125,9 +125,9 @@ router.delete('/likes', async (req, res) => {
     recipe.markModified('likes')
     try {
       const result = await recipe.save()
-      res.send({ message: 'Success', result: result.likes })
+      res.send({ message: i18n.t('alerts.successSaving'), result: result.likes })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
+      res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
   }else {
     res.status(400).send({ message: 'Missing recipeId'})
@@ -155,9 +155,9 @@ router.post('/week-plan', async (req, res) => {
     user.markModified('weekPlan')
     try {
       const result = await user.save()
-      res.send({ message: 'Success', result: result.weekPlan })
+      res.send({ message: i18n.t('alerts.successSaving'), result: result.weekPlan })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
+      res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
   }else {
     res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions or weekday'})
@@ -178,9 +178,9 @@ router.delete('/week-plan', async (req, res) => {
   user.markModified('weekPlan')
     try {
       const result = await user.save()
-      res.send({ message: 'Success', result: result.weekPlan })
+      res.send({ message: i18n.t('alerts.successDeleting'), result: result.weekPlan })
     } catch (error) {
-      res.status(400).send({ message: 'Error while saving', error: error })
+      res.status(400).send({ message: i18n.t('alerts.errorDeleting'), error: error })
     }
 })
 
@@ -225,9 +225,9 @@ router.post('/user/settings', async (req, res) => {
   user.markModified('settings')
   try {
     const result = await user.save()
-    res.send({ message: 'Success', result: result.settings })
+    res.send({ message: i18n.t('alerts.successSaving'), result: result.settings })
   } catch (error) {
-    res.status(400).send({ message: 'Error while saving', error: error })
+    res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
   }
 })
 
@@ -236,7 +236,7 @@ router.get('/recipe-parser', async (req, res) =>{
     const parser = await helper.recipeParser(req.query.source, req.query.id)
     res.send({result: parser.recipe, errors: parser.errors})
   } catch (error) {
-    res.status(400).send({ message: 'Error while parsing', error: error })
+    res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
   }
 })
 
