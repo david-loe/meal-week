@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const tagSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    emoji: {type: String}
+    name: {type: String, required: true, unique: true, trim: true},
+    emoji: {type: String, trim: true}
 })
 
 

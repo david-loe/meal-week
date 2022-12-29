@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const recipeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, trim: true },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   ingredients: [
     {
@@ -13,7 +13,7 @@ const recipeSchema = new mongoose.Schema({
   ],
   instructions: [
     {
-      text: { type: String, required: true },
+      text: { type: String, required: true, trim: true },
       ingredients: [
         {
           quantity: { type: Number, min: 0, required: true },

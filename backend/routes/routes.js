@@ -232,12 +232,13 @@ router.post('/user/settings', async (req, res) => {
 })
 
 router.get('/recipe-parser', async (req, res) =>{
-  try {
+  // res.set('Cache-Control', 'no-store')
+  // try {
     const parser = await helper.recipeParser(req.query.source, req.query.id)
     res.send({result: parser.recipe, errors: parser.errors})
-  } catch (error) {
-    res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
-  }
+  // } catch (error) {
+  //   res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
+  // }
 })
 
 module.exports = router

@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt')
 const ItemCategory = require('./recipe/itemCategory')
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, lowercase: true, unique: true, index: true },
+  email: { type: String, required: true, lowercase: true, unique: true, index: true, trim: true },
   hash: { type: String, required: true },
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true, trim: true },
   isAdmin: {type: Boolean, required: true},
   notes: [{ recipe: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe', required: true }, note: { type: String, required: true } }],
   weekPlan: [

@@ -14,7 +14,7 @@
         <select class="form-select" style="max-width:5em;" v-model="selectedWeekDay">
           <option v-for="n in 7" :key="n" :value="n">{{ $t('weekdaysShort.' + ((n + todaysWeekday) % 7)) }}</option>
         </select>
-        <button class="btn btn-primary position-relative" type="button" id="button-addon2" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
+        <button class="btn btn-primary position-relative" type="button" id="button-addon2" :title="$t('labels.addToWeekPlan')" @click="$emit('add-to-week-plan', (selectedWeekDay + todaysWeekday) % 7, pagePortions);addedToWeekPlan=true">
           <span>
             <i class="bi bi-plus"></i>
             <i class="bi bi-calendar-week"></i>

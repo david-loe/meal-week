@@ -66,6 +66,7 @@
             <td colspan="3">
               <input
                 @input="itemSearchChange"
+                @keydown.enter.prevent="itemSearchChange"
                 class="form-control"
                 list="ingredientsList"
                 id="addIngredient"
@@ -180,9 +181,9 @@
         <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
         <div class="col-auto">
         <div class="input-group input-group-sm" style="max-width: 10em">
-                <input class="form-control" type="number" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
+                <input class="form-control" type="number" step="any" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <span class="input-group-text">
-                  {{ ingredient.displayUnit }}
+                  {{ $t(ingredient.displayUnit) }}
                 </span>
               </div>
         </div>
@@ -349,7 +350,7 @@ export default {
             }
           }
         } else {
-          this.newItem = { name: this.itemSearch.substring(2), itemCategory: '', unit: '' }
+          this.newItem = { name: this.itemSearch.substring(3), itemCategory: '', unit: '' }
           this.showNewItemDialog = true
           this.itemSearch = ''
           this.itemSuggestions = []
@@ -444,12 +445,17 @@ export default {
       var allReadyIn = false
       if(!isNaN(parseInt(event.target.value))){
         const item = this.formRecipe.ingredients[event.target.value].item
-        for (const ingredient of instruction.ingredients){
-          if(ingredient.item._id === item._id){
-            allReadyIn = true
-            break
+        if(instruction.ingredients){
+          for (const ingredient of instruction.ingredients){
+            if(ingredient.item._id === item._id){
+              allReadyIn = true
+              break
+            }
           }
+        }else{
+          instruction.ingredients = []
         }
+        
         if(!allReadyIn){
           const ing = Object.assign({}, this.formRecipe.ingredients[event.target.value])
           instruction.ingredients.push(ing)

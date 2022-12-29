@@ -160,6 +160,24 @@ function parseHTMLStr(str) {
   return str.replaceAll(/<[^<>]*>/g, '')
 }
 
+function parseSpecialCharacters(str, source){
+  var mapping = {}
+  switch (source) {
+    case 'cookidoo':
+      mapping = {
+        '' : '↩',
+        '' : '🥄',
+        '' : '🌾'
+      }
+      break
+  }
+  var result = str
+  for(const special of Object.keys(mapping)){
+    result = result.replaceAll(special, mapping[special])
+  }
+  return result
+}
+
 const units = Object.values(i18n.t('units', { returnObjects: true }))
 const tagsObject = i18n.t('tags', { returnObjects: true })
 const recipeCategoriesObject = i18n.t('recipeCategory', { returnObjects: true })
@@ -201,7 +219,12 @@ async function getCategoriesOrTagsByNames(names, singleWords = false){
 }
 
 async function getIngredientByName(name, unit, quantity) {
-  var re = new RegExp('^' + name + '$')
+  if(name == null){
+    name = ''
+  }if(unit == null){
+    unit = ''
+  }
+  var re = new RegExp('^' + name.trim() + '$')
   const ingredient = { item: {}, quantity: 0, displayQuantity: 0, displayUnit: undefined }
   function conditions(re) {
     return {
@@ -212,10 +235,18 @@ async function getIngredientByName(name, unit, quantity) {
   }
   ingredient.item = await Item.findOne(conditions(re))
   if (!ingredient.item) {
-    firstUpperWord = name.replaceAll(/[\(\)\[\]]/g, '').match(/[A-ZÄÜÖ][a-zäüöß]+/)
+    firstUpperWord = name.replaceAll(/[\(\)\[\]]/g, '').match(/[A-ZÄÜÖ][a-zäüöß\-A-ZÄÜÖ]+/)
     if(firstUpperWord){
       re = new RegExp('^' + firstUpperWord[0] + '$')
       ingredient.item = await Item.findOne(conditions(re))
+      if (!ingredient.item) {
+        re = new RegExp('^' + firstUpperWord[0].slice(0, -1) + '$')
+        ingredient.item = await Item.findOne(conditions(re))
+      }
+      if (!ingredient.item) {
+        re = new RegExp('^' + firstUpperWord[0] + '.$')
+        ingredient.item = await Item.findOne(conditions(re))
+      }
     }
     if (!ingredient.item) {
       return {error: i18n.t('alerts.noItemFoundFor') + ': "' + name + '" (' + quantity + unit + ')'}
@@ -225,6 +256,7 @@ async function getIngredientByName(name, unit, quantity) {
   ingredient.displayUnit = ingredient.item.unit.name
   ingredient.quantity = parseFloat(quantity)
   ingredient.displayQuantity = ingredient.quantity
+  unit = unit || parseFloat(quantity) == 0 ? unit : i18n.t('units.count')
   if(!matchUnit(unit, ingredient.item.unit.name)) {
     var match = false
     for (const converter of ingredient.item.converter) {
@@ -248,7 +280,7 @@ async function getIngredientByName(name, unit, quantity) {
       }
     }
     if (!match) {
-      return {ingredient: ingredient, error: i18n.t('alerts.noUnitFoundFor') + ': "' + unit + '" (' + name + ')'}
+      return {ingredient: ingredient, error: i18n.t('alerts.noUnitFoundFor') + ': "' + unit + '" (' + name + ', ' + quantity + ')'}
     }
   }
   return {ingredient: ingredient}
@@ -347,8 +379,7 @@ async function recipeParser(source, id) {
             }
           }
         }
-        var unit = match[4] ? match[4] : i18n.t('units.count')
-        const result = await getIngredientByName(match[5], unit, quantity)
+        const result = await getIngredientByName(match[5], match[4], quantity)
         if(result.ingredient) {
           recipe.ingredients.push(result.ingredient)
         } if (result.error) {
@@ -392,7 +423,7 @@ async function recipeParser(source, id) {
       recipe.instructions = []
       for (const stepGroup of data2.recipeStepGroups) {
         for(const step of stepGroup.recipeSteps){
-          recipe.instructions.push({ text: parseHTMLStr(step.formattedText) })
+          recipe.instructions.push({ text: parseSpecialCharacters(parseHTMLStr(step.formattedText), source) })
         }
       }
       if(data2.tags){

@@ -81,7 +81,7 @@
               <span class="text-dark ms-1" @click="formItem.converter.splice(index, 1)" style="cursor: pointer"><i class="bi bi-x-lg"></i></span>
             </div>
             <div id="formItem_converter" class="input-group">
-              <input type="number" class="form-control" v-model="newConverter.factor" :placeholder="$t('labels.factor')" required />
+              <input type="number" step="any" class="form-control" v-model="newConverter.factor" :placeholder="$t('labels.factor')" required />
               <select class="form-select" id="formItem_converter_unit" v-model="newConverter.unit" required>
                 <option disabled value="">{{ $t('labels.chooseUnit') }}</option>
                 <option v-for="unit in $root.units" :value="unit" :key="unit._id">
@@ -158,7 +158,7 @@ export default {
             }
           }
         } else {
-          this.formItem = { name: this.itemSearch.substring(2), itemCategory: '', unit: '', alias: [], converter: [] }
+          this.formItem = { name: this.itemSearch.substring(3), itemCategory: '', unit: '', alias: [], converter: [] }
           this.itemSearch = ''
           this.itemSuggestions = []
         }

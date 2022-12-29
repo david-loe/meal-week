@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const itemSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  emoji: { type: String },
-  alias: [{ type: String }],
+  name: { type: String, required: true, trim: true },
+  emoji: { type: String, trim: true },
+  alias: [{ type: String, trim: true }],
   unit: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit', required: true },
   itemCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'ItemCategory', required: true },
   converter: [{
