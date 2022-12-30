@@ -1,6 +1,9 @@
 module.exports = {
   devServer: {
-    disableHostCheck: true
+    allowedHosts: 'all',
+    client: {
+      webSocketURL: 'auto://0.0.0.0:0/ws'
+    }
   },
   pluginOptions: {
     i18n: {

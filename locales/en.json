@@ -72,7 +72,7 @@
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
-    "loginFailed": "Failed to Login!",
+    "loginFailed": "Failed to login!",
     "wrongPassword": "Wrong Password",
     "areYouSureDelete": "Are you sure that you want to delete this?",
     "noItemFoundFor": "No item found for",

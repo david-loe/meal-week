@@ -30,7 +30,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'Account',
+  name: 'AccountSettings',
   data() {
     return {
       changePasswordSuccess: false,

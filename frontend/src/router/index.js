@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../components/Login.vue'
-import Register from '../components/Register.vue'
-import Settings from '../components/Settings.vue'
-import Recipes from '../components/Recipes.vue'
+import LoginPage from '../components/Login.vue'
+import RegisterPage from '../components/Register.vue'
+import SettingsPage from '../components/Settings.vue'
+import RecipeOverview from '../components/Recipes.vue'
 import WeekPlan from '../components/WeekPlan.vue'
 import ShoppingList from '../components/ShoppingList.vue'
 import axios from 'axios'
@@ -11,25 +11,25 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: LoginPage,
     meta: { requiresAuth: false}
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register,
+    component: RegisterPage,
     meta: { requiresAuth: false}
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: Settings,
+    component: SettingsPage,
     meta: { requiresAuth: true}
   },
   {
     path: '/recipes/:recipeId([0-9a-fA-F]{24})?/:customNumberOfPortions(\\d+)?',
     name: 'Recipes',
-    component: Recipes,
+    component: RecipeOverview,
     meta: { requiresAuth: true},
     props: true
   },

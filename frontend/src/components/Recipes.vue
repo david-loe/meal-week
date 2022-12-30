@@ -96,7 +96,7 @@ import RecipePage from './Recipes/RecipePage.vue'
 import { Modal } from 'bootstrap'
 import axios from 'axios'
 export default {
-  name: 'Recipes',
+  name: 'RecipeOverview',
   components: {
     RecipeTile,
     RecipeForm,

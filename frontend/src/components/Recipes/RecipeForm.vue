@@ -180,7 +180,7 @@
         <div class="row" v-for="ingredient in instruction.ingredients" :key="ingredient.item._id">
         <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
         <div class="col-auto">
-        <div class="input-group input-group-sm" style="max-width: 10em">
+        <div class="input-group input-group-sm" style="max-width: 7em;">
                 <input class="form-control" type="number" step="any" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <span class="input-group-text">
                   {{ $t(ingredient.displayUnit) }}
