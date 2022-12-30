@@ -187,6 +187,58 @@ function matchUnit(str, Tunit) {
   return Boolean(str.match(re))
 }
 
+function addIngredientsToInstructions(recipe){
+  const ingredients = JSON.parse(JSON.stringify(recipe.ingredients))
+  for(const instruction of recipe.instructions){
+    for(const ingredient of ingredients){
+      if(!ingredient){
+        continue
+      }
+      var re = new RegExp(ingredient.item.name + '?')
+      var match = instruction.text.match(re)
+      if(!match){
+        if(ingredient.item.alias){
+          for(const alias of ingredient.item.alias){
+            re = new RegExp(alias + '?')
+            match = instruction.text.match(re)
+            if(match){
+              break
+            }
+          }
+        }
+      }
+      if(match){
+        if(!instruction.ingredients){
+          instruction.ingredients = []
+        }
+        if(instruction.ingredients.findIndex((e) => e.item && e.item._id == ingredient.item._id) === -1){
+          instruction.ingredients.push(ingredient)
+          ingredients.splice(ingredients.indexOf(ingredient), 1, null)
+        }
+      }
+    }
+  }
+  return recipe
+}
+
+function combineIngredients(ingredients){
+  for(const ingredient of ingredients){
+    var first = ingredients.findIndex((e) => e.item._id.equals(ingredient.item._id))
+    var last = ingredients.findLastIndex((e) => e.item._id.equals(ingredient.item._id))
+    while(first !== last){
+      ingredients[first].quantity += ingredients[last].quantity
+      if(ingredients[first].displayUnit == ingredients[last].displayUnit){
+        ingredients[first].displayQuantity += ingredients[last].displayQuantity
+      }else{
+        ingredients[first].displayUnit = ingredients[first].item.unit.name
+        ingredients[first].displayQuantity = ingredients[first].quantity
+      }
+      ingredients.splice(last, 1)
+      last = ingredients.findLastIndex((e) => e.item._id.equals(ingredient.item._id))
+    }
+  }
+}
+
 async function getCategoriesOrTagsByNames(names, singleWords = false){
   var words = []
   if(!singleWords){
@@ -204,13 +256,17 @@ async function getCategoriesOrTagsByNames(names, singleWords = false){
     regex = new RegExp(word, 'i')
     for(const tag of Object.keys(tagsObject)){
       if(tagsObject[tag].match(regex)){
-        result.tags.push(await Tag.findOne({name: 'tags.' + tag}))
+        if(result.tags.findIndex((e) => e.name == 'tags.' + tag) === -1){
+          result.tags.push(await Tag.findOne({name: 'tags.' + tag}))
+        }
         break
       }
     }
     for(const category of Object.keys(recipeCategoriesObject)){
       if(recipeCategoriesObject[category].match(regex)){
-        result.categories.push(await RecipeCategory.findOne({name: 'recipeCategory.' + category}))
+        if(result.categories.findIndex((e) => e.name == 'recipeCategory.' + category) === -1){
+          result.categories.push(await RecipeCategory.findOne({name: 'recipeCategory.' + category}))
+        }
         break
       }
     }
@@ -448,6 +504,8 @@ async function recipeParser(source, id) {
     default:
       break;
   }
+  addIngredientsToInstructions(recipe)
+  combineIngredients(recipe.ingredients)
   return { recipe: recipe, errors: errors }
 }
 
