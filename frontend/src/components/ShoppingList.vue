@@ -15,6 +15,12 @@
     </div>
     <div>
       <textarea class="form-control" v-model="shoppingListStr" id="shoppingListStr" rows="10"></textarea>
+      <div v-if="showHidden" class="mt-2">
+        <textarea class="form-control" v-model="hiddenListStr" id="shoppingListStr" rows="5"></textarea>
+        <router-link to="/settings#hideItem">{{$t('labels.toSettings')}}</router-link>
+        <button type="button" class="btn btn-link"></button>
+      </div>
+      <button v-else type="button" class="btn btn-link" @click="showHidden=true">{{$t('labels.showHidden')}}</button>
     </div>
   </div>
 </template>
@@ -30,6 +36,9 @@ export default {
     return {
       shoppingList: [],
       shoppingListStr: '',
+      hiddenList: [],
+      hiddenListStr: '',
+      showHidden: false,
       clipboardSuccess: false,
     }
   },
@@ -41,7 +50,8 @@ export default {
           withCredentials: true,
         })
         if (res.status === 200) {
-          this.shoppingList = res.data.data
+          this.shoppingList = res.data.data.shoppingList
+          this.hiddenList = res.data.data.hiddenList
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -51,18 +61,20 @@ export default {
           this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
         }
       }
-      this.shoppingListToStr()
+      this.shoppingListStr = this.listToStr(this.shoppingList)
+      this.hiddenListStr = this.listToStr(this.hiddenList)
     },
-    shoppingListToStr(){
-      this.shoppingListStr = ''
-      for(const entry of this.shoppingList){
-        this.shoppingListStr += entry.quantity + this.$t(entry.item.unit.name)
+    listToStr(list){
+      var str = ''
+      for(const entry of list){
+        str += entry.quantity + this.$t(entry.item.unit.name)
         for(const converter of entry.item.converter){
           var convertedQuantiy = Math.round(entry.quantity * converter.factor * 10) /10
-          this.shoppingListStr += '(~' + convertedQuantiy + this.$t(converter.unit.name) + ')'
+          str += '(~' + convertedQuantiy + this.$t(converter.unit.name) + ')'
         }
-        this.shoppingListStr += ' ' + entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') + '\n'
+        str += ' ' + entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') + '\n'
       }
+      return str
     },
     async shoppingListToClipboard(){
       if (window.isSecureContext) {

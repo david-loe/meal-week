@@ -70,8 +70,9 @@
       </div>
     </div>
     <div class="position-relative">
-      <div class="position-absolute top-0 end-0">
-        <div v-for="(alert, index) of alerts" :key="alert.id" :class="'alert alert-' + alert.type + ' alert-dismissible m-2 position-relative'" role="alert" style="z-index: 1100; max-width: 250px">
+      <div class="position-absolute top-0 end-0" style="height: 100%;">
+      <div class="position-sticky top-0 pt-2 pe-2" style="z-index: 1100;">
+        <div v-for="(alert, index) of alerts" :key="alert.id" :class="'alert alert-' + alert.type + ' alert-dismissible ms-auto'" role="alert" style="z-index: 1100; max-width: 250px">
           <strong>
             <i v-if="alert.type == 'danger'" class="bi bi-x-octagon-fill"></i>
             <i v-if="alert.type == 'success'" class="bi bi-check-circle-fill"></i>
@@ -82,6 +83,7 @@
             <div :class="'progress-bar bg-' + alert.type" role="progressbar" id="alert-progress" aria-label="Danger example"></div>
           </div>
           <button type="button" class="btn-close" @click="alerts.splice(index, 1)"></button>
+        </div>
         </div>
       </div>
       <router-view :class="loadState === 'LOADED' ? 'd-block' : 'd-none'" />

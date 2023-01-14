@@ -59,28 +59,28 @@ router.delete('/items', helper.deleter(Item))
 
 router.post('/recipes', async (req, res) => {
   req.body.author = req.user._id
-  return helper.setter(Recipe)(req,res)
+  return helper.setter(Recipe)(req, res)
 })
 
-router.post('/reviews', async (req,res) => {
-  if(req.body.assessment && req.body.assessment >= 0 && req.body.assessment <= 5 && req.body.recipeId && req.body.recipeId.length > 0){
+router.post('/reviews', async (req, res) => {
+  if (req.body.assessment && req.body.assessment >= 0 && req.body.assessment <= 5 && req.body.recipeId && req.body.recipeId.length > 0) {
     var isNewReview = true
     var review = {}
-    const recipe = await Recipe.findOne({_id: req.body.recipeId})
-    for(var recipeReview of recipe.reviews){
-      if(recipeReview.author == req.user._id){
-        review = await Review.findOne({_id: recipeReview._id})
+    const recipe = await Recipe.findOne({ _id: req.body.recipeId })
+    for (var recipeReview of recipe.reviews) {
+      if (recipeReview.author == req.user._id) {
+        review = await Review.findOne({ _id: recipeReview._id })
         review.assessment = req.body.assessment
         recipeReview = review
         isNewReview = false
         break
       }
     }
-    if(isNewReview){
-      review = new Review({author: req.user._id, assessment: req.body.assessment})
+    if (isNewReview) {
+      review = new Review({ author: req.user._id, assessment: req.body.assessment })
       recipe.reviews.push(review)
     }
-    
+
     recipe.markModified('reviews')
     try {
       await review.save()
@@ -89,17 +89,17 @@ router.post('/reviews', async (req,res) => {
     } catch (error) {
       res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
-  }else {
-    res.status(400).send({ message: 'Missing assessment or recipeId'})
+  } else {
+    res.status(400).send({ message: 'Missing assessment or recipeId' })
   }
 })
 
 router.post('/likes', async (req, res) => {
-  if(req.body.recipeId && req.body.recipeId.length > 0){
-    const recipe = await Recipe.findOne({_id: req.body.recipeId})
+  if (req.body.recipeId && req.body.recipeId.length > 0) {
+    const recipe = await Recipe.findOne({ _id: req.body.recipeId })
     var index = recipe.likes.indexOf(req.user._id)
-    if(index != -1){
-      return res.send({message: 'Already liked', result: recipe.likes})
+    if (index != -1) {
+      return res.send({ message: 'Already liked', result: recipe.likes })
     }
     recipe.likes.push(req.user._id)
     recipe.markModified('likes')
@@ -109,17 +109,17 @@ router.post('/likes', async (req, res) => {
     } catch (error) {
       res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
-  }else {
-    res.status(400).send({ message: 'Missing recipeId'})
+  } else {
+    res.status(400).send({ message: 'Missing recipeId' })
   }
 })
 
 router.delete('/likes', async (req, res) => {
-  if(req.query.recipeId && req.query.recipeId.length > 0){
-    const recipe = await Recipe.findOne({_id: req.query.recipeId})
+  if (req.query.recipeId && req.query.recipeId.length > 0) {
+    const recipe = await Recipe.findOne({ _id: req.query.recipeId })
     var index = recipe.likes.indexOf(req.user._id)
-    if(index == -1){
-      return res.send({message: 'Already not liked', result: recipe.likes})
+    if (index == -1) {
+      return res.send({ message: 'Already not liked', result: recipe.likes })
     }
     recipe.likes.splice(index, 1)
     recipe.markModified('likes')
@@ -129,28 +129,28 @@ router.delete('/likes', async (req, res) => {
     } catch (error) {
       res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
-  }else {
-    res.status(400).send({ message: 'Missing recipeId'})
+  } else {
+    res.status(400).send({ message: 'Missing recipeId' })
   }
 })
 
 router.post('/week-plan', async (req, res) => {
-  if(req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null && req.body.weekday !== undefined && req.body.weekday >= 0 && req.body.weekday <= 6){
-    const recipe = await Recipe.findOne({_id: req.body.recipeId})
-    if(recipe == null){
-      return res.status(400).send({message: 'No Recipe with id: ' + req.body.recipeId})
+  if (req.body.recipeId && req.body.recipeId.length > 0 && req.body.numberOfPortions && req.body.numberOfPortions != null && req.body.weekday !== undefined && req.body.weekday >= 0 && req.body.weekday <= 6) {
+    const recipe = await Recipe.findOne({ _id: req.body.recipeId })
+    if (recipe == null) {
+      return res.status(400).send({ message: 'No Recipe with id: ' + req.body.recipeId })
     }
     const user = await User.findOne({ _id: req.user._id })
     var recipeNotInWeekPlan = true
-    for(var weekPlanRecipe of user.weekPlan[req.body.weekday]){
-      if(weekPlanRecipe.recipe == req.body.recipeId){
+    for (var weekPlanRecipe of user.weekPlan[req.body.weekday]) {
+      if (weekPlanRecipe.recipe == req.body.recipeId) {
         recipeNotInWeekPlan = false
         weekPlanRecipe.numberOfPortions = req.body.numberOfPortions
         break
       }
     }
-    if(recipeNotInWeekPlan){
-      user.weekPlan[req.body.weekday].push({recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions})
+    if (recipeNotInWeekPlan) {
+      user.weekPlan[req.body.weekday].push({ recipe: req.body.recipeId, numberOfPortions: req.body.numberOfPortions })
     }
     user.markModified('weekPlan')
     try {
@@ -159,64 +159,73 @@ router.post('/week-plan', async (req, res) => {
     } catch (error) {
       res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
     }
-  }else {
-    res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions or weekday'})
+  } else {
+    res.status(400).send({ message: 'Missing recipeId or customNumberOfPortions or weekday' })
   }
 })
 
 router.delete('/week-plan', async (req, res) => {
   const user = await User.findOne({ _id: req.user._id })
-  if(req.query.id && req.query.id.length > 0 && req.query.weekday !== undefined && parseInt(req.query.weekday) >= 0 && parseInt(req.query.weekday) <= 6){
+  if (req.query.id && req.query.id.length > 0 && req.query.weekday !== undefined && parseInt(req.query.weekday) >= 0 && parseInt(req.query.weekday) <= 6) {
     const index = user.weekPlan[parseInt(req.query.weekday)].map(o => o.recipe.toString()).indexOf(req.query.id)
-    if(index == -1){
-      return res.send({message: 'Id already not in weekPlan.', result: user.weekPlan})
+    if (index == -1) {
+      return res.send({ message: 'Id already not in weekPlan.', result: user.weekPlan })
     }
     user.weekPlan[parseInt(req.query.weekday)].splice(index, 1)
-  }else{
-    user.weekPlan = [[],[],[],[],[],[],[]];
+  } else {
+    user.weekPlan = [[], [], [], [], [], [], []];
   }
   user.markModified('weekPlan')
-    try {
-      const result = await user.save()
-      res.send({ message: i18n.t('alerts.successDeleting'), result: result.weekPlan })
-    } catch (error) {
-      res.status(400).send({ message: i18n.t('alerts.errorDeleting'), error: error })
-    }
+  try {
+    const result = await user.save()
+    res.send({ message: i18n.t('alerts.successDeleting'), result: result.weekPlan })
+  } catch (error) {
+    res.status(400).send({ message: i18n.t('alerts.errorDeleting'), error: error })
+  }
 })
 
 router.get('/shopping-list', async (req, res) => {
   const user = await User.findOne({ _id: req.user._id })
   const shoppingList = [];
-  for(const weekday of user.weekPlan){
-    for(const planEntry of weekday){
-      const recipe = await Recipe.findOne({_id: planEntry.recipe})
+  const hiddenList = [];
+  for (const weekday of user.weekPlan) {
+    for (const planEntry of weekday) {
+      const recipe = await Recipe.findOne({ _id: planEntry.recipe })
       const factor = planEntry.numberOfPortions / recipe.numberOfPortions
-      for(const ingredient of recipe.ingredients){
+      for (const ingredient of recipe.ingredients) {
         const quantity = ingredient.quantity * factor
         var added = false;
-        for(const listEntry of shoppingList){
-          if(listEntry.item._id.equals(ingredient.item._id)){
+        for (const listEntry of shoppingList) {
+          if (listEntry.item._id.equals(ingredient.item._id)) {
             listEntry.quantity += quantity
             added = true
             break
           }
         }
-        if(!added){
-          shoppingList.push({item: ingredient.item, quantity: quantity})
+        if (!added) {
+          shoppingList.push({ item: ingredient.item, quantity: quantity })
         }
       }
     }
   }
-  for(const listEntry of shoppingList){
-    listEntry.quantity = Math.round(listEntry.quantity * 100) / 100
+  for (var i = 0; i < shoppingList.length; i++) {
+    shoppingList[i].quantity = Math.round(shoppingList[i].quantity * 100) / 100
+    for (const hideItem of user.settings.hideInShoppingList) {
+      if (hideItem.item._id.equals(shoppingList[i].item._id) && (!hideItem.quantity || hideItem.quantity > shoppingList[i].quantity)) {
+        hiddenList.push(shoppingList[i])
+        shoppingList.splice(i,1)
+        i--
+        break
+      }
+    }
   }
   const compFunc = function (a, b) {
     indexA = user.settings.shoppingListOrder.indexOf(a.item.itemCategory)
     indexB = user.settings.shoppingListOrder.indexOf(b.item.itemCategory)
-    return indexB - indexA 
+    return indexB - indexA
   }
   shoppingList.sort(compFunc)
-  res.send({data: shoppingList})
+  res.send({ data: {shoppingList, hiddenList} })
 })
 
 router.post('/user/settings', async (req, res) => {
@@ -231,11 +240,11 @@ router.post('/user/settings', async (req, res) => {
   }
 })
 
-router.get('/recipe-parser', async (req, res) =>{
+router.get('/recipe-parser', async (req, res) => {
   // res.set('Cache-Control', 'no-store')
   // try {
-    const parser = await helper.recipeParser(req.query.source, req.query.id)
-    res.send({result: parser.recipe, errors: parser.errors})
+  const parser = await helper.recipeParser(req.query.source, req.query.id)
+  res.send({ result: parser.recipe, errors: parser.errors })
   // } catch (error) {
   //   res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
   // }

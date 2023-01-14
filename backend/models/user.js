@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   ]],
   settings: {
     shoppingListOrder: [{type: mongoose.Schema.Types.ObjectId, ref: 'ItemCategory'}],
-    hideInShoppingList: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
+    hideInShoppingList: [{item: {type: mongoose.Schema.Types.ObjectId, ref: 'Item', unique: true}, quantity: {type: Number, min: 0}}]
   }
 })
 
@@ -30,5 +30,9 @@ userSchema.methods.setDefaults = async function () {
   this.weekPlan = [[],[],[],[],[],[],[]]
   this.settings.shoppingListOrder = await ItemCategory.find()
 }
+
+userSchema.pre(/^find((?!Update).)*$/, function () {
+  this.populate({ path: 'settings.hideInShoppingList.item', model: 'Item' })
+})
 
 module.exports = mongoose.model('User', userSchema)

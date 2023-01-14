@@ -1,8 +1,9 @@
 <template>
   <div class="container mb-3">
     <h2>{{ $t('headlines.shoppingList') }}</h2>
-    <div class="container">
-      <h3>{{ $t('settings.shoppingList.changeOrder') }}</h3>
+    <div class="container mb-3">
+      <h3 id="changeOrder">{{ $t('settings.shoppingList.changeOrder.title') }}</h3>
+      <p>{{ $t('settings.shoppingList.changeOrder.description') }}</p>
         <div>
           <draggable 
             v-model="settings.shoppingListOrder"
@@ -17,10 +18,41 @@
         </div>
         <button type="submit" class="btn btn-secondary position-relative" @click="changeSettings(settings)">
           {{ $t('labels.save') }}
-          <span v-if="changeSuccess"  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">
-            ✔
-          </span>
         </button>
+    </div>
+    <div class="container">
+      <h3 id="hideItem">{{ $t('settings.shoppingList.hideItem.title') }}</h3>
+      <p>{{ $t('settings.shoppingList.hideItem.description') }}</p>
+
+      <div>
+        <item-search class="mb-1" :allowNew="false" idKey="hideItem" @selected="addHidden"></item-search>
+        <div style="max-height: 400px;overflow-y: scroll;">
+          <table class="table align-middle">
+            <tbody>
+              <tr v-for="(entry, index) in settings.hideInShoppingList" :key="entry.item._id">
+                <td>{{ entry.item.name + (entry.item.emoji ? ' ' + entry.item.emoji : '') }}</td>
+                <td>
+                  <div class="input-group" style="max-width: 10em">
+                    <input class="form-control" type="number" step="any" v-model="entry.quantity" :ref="entry.item._id"/>
+                    <span class="input-group-text">
+                      {{ $t(entry.item.unit.name) }}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm" @click="settings.hideInShoppingList.splice(index, 1)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <button type="submit" class="btn btn-secondary position-relative" @click="changeSettings(settings)">
+          {{ $t('labels.save') }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -28,17 +60,19 @@
 <script>
 import axios from 'axios'
 import draggable from 'vuedraggable'
+import ItemSearch from '../Recipes/ItemSearch.vue'
+import { nextTick } from 'vue'
 export default {
   name: 'ShoppingListSettings',
   data() {
     return {
       settings: {},
-      changeSuccess: false,
     }
   },
   props: [],
   components: {
-    draggable
+    draggable,
+    ItemSearch
   },
   methods: {
     async changeSettings(newSettings) {
@@ -52,7 +86,6 @@ export default {
         )
         if (res.status === 200) {
           this.$root.user.settings = res.data.result
-          this.changeSuccess = true;
           this.$root.addAlert({message: '', title: res.data.message, type: "success"})
         }
       } catch (error) {
@@ -64,6 +97,15 @@ export default {
         }
       }
     },
+    addHidden(item){
+      const index = this.settings.hideInShoppingList.findIndex((e)=>item._id == e.item._id)
+      if(index === -1){
+        this.settings.hideInShoppingList.push({item:item,quantity:null})
+      }
+      nextTick(() => {
+        this.$refs[item._id][0].focus()
+      })
+    }
   },
   async beforeMount() {
     await this.$root.load()

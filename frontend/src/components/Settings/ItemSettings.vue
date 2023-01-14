@@ -3,23 +3,7 @@
     <h2>{{ $t('headlines.items') }}</h2>
     <div class="container">
       <p>{{ $t('settings.items.description') }}</p>
-      <div class="mb-2">
-        <input
-          @input="itemSearchChange"
-          class="form-control"
-          list="ingredientsList"
-          id="addIngredient"
-          :placeholder="$t('labels.typeToSearch')"
-          v-model="itemSearch"
-        />
-        <datalist id="ingredientsList">
-          <option v-for="item in itemSuggestions" :value="item.name + (item.emoji ? ' ' + item.emoji : '')" :key="item._id" />
-          <option
-            v-if="itemSuggestions.length === 0 && itemSearch.length >= 2 && itemSearch.slice(0, 2) !== '🆕'"
-            :value="'🆕 ' + itemSearch"
-          />
-        </datalist>
-      </div>
+      <item-search class="mb-2" idKey="settingItem" @selected="(i)=> formItem = i" @new="(i)=> formItem = i"></item-search>
       <form v-if="Object.keys(formItem).length > 0" @submit.prevent="save(formItem)">
         <div class="mb-2">
           <label for="formItem_name" class="form-label">{{ $t('labels.name') }}</label>
@@ -109,12 +93,11 @@
 
 <script>
 import axios from 'axios'
+import ItemSearch from '../Recipes/ItemSearch.vue'
 export default {
   name: 'ItemSettings',
   data() {
     return {
-      itemSuggestions: [],
-      itemSearch: '',
       formItem: {},
       settings: {},
       changeSuccess: false,
@@ -123,48 +106,14 @@ export default {
     }
   },
   props: [],
-  components: {},
+  components: {
+    ItemSearch
+  },
   methods: {
     clear() {
       this.formItem = {}
       this.newAlias = ''
       this.newConverter = {unit: '', factor: null}
-    },
-    async itemSearchChange() {
-      var selected = false
-      if (this.itemSearch.length >= 2) {
-        if (this.itemSearch.indexOf('🆕') !== 0) {
-          for (const sug of this.itemSuggestions) {
-            if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
-              selected = true
-              this.formItem = await this.$root.getter('items', { id: sug._id })
-              this.itemSearch = ''
-              break
-            }
-          }
-          if (!selected) {
-            this.itemSuggestions = await this.$root.getter('items', { search: this.itemSearch, limit: 5 })
-            if (this.itemSuggestions.length <= 2) {
-              for (const item of this.itemSuggestions) {
-                if (item.name.match(new RegExp(this.itemSearch, 'i')) != null) {
-                  continue
-                }
-                if (item.alias && item.alias.length > 0) {
-                  for (const alias of item.alias) {
-                    this.itemSuggestions.push({ name: alias, _id: item._id, emoji: item.emoji })
-                  }
-                }
-              }
-            }
-          }
-        } else {
-          this.formItem = { name: this.itemSearch.substring(3), itemCategory: '', unit: '', alias: [], converter: [] }
-          this.itemSearch = ''
-          this.itemSuggestions = []
-        }
-      } else {
-        this.itemSuggestions = []
-      }
     },
     async remove(id) {
       if(!confirm(this.$t('alerts.areYouSureDelete'))){

@@ -70,7 +70,9 @@
     "addAlias": "Alias hinzufügen",
     "converter": "Umrechnung",
     "addConverter": "Umrechnung hinzufügen",
-    "factor": "Faktor"
+    "factor": "Faktor",
+    "showHidden": "Ausgeblendete ansehen",
+    "toSettings": "Zu den Einstellungen"
   },
   "alerts": {
     "imageToBig": "Das Bild ist zu groß!",
@@ -121,7 +123,14 @@
       "changePassword": "Passwort ändern"
     },
     "shoppingList": {
-      "changeOrder": "Reihenfolge ändern"
+      "changeOrder": {
+        "title": "Reihenfolge ändern",
+        "description": "Hier kannst du die Reihenfolge deiner Produkte in der Einkaufsliste per Kategorie festlegen."
+      },
+      "hideItem": {
+        "title": "Zutaten verbergen",
+        "description": "Verberge Zutaten in der Einkaufsliste. Zusätzlich kannst du eine Menge angeben bei der die Zutaten dann doch angezeigt werden sollen."
+      }
     },
     "items": {
       "description": "Hier kannst du Zutaten bearbeiten oder hinzufügen."

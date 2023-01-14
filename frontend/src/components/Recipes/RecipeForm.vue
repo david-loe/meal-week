@@ -64,22 +64,7 @@
         <tbody>
           <tr class="mb-1">
             <td colspan="3">
-              <input
-                @input="itemSearchChange"
-                @keydown.enter.prevent="itemSearchChange"
-                class="form-control"
-                list="ingredientsList"
-                id="addIngredient"
-                :placeholder="$t('labels.typeToSearch')"
-                v-model="itemSearch"
-              />
-              <datalist id="ingredientsList">
-                <option v-for="item in itemSuggestions" :value="item.name + (item.emoji ? ' ' + item.emoji : '')" :key="item._id" />
-                <option
-                  v-if="itemSuggestions.length === 0 && itemSearch.length >= 2 && itemSearch.slice(0, 2) !== '🆕'"
-                  :value="'🆕 ' + itemSearch"
-                />
-              </datalist>
+              <item-search @new="createNewItem" @selected="addIngredient"></item-search>
             </td>
           </tr>
           <tr v-if="showNewItemDialog">
@@ -137,7 +122,7 @@
             <td>{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</td>
             <td>
               <div class="input-group" style="max-width: 10em">
-                <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
+                <input class="form-control" type="number" step="any" min="0.1" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" :ref="'ing' + ingredient.item._id" />
                 <select class="form-select" id="recipeFormUnit" v-model="ingredient.displayUnit" @change="selectUnit($event, ingredient)" style="max-width: 4.5em">
                   <option selected :value="ingredient.item.unit.name">{{$t(ingredient.item.unit.name)}}</option>
                   <option v-for="unit in getAdditionalUnits(ingredient.item)" :key="unit" :value="unit">
@@ -180,7 +165,7 @@
         <div class="row" v-for="ingredient in instruction.ingredients" :key="ingredient.item._id">
         <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
         <div class="col-auto">
-        <div class="input-group input-group-sm" style="max-width: 7em;">
+        <div class="input-group input-group-sm" style="max-width: 6em;">
                 <input class="form-control" type="number" step="any" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
                 <span class="input-group-text">
                   {{ $t(ingredient.displayUnit) }}
@@ -259,9 +244,14 @@
 
 <script>
 import axios from 'axios'
+import ItemSearch from './ItemSearch.vue'
+import { nextTick } from 'vue'
 export default {
   name: 'RecipeForm',
   emits: ['add', 'edit', 'cancel'],
+  components: {
+    ItemSearch
+  },
   data() {
     return {
       importUrl: '',
@@ -270,8 +260,6 @@ export default {
       showImport: false,
       importErrors: [],
       formRecipe: this.recipe,
-      itemSuggestions: [],
-      itemSearch: '',
       newItem: {},
       showNewItemDialog: false,
     }
@@ -315,69 +303,24 @@ export default {
         recipeCategories: []
       }
       this.newItem = {}
-      this.itemSearch = ''
-      this.itemSuggestions = []
       this.showNewItemDialog = false
       this.importErrors = []
       this.showImport = false
     },
-    async itemSearchChange() {
-      var selected = false
-      if (this.itemSearch.length >= 2) {
-        if (this.itemSearch.indexOf('🆕') !== 0) {
-          for (const sug of this.itemSuggestions) {
-            if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
-              selected = true
-              var item = await this.getItems({ id: sug._id })
-              this.formRecipe.ingredients.push({ item: item, displayQuantity: 0, displayUnit: item.unit.name })
-              this.itemSearch = ''
-              break
-            }
-          }
-          if (!selected) {
-            this.itemSuggestions = await this.getItems({ search: this.itemSearch, limit: 5 })
-            if (this.itemSuggestions.length <= 2) {
-              for (const item of this.itemSuggestions) {
-                if (item.name.match(new RegExp(this.itemSearch, 'i')) != null) {
-                  continue
-                }
-                if (item.alias && item.alias.length > 0) {
-                  for (const alias of item.alias) {
-                    this.itemSuggestions.push({ name: alias, _id: item._id, emoji: item.emoji })
-                  }
-                }
-              }
-            }
-          }
-        } else {
-          this.newItem = { name: this.itemSearch.substring(3), itemCategory: '', unit: '' }
-          this.showNewItemDialog = true
-          this.itemSearch = ''
-          this.itemSuggestions = []
-        }
-      } else {
-        this.itemSuggestions = []
+    addIngredient(item){
+      const index = this.formRecipe.ingredients.findIndex((e)=>item._id == e.item._id)
+      if(index === -1){
+        this.formRecipe.ingredients.push({ item: item, displayQuantity: 0, displayUnit: item.unit.name })
       }
-    },
-    async getItems(params) {
-      try {
-        const res = await axios.get(process.env.VUE_APP_BACKEND_URL + '/api/items', {
-          params: params,
-          withCredentials: true,
-        })
-        if (res.status === 200) {
-          return res.data.data
-        }
-      } catch (error) {
-        if (error.response.status === 401) {
-          this.$router.push('login')
-        } else {
-          console.log(error.response.data)
-          this.$root.addAlert({message: error.response.data.message, title: "ERROR", type: "danger"})
-        }
-      }
-    },
+      nextTick(() => {
+        this.$refs['ing' + item._id][0].focus()
+      })
 
+    },
+    createNewItem(item){
+      this.newItem = item
+      this.showNewItemDialog = true
+    },
     deleteIngredient(ingredient) {
       const index = this.formRecipe.ingredients.indexOf(ingredient)
       if (index !== -1) {

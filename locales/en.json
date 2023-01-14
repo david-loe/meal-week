@@ -68,7 +68,9 @@
     "addAlias": "Add alias",
     "converter": "Converter",
     "addConverter": "Add converter",
-    "factor": "Factor"
+    "factor": "Factor",
+    "showHidden": "Show hidden",
+    "toSettings": "To the settings"
   },
   "alerts": {
     "imageToBig": "The provided image is to big!",
@@ -119,7 +121,14 @@
       "changePassword": "Change Password"
     },
     "shoppingList": {
-      "changeOrder": "Change order"
+      "changeOrder": {
+        "title": "Change order",
+        "description": "Set the order of your shopping list by item categories"
+      },
+      "hideItem": {
+        "title": "Hide item",
+        "description": "Hide items in your shopping List. You can also specify a amount at which they should appear regardless."
+      }
     },
     "items": {
       "description": "Here you can change or create items."
