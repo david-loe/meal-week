@@ -25,7 +25,7 @@
       <p>{{ $t('settings.shoppingList.hideItem.description') }}</p>
 
       <div>
-        <item-search class="mb-1" :allowNew="false" idKey="hideItem" @selected="addHidden"></item-search>
+        <item-search class="mb-1" :allowNew="false" @selected="addHidden"></item-search>
         <div style="max-height: 400px;overflow-y: scroll;">
           <table class="table align-middle">
             <tbody>

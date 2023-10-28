@@ -3,7 +3,7 @@
     <h2>{{ $t('headlines.items') }}</h2>
     <div class="container">
       <p>{{ $t('settings.items.description') }}</p>
-      <item-search class="mb-2" idKey="settingItem" @selected="(i)=> formItem = i" @new="(i)=> formItem = i"></item-search>
+      <item-search class="mb-2" @selected="(i)=> formItem = i" @new="(i)=> formItem = i"></item-search>
       <form v-if="Object.keys(formItem).length > 0" @submit.prevent="save(formItem)">
         <div class="mb-2">
           <label for="formItem_name" class="form-label">{{ $t('labels.name') }}</label>

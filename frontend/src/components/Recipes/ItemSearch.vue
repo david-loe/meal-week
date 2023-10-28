@@ -1,31 +1,31 @@
 <template>
+  
   <div>
-    <input
-      @input="itemSearchChange"
-      @keydown.enter.prevent="itemSearchChange"
-      class="form-control"
-      :list="idKey + 'sList'"
-      :placeholder="$t('labels.typeToSearch')"
-      v-model="itemSearch"
-    />
-    <datalist :id="idKey + 'sList'">
-      <option v-for="item in itemSuggestions" :value="item.name + (item.emoji ? ' ' + item.emoji : '')" :key="item._id" />
-      <option
-        v-if="allowNew && itemSuggestions.length === 0 && itemSearch.length >= 2 && itemSearch.indexOf('🆕') !== 0"
-        :value="'🆕 ' + itemSearch"
-      />
-    </datalist>
+    <v-select v-model="selected" :filterable="false" :options="itemSuggestions" @search="search" @option:selected="(i)=>{$emit('selected', structuredClone(i));selected=null}" :getOptionLabel="(o) => o.name + (o.emoji ? ' ' + o.emoji : '')" >
+      <template v-slot:no-options="{ search, searching }">
+      <template v-if="searching" >
+        <span v-if="allowNew" @click="() => $emit('new', { name: search, itemCategory: '', unit: '', alias: [], converter: [] })" style="cursor: pointer;">
+          🆕 <b>{{ search }}</b>
+        </span>
+        <template v-else>
+          Keine Zutat für <em>{{search}}</em> gefunden.
+        </template>
+      </template>
+      <em v-else style="opacity: 0.5">Tippe um nach Zutaten zu suchen.</em>
+    </template>
+  </v-select>
   </div>
 </template>
 
 <script>
+
 export default {
  name: 'ItemSearch',
   emits: ['selected', 'new'],
   data() {
     return {
       itemSuggestions: [],
-      itemSearch: ''
+      selected: null
     }
   },
   props: {
@@ -33,50 +33,14 @@ export default {
       type: Boolean,
       default: () => true
       },
-    idKey: {
-      type: String,
-      default: () => "item"
-    }
   },
-  components: {},
   methods: {
-    async itemSearchChange() {
-      var selected = false
-      if (this.itemSearch.length >= 2) {
-        if (this.itemSearch.indexOf('🆕') !== 0) {
-          for (const sug of this.itemSuggestions) {
-            if (sug.name + (sug.emoji ? ' ' + sug.emoji : '') === this.itemSearch) {
-              selected = true
-              this.$emit('selected', await this.$root.getter('items', { id: sug._id }))
-              this.itemSearch = ''
-              break
-            }
-          }
-          if (!selected) {
-            var reStr = this.escapeRegex(this.itemSearch) 
-            this.itemSuggestions = await this.$root.getter('items', { search: reStr, limit: 5 })
-            if (this.itemSuggestions.length <= 2) {
-              for (const item of this.itemSuggestions) {
-                if (item.name.match(new RegExp(reStr, 'i')) != null) {
-                  continue
-                }
-                if (item.alias && item.alias.length > 0) {
-                  for (const alias of item.alias) {
-                    this.itemSuggestions.push({ name: alias, _id: item._id, emoji: item.emoji })
-                  }
-                }
-              }
-            }
-          }
-        } else if(this.allowNew) {
-          console.log(this.allowNew)
-          this.$emit('new', { name: this.itemSearch.substring(3), itemCategory: '', unit: '', alias: [], converter: [] })
-          this.itemSearch = ''
-          this.itemSuggestions = []
-        }
-      } else {
-        this.itemSuggestions = []
-      }
+    structuredClone,
+    async search(searchString, loading){
+      loading(true)
+      var reStr = this.escapeRegex(searchString) 
+      this.itemSuggestions = await this.$root.getter('items', { search: reStr, limit: 7 })
+      loading(false)
     },
     escapeRegex(s){
       return String(s).replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
