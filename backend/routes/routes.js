@@ -213,7 +213,7 @@ router.get('/shopping-list', async (req, res) => {
     for (const hideItem of user.settings.hideInShoppingList) {
       if (hideItem.item._id.equals(shoppingList[i].item._id) && (!hideItem.quantity || hideItem.quantity > shoppingList[i].quantity)) {
         hiddenList.push(shoppingList[i])
-        shoppingList.splice(i,1)
+        shoppingList.splice(i, 1)
         i--
         break
       }
@@ -225,7 +225,7 @@ router.get('/shopping-list', async (req, res) => {
     return indexB - indexA
   }
   shoppingList.sort(compFunc)
-  res.send({ data: {shoppingList, hiddenList} })
+  res.send({ data: { shoppingList, hiddenList } })
 })
 
 router.post('/user/settings', async (req, res) => {
@@ -241,13 +241,12 @@ router.post('/user/settings', async (req, res) => {
 })
 
 router.get('/recipe-parser', async (req, res) => {
-  // res.set('Cache-Control', 'no-store')
-  // try {
-  const parser = await helper.recipeParser(req.query.source, req.query.id)
-  res.send({ result: parser.recipe, errors: parser.errors })
-  // } catch (error) {
-  //   res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
-  // }
+  try {
+    const parser = await helper.recipeParser(req.query.source, req.query.id)
+    res.send({ result: parser.recipe, errors: parser.errors })
+  } catch (error) {
+    res.status(400).send({ message: i18n.t('alerts.errorParsing'), error: error })
+  }
 })
 
 module.exports = router

@@ -130,7 +130,7 @@ export default {
       this.matrix = []
       var count = 0;
       for(var w = 0; w <= 6;w++){
-        var calcW = (w + this.todaysWeekday + 1) % 7
+        var calcW = (w + this.todaysWeekday) % 7
         if(this.$root.user.weekPlan[calcW].length === 0){
           this.matrix.push({w: calcW, e: true, f: true, l: 1, k: count++ })
         }

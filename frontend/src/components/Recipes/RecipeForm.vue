@@ -166,7 +166,7 @@
         <div class="col">{{ ingredient.item.name + (ingredient.item.emoji ? ' ' + ingredient.item.emoji : '') }}</div>
         <div class="col-auto">
         <div class="input-group input-group-sm" style="max-width: 6em;">
-                <input class="form-control" type="number" step="any" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" />
+                <input class="form-control" type="number" step="any" min="0" :max="getIngredientQuantityByItemId(ingredient.item._id)" v-model="ingredient.displayQuantity" @change="quantityChange(ingredient)" required/>
                 <span class="input-group-text">
                   {{ $t(ingredient.displayUnit) }}
                 </span>

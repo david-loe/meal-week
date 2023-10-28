@@ -117,6 +117,7 @@ function setter(model) {
         const result = await (new model(req.body)).save()
         res.send({ message: i18n.t('alerts.successSaving'), result: result })
       } catch (error) {
+        console.log(error)
         res.status(400).send({ message: i18n.t('alerts.errorSaving'), error: error })
       }
     }
@@ -168,6 +169,11 @@ function parseSpecialCharacters(str, source){
         '' : '↩',
         '' : '🥄',
         '' : '🌾'
+      }
+      break
+    case 'fwl':
+      mapping = {
+        '&nbsp;': ' '
       }
       break
   }
@@ -366,7 +372,7 @@ async function recipeParser(source, id) {
       }
       recipe.instructions = []
       for (const step of data.steps) {
-        recipe.instructions.push({ text: parseHTMLStr(step.instruction) })
+        recipe.instructions.push({ text: parseSpecialCharacters(parseHTMLStr(step.instruction), source) })
       }
 
       if(data.categories){
