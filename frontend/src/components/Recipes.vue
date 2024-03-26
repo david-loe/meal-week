@@ -104,7 +104,7 @@ export default {
   },
   data() {
     return {
-      filter: {limit: 3, search: '', recipeCategories: null, tags: null, likes: null},
+      filter: {limit: 9, search: '', recipeCategories: null, tags: null, likes: null},
       recipeModal: undefined,
       recipes: [],
       modalMode: '',
