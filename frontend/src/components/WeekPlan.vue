@@ -43,7 +43,7 @@
             </td>
             <td>
               <div :class="'input-group' + (window.width >= $root.bp.md ? '' : ' input-group-sm')">
-                <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="m.r.numberOfPortions" :style="'max-width:' + (window.width >= $root.bp.md ? '5em;': '2.5em;')">
+                <input type="number" class="form-control" id="numberOfPortionsInput" min="1" v-model="m.r.numberOfPortions" :style="'max-width:' + (window.width >= $root.bp.md ? '5em;': '3.5em;')">
                 <button type="button" class="btn btn-outline-secondary" @click="changeNumberOfPortions(m.r.recipe, m.w, m.r.numberOfPortions)">
                   <i class="bi bi-save"></i>
                 </button>
