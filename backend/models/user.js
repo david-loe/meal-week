@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   ]],
   settings: {
     shoppingListOrder: [{type: mongoose.Schema.Types.ObjectId, ref: 'ItemCategory'}],
-    hideInShoppingList: [{item: {type: mongoose.Schema.Types.ObjectId, ref: 'Item', unique: true}, quantity: {type: Number, min: 0}}]
+    hideInShoppingList: [{item: {type: mongoose.Schema.Types.ObjectId, ref: 'Item'}, quantity: {type: Number, min: 0}}]
   }
 })
 

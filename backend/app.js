@@ -42,7 +42,7 @@ app.use(session({
   store: MongoStore.create(mongoose.connection),
   secret: new Date(Math.random * 100000).toString().toUpperCase(),
   cookie: {
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 180 * 24 * 60 * 60 * 1000,
     secure: false
   },
   resave: false,
