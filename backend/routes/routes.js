@@ -222,7 +222,7 @@ router.get('/shopping-list', async (req, res) => {
   const compFunc = function (a, b) {
     indexA = user.settings.shoppingListOrder.indexOf(a.item.itemCategory)
     indexB = user.settings.shoppingListOrder.indexOf(b.item.itemCategory)
-    return indexB - indexA
+    return indexA - indexB
   }
   shoppingList.sort(compFunc)
   res.send({ data: { shoppingList, hiddenList } })
